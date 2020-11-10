@@ -20,7 +20,7 @@ class ControladorLineas
         }
 
         /*================================
-        validar credennnciales del cliente
+        validar credenciales del cliente
         ==================================*/
         
 
