@@ -10,4 +10,11 @@ class ModelosLineas
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
+
+    static public function create($tabla, $nombre)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (id_linea, nombre) VALUES (null,:nombre)");
+        $stmt->bindParam(':nombre',$nombre);
+        $stmt->execute();
+    }
 }

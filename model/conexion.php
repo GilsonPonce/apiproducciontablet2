@@ -2,9 +2,15 @@
 
 class Conexion
 {
-    static public function conectar()
+    static public function conectarProduccion()
     {
-        $link = new PDO("mysql:host=107.180.28.117:3306;dbname=produccion", "ponceg", "admin1223");
+        $link = new PDO("mysql:host=localhost:3306;dbname=produccion", "root", "SYSsys1223+");
+        return $link;
+    }
+
+    static public function conectarAthu()
+    {
+        $link = new PDO("mysql:host=localhost:3306;dbname=athu", "root", "SYSsys1223+");
         return $link;
     }
 }

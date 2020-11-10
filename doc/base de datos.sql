@@ -61,7 +61,8 @@ foreign key (id_area_trabajo) references area_trabajo(id_area_trabajo)
 
 create table if not exists estado_orden(
 id_estado_orden int not null auto_increment,
-nombre varchar(500) not null
+nombre varchar(500) not null,
+primary key (id_estado_orden)
 );
 
 create table if not exists orden(
@@ -127,6 +128,12 @@ foreign key (id_tipo_peso) references tipo_peso(id_tipo_peso),
 foreign key (id_personal) references personal(id_personal)
 );
 
+create table if not exists motivo(
+id_motivo int not null auto_increment,
+nombre varchar(500) not null,
+primary key (id_motivo)
+);
+
 create table if not exists parada(
 id_parada int not null auto_increment,
 fecha_hora_inicio datetime not null default now(),
@@ -135,7 +142,7 @@ id_motivo int not null,
 id_personal int not null,
 primary key (id_parada),
 foreign key (id_motivo) references motivo(id_motivo),
-foreign key (id_personal) references persona(id_personal)
+foreign key (id_personal) references personal(id_personal)
 );
 
 insert into linea values (null,'PLASTICO');

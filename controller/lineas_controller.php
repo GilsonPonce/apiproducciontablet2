@@ -2,16 +2,34 @@
 
 class ControladorLineas
 {
-    /**
+    /*================
      * crear una linea
-     */
-    public function create()
+     =================*/
+    public function create($datos)
     {
+        if(isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])){
+            $json = array(
+
+				"status"=>404,
+				"detalle"=>"Error"
+			);
+
+			echo json_encode($json, true);
+
+			return; 
+        }
+
+        /*================================
+        validar credennnciales del cliente
+        ==================================*/
+        
+
+
     }
 
-    /*
+    /*========================
      mostrar todos las lineas
-     */
+     =========================*/
     public function index()
     {
         $lineas = ModelosLineas::index("linea");
