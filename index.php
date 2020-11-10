@@ -2,11 +2,14 @@
 
 /* controladores */
 require_once "controller/rutas_controller.php";
-/**Lineas de produccion*/
 require_once "controller/lineas_controller.php";
+require_once "controller/athu/usuario_controller.php";
 
 /* modelos */
 require_once "model/lineas_model.php";
+require_once "model/athu/areatrabajo_model.php";
+require_once "model/athu/tipousuario_model.php";
+require_once "model/athu/usuario_model.php";
 
 
 $rutas = new ControllerRuter();

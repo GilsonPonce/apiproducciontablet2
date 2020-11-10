@@ -13,8 +13,6 @@ class ModelosLineas
 
     static public function create($tabla, $nombre)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (id_linea, nombre) VALUES (null,:nombre)");
-        $stmt->bindParam(':nombre',$nombre);
-        $stmt->execute();
+        
     }
 }

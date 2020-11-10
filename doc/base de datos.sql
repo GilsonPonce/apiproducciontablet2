@@ -155,6 +155,7 @@ insert into proceso values (null,'PELLETIZADO',1);
 insert into proceso values (null,'AGLOMERADO',1);
 insert into proceso values (null,'CLASIFICACION',1);
 
+alter user 'root'@'localhost' identified with mysql_native_password by 'SYSsys1223+';
 
 delimiter ||
 create procedure showlinea(out lineas varchar(500))
