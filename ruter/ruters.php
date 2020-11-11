@@ -28,6 +28,30 @@ if (count(array_filter($arrayRuters)) == 0) {
                     "nombre" => $_POST["nombre"],
                 );
                 $Objetolineas->create($datos);
+            } else {
+                $json = array(
+
+                    "detalle" => "No encontrado metodo http linea"
+
+                );
+
+                echo json_encode($json, true);
+
+                return;
+            }
+        } else if (array_filter($arrayRuters)[1] == "proceso" || array_filter($arrayRuters)[1] == "proceso?id_linea=1") {
+            /*=====================================================
+            Cuando se hace peticiones nova-apiproduccion.com/proceso
+            =======================================================*/
+            $Objetoproceso = new ControladorProceso();
+            if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                $Objetoproceso->index();
+            } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                $datos = array(
+                    "nombre" => $_POST["nombre"],
+                    "id_linea" =>$_POST["id_linea"]
+                );
+                $Objetoproceso->create($datos);
             }
         } else if (array_filter($arrayRuters)[1] == "peso") {
         } else if (array_filter($arrayRuters)[1] == "tipo_peso") {
