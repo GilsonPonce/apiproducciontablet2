@@ -20,11 +20,14 @@ if (count(array_filter($arrayRuters)) == 0) {
             /*=====================================================
         Cuando se hace peticiones nova-apiproduccion.com/lineas
         =======================================================*/
+            $Objetolineas = new ControladorLineas();
             if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                $Objetolineas = new ControladorLineas();
                 $Objetolineas->index();
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
-                /**REGISTRA */
+                $datos = array(
+                    "nombre" => $_POST["nombre"],
+                );
+                $Objetolineas->create($datos);
             }
         } else if (array_filter($arrayRuters)[1] == "peso") {
         } else if (array_filter($arrayRuters)[1] == "tipo_peso") {
@@ -56,7 +59,7 @@ if (count(array_filter($arrayRuters)) == 0) {
                 );
                 $registro = new ControladorUsuario();
                 $registro->create($datos);
-            }else{
+            } else {
                 $json = array(
 
                     "detalle" => "no encontrado"
@@ -67,7 +70,7 @@ if (count(array_filter($arrayRuters)) == 0) {
 
                 return;
             }
-        }else{
+        } else {
             $json = array(
 
                 "detalle" => "no encontrado en un"
