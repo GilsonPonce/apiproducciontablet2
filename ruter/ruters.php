@@ -39,7 +39,7 @@ if (count(array_filter($arrayRuters)) == 0) {
 
                 return;
             }
-        } else if (array_filter($arrayRuters)[1] == "proceso" || array_filter($arrayRuters)[1] == "proceso?id_linea=1") {
+        } else if (array_filter($arrayRuters)[1] == "proceso") {
             /*=====================================================
             Cuando se hace peticiones nova-apiproduccion.com/proceso
             =======================================================*/
@@ -52,15 +52,47 @@ if (count(array_filter($arrayRuters)) == 0) {
                     "id_linea" =>$_POST["id_linea"]
                 );
                 $Objetoproceso->create($datos);
+            }else {
+                $json = array(
+
+                    "detalle" => "No encontrado metodo http proceso"
+
+                );
+
+                echo json_encode($json, true);
+
+                return;
             }
-        } else if (array_filter($arrayRuters)[1] == "peso") {
+        } else if (array_filter($arrayRuters)[1] == "orden") {
+            /*=====================================================
+            Cuando se hace peticiones nova-apiproduccion.com/orden
+            =======================================================*/
+            $ObjetoOrden = new ControladorOrden();
+            if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                $ObjetoOrden->index();
+            } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                $datos = array(
+                    "orden_codigo" => $_POST["orden_codigo"],
+                    "id_proceso" =>$_POST["id_proceso"],
+                    "id_estado_orden" => $_POST["id_estado_orden"]
+                );
+                $ObjetoOrden->create($datos);
+            }else {
+                $json = array(
+                    "detalle" => "No encontrado metodo http orden"
+                );
+
+                echo json_encode($json, true);
+
+                return;
+            }
+        }else if (array_filter($arrayRuters)[1] == "peso") {
         } else if (array_filter($arrayRuters)[1] == "tipo_peso") {
         } else if (array_filter($arrayRuters)[1] == "color") {
         } else if (array_filter($arrayRuters)[1] == "tipo_material") {
         } else if (array_filter($arrayRuters)[1] == "material") {
         } else if (array_filter($arrayRuters)[1] == "informe") {
         } else if (array_filter($arrayRuters)[1] == "observacion") {
-        } else if (array_filter($arrayRuters)[1] == "orden") {
         } else if (array_filter($arrayRuters)[1] == "registro") {
         } else if (array_filter($arrayRuters)[1] == "personal") {
         } else if (array_filter($arrayRuters)[1] == "parada") {
