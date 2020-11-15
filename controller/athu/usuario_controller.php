@@ -2,9 +2,7 @@
 
 class ControladorUsuario
 {
-    /*================
-     * crear una linea
-     =================*/
+
     public function create($datos)
     {
         /*=============================================

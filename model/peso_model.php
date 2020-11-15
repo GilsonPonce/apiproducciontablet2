@@ -23,7 +23,7 @@ class ModeloPeso
         $stmt->bindParam(":id_color", $datos["id_color"], PDO::PARAM_INT);
         $stmt->bindParam(":id_tipo_material", $datos["id_tipo_material"], PDO::PARAM_INT);
         $stmt->bindParam(":id_tipo_peso", $datos["id_tipo_peso"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT); 
 
         if ($stmt->execute()) {
 

@@ -57,7 +57,7 @@ class ControladorEstadoOrden
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de orden"
+                            "detalle" => "Registro exitoso de estado orden"
                         );
 
                         echo json_encode($json, true);

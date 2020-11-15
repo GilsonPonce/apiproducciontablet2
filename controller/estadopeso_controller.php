@@ -1,5 +1,5 @@
 <?php
-class ControladorProceso
+class ControladorEstadoPeso
 {
 
 
@@ -12,11 +12,11 @@ class ControladorProceso
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $proceso = ModeloProceso::index("proceso");
+                    $orden = ModeloEstadoPeso::index("estado_peso");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($proceso),
-                        "detalle" => $proceso
+                        "total_registro" => count($orden),
+                        "detalle" => $orden
                     );
                     echo json_encode($json, true);
                 }
@@ -27,19 +27,7 @@ class ControladorProceso
     public function create($datos)
     {
 
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["nombre"])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_linea']) && !is_numeric($datos['id_linea'])) {
+        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
             $json = array(
 
                 "status" => 404,
@@ -52,9 +40,9 @@ class ControladorProceso
         }
 
         $datos = array(
-            "nombre" => $datos['nombre'],
-            "id_linea" => $datos['id_linea']//recibo el numero de id
+            "nombre" => $datos['nombre']
         );
+
 
         $usuario = ModeloUsuario::index("usuario");
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
@@ -63,13 +51,13 @@ class ControladorProceso
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $create = ModeloProceso::create("proceso", $datos);
+                    $create = ModeloEstadoPeso::create("estado_peso", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de proceso"
+                            "detalle" => "Registro exitoso de estado peso"
                         );
 
                         echo json_encode($json, true);

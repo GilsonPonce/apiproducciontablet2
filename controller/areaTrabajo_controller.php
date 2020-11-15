@@ -57,7 +57,7 @@ class ControladorAreaTrabajo
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de orden"
+                            "detalle" => "Registro exitoso de area trabajo"
                         );
 
                         echo json_encode($json, true);
