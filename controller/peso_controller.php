@@ -86,6 +86,7 @@ class ControladorPeso
 
             return;
         }
+
         if (isset($datos['id_color']) && !is_numeric($datos['id_color'])) {
             $json = array(
 
@@ -97,6 +98,7 @@ class ControladorPeso
 
             return;
         }
+
         if (isset($datos['id_tipo_material']) && !is_numeric($datos['id_tipo_material'])) {
             $json = array(
 
@@ -108,6 +110,7 @@ class ControladorPeso
 
             return;
         }
+
         if (isset($datos['id_tipo_peso']) && !is_numeric($datos['id_tipo_peso'])) {
             $json = array(
 
@@ -119,6 +122,7 @@ class ControladorPeso
 
             return;
         }
+
         if (isset($datos['id_personal']) && !is_numeric($datos['id_personal'])) {
             $json = array(
 
@@ -142,7 +146,7 @@ class ControladorPeso
 
             return;
 
-
+        }
 
         //valida que el usuario exista
         $validacion = false;
