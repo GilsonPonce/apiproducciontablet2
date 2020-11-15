@@ -385,7 +385,7 @@ if (count(array_filter($arrayRuters)) == 0) {
                 return;
             }
         } else if (array_filter($arrayRuters)[1] == "area_trabajo") {
-             /*=====================================================
+            /*=====================================================
             Cuando se hace peticiones nova-apiproduccion.com/area_trabajo
             =======================================================*/
             $Objetoareatrabajo = new ControladorAreaTrabajo();
@@ -407,12 +407,34 @@ if (count(array_filter($arrayRuters)) == 0) {
 
                 return;
             }
+        } else if (array_filter($arrayRuters)[1] == "estado_orden") {
+            /*=====================================================
+           Cuando se hace peticiones nova-apiproduccion.com/estado_orden
+           =======================================================*/
+            $Objetoestadoorden = new ControladorEstadoOrden();
+            if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                $Objetoestadoorden->index();
+            } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                $datos = array(
+                    "nombre" => $_POST['nombre']
+                );
+                $Objetoestadoorden->create($datos);
+            } else {
+                $json = array(
+                    "status" => 404,
+                    "detalle" => "No encontrado metodo http estado orden"
+
+                );
+
+                echo json_encode($json, true);
+
+                return;
+            }
         } else if (array_filter($arrayRuters)[1] == "usuario") {
             /*=====================================================
             Cuando se hace peticiones nova-apiproduccion.com/usuario
             =======================================================*/
             if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
                     "nombre" => $_POST["nombre"],

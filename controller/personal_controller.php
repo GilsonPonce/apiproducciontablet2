@@ -90,7 +90,7 @@ class ControladorPersonal
 
         //validamos usuario repetidos
         $personal = ModeloPersonal::index("personal");
-        foreach($personal as $indice => $valor)    
+        foreach($personal as $indice => $valor){    
             if($valor['cedula'] == $datos['cedula']){
                 $json = array(
 
@@ -104,7 +104,7 @@ class ControladorPersonal
             }
         }
 
-        $datosenv = array(
+        $datos = array(
             "nombre" => $datos['nombre'],
             "apellido" => $datos['apellido'],
             "cedula" => $datos['cedula'],
@@ -119,7 +119,7 @@ class ControladorPersonal
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $create = ModeloPersonal::create("personal", $datosenv);
+                    $create = ModeloPersonal::create("personal", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
