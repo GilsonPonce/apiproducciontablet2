@@ -8,13 +8,13 @@ class ModeloRegistro
     {
         $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function create($tabla, $datos)
     {
         $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(fecha_hora_inicio,fecha_hora_fin,linea,proceso,id_personal,orden_codigo,id_estado_registro) 
-        VALUES (:fecha_hora_inicio,:fecha_hora_fin,:linea,proceso,:id_personal,:orden_codigo,:id_estado_registro)");
+        VALUES (:fecha_hora_inicio,:fecha_hora_fin,:linea,:proceso,:id_personal,:orden_codigo,:id_estado_registro)");
 
         $stmt->bindParam(":fecha_hora_inicio", $datos["fecha_hora_inicio"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_hora_fin", $datos["fecha_hora_fin"], PDO::PARAM_STR);

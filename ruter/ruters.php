@@ -484,5 +484,15 @@ if (count(array_filter($arrayRuters)) == 0) {
                 return;
             }
         }
+    }else{
+        $json = array(
+            "status" => 404,
+            "detalle" => "no encontrado"
+
+        );
+
+        echo json_encode($json, true);
+
+        return;
     }
 }

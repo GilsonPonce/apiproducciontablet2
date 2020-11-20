@@ -13,12 +13,21 @@ class ControladorRegistro
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
                     $orden = ModeloRegistro::index("registro");
-                    $json = array(
-                        "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
-                    );
-                    echo json_encode($json, true);
+                    if(!empty($orden)){
+                        $json = array(
+                            "status" => 200,
+                            "total_registro" => count($orden),
+                            "detalle" => $orden
+                        );
+                        echo json_encode($json, true);
+                    }else{
+                        $json = array(
+                            "status" => 200,
+                            "total_registro" => 0,
+                            "detalle" => 'No hay registros'
+                        );
+                        echo json_encode($json, true);
+                    }
                 }
             }
         }
@@ -26,13 +35,13 @@ class ControladorRegistro
 
     public function create($datos)
     {
-
+        
         //valido el unico campo que ingresa el usuario
         if (isset($datos['id_personal']) && !is_numeric($datos['id_personal'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error registro id_personal"
             );
 
             echo json_encode($json, true);
@@ -42,28 +51,31 @@ class ControladorRegistro
 
         //valida que el usuario exista
         $validacion = false;
+        //print_r($validacion);
         $personal = ModeloPersonal::index("personal");
         foreach ($personal as $id => $valor) {
-            if ($valor["id_personal"] == $datos['id_personal']) {
+            if ($valor['id_personal'] == $datos['id_personal']) {
                 $validacion = true;
             }
         }
-
+        //print_r($validacion);
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
             $activo = '';
             $inactivo = '';
             $estadosregistro = ModeloEstadoRegistro::index("estado_registro");
             foreach ($estadosregistro as $i => $a) {
-                if ($a['nombre'] == 'activo') {
-                    $activo = $a['id_estado_registro'];
-                } else if ($a['nombre'] == 'inactivo') {
-                    $inactivo = $a['id_estado_registro'];
+                //print_r($a->nombre);
+                if ($a->nombre == 'activo') {
+                    $activo = $a->id_estado_registro;
+                    //print_r($activo);
+                } else if ($a->nombre == 'inactivo') {
+                    $inactivo = $a->id_estado_registro;
                 }else{
                     $json = array(
 
                         "status" => 404,
-                        "detalle" => "Error"
+                        "detalle" => "Error en registro estado"
                     );
         
                     echo json_encode($json, true);
@@ -71,26 +83,32 @@ class ControladorRegistro
                     return;
                 }
             }
+            
             $registros = ModeloRegistro::index("registro");
-            foreach ($registros as $clave => $valor2) {
-                if ($valor2['id_personal'] == $datos['id_personal'] && $valor2['id_estado_registro'] == $activo) {
-                    $datosac = array(
-                        "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
-                        "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
-                        "linea" => $valor2['linea'],
-                        "proceso" => $valor2['proceso'],
-                        "id_personal" => $valor2['id_personal'],
-                        "orden_codigo" => $valor2['orden_codigo'],
-                        "id_estado_registro" => $inactivo,//lo que realmente se actualiza
-                        "id_registro" => $valor2['id_registro']
-                    );
-                    $actualizar = ModeloRegistro::update("registro", $datosac);
-                }else{
-                    $actualizar = "ok";
+            //print_r($registros);
+            if(!empty($registros)){
+                foreach ($registros as $clave => $valor2) {
+                    if ($valor2['id_personal'] == $datos['id_personal'] && $valor2['id_estado_registro'] == $activo) {
+                        $datosac = array(
+                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
+                            "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
+                            "linea" => $valor2['linea'],
+                            "proceso" => $valor2['proceso'],
+                            "id_personal" => $valor2['id_personal'],
+                            "orden_codigo" => $valor2['orden_codigo'],
+                            "id_estado_registro" => $inactivo,//lo que realmente se actualiza
+                            "id_registro" => $valor2['id_registro']
+                        );
+                        $actualizar = ModeloRegistro::update("registro", $datosac);
+                    }else{
+                        $actualizar = "ok";
+                    }
                 }
+            }else{
+                $actualizar = "ok";
             }
-
-            if ($actualizar == "ok") {
+            //print_r($actualizar);
+            if (isset($actualizar) && $actualizar == "ok") {
                 $datos = array(
                     "fecha_hora_inicio" => date('Y-m-d h:i:s'),
                     "fecha_hora_fin" => date('Y-m-d h:i:s'),
@@ -100,15 +118,18 @@ class ControladorRegistro
                     "orden_codigo" => $datos['orden_codigo'],
                     "id_estado_registro" => $activo
                 );
+                //print_r($datos);
                 $usuario = ModeloUsuario::index("usuario");
+                //print_r($usuario);
                 if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
                     foreach ($usuario as $key => $valueUsuario) {
                         if (
                             "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                             "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                         ) {
-                            $create = ModeloTipoMaterial::create("registro", $datos);
-
+                            $create = ModeloRegistro::create("registro", $datos);
+                            //print_r($create);
+                            
                             if ($create == 'ok') {
                                 $json = array(
 
@@ -123,7 +144,7 @@ class ControladorRegistro
                                 $json = array(
 
                                     "status" => 404,
-                                    "detalle" => "Error"
+                                    "detalle" => "Error en registro"
                                 );
                     
                                 echo json_encode($json, true);
@@ -138,7 +159,7 @@ class ControladorRegistro
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error al registrar"
             );
 
             echo json_encode($json, true);

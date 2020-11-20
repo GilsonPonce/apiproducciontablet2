@@ -6,8 +6,6 @@ class ModeloUsuario
         $stmt = Conexion::conectarAthu()->prepare("SELECT * FROM $tabla");
         $stmt->execute();
         return $stmt->fetchAll();
-        $stmt -> close();
-	    $stmt -= null;
     }
     
     static public function create($tabla,$datos){
