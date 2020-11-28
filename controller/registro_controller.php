@@ -66,10 +66,10 @@ class ControladorRegistro
             $estadosregistro = ModeloEstadoRegistro::index("estado_registro");
             foreach ($estadosregistro as $i => $a) {
                 //print_r($a->nombre);
-                if ($a->nombre == 'activo') {
+                if ($a->nombre == 'ACTIVO') {
                     $activo = $a->id_estado_registro;
                     //print_r($activo);
-                } else if ($a->nombre == 'inactivo') {
+                } else if ($a->nombre == 'FINALIZADO') {
                     $inactivo = $a->id_estado_registro;
                 }else{
                     $json = array(

@@ -13,14 +13,12 @@ require_once "controller/estadoregistro_controller.php";
 require_once "controller/informe_controller.php";
 require_once "controller/material_controller.php";
 require_once "controller/motivo_controller.php";
-require_once "controller/observacion_controller.php";
 require_once "controller/parada_controller.php";
 require_once "controller/personal_controller.php";
 require_once "controller/peso_controller.php";
 require_once "controller/registro_controller.php";
 require_once "controller/tipoMaterial_controller.php";
 require_once "controller/tipoPersonal_controller.php";
-require_once "controller/tipoPeso_controller.php";
 require_once "controller/estadopeso_controller.php";
 
 /* modelos */
@@ -37,7 +35,6 @@ require_once "model/estadoregistro_model.php";
 require_once "model/informe_model.php";
 require_once "model/material_model.php";
 require_once "model/motivo_model.php";
-require_once "model/observacion_model.php";
 require_once "model/personal_model.php";
 require_once "model/peso_model.php";
 require_once "model/registro_model.php";

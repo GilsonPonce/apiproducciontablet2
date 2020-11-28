@@ -73,6 +73,10 @@ if (count(array_filter($arrayRuters)) == 0) {
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
                     "orden_codigo" => $_POST["orden_codigo"],
+                    "hora_peso" => $_POST["hora_peso"],
+                    "peso_producir" => $_POST["peso_producir"],
+                    "id_tipo_material" => $_POST["id_tipo_material"],
+                    "id_color" => $_POST["id_color"],
                     "id_proceso" => $_POST["id_proceso"],
                     "id_estado_orden" => $_POST["id_estado_orden"]
                 );
@@ -96,13 +100,8 @@ if (count(array_filter($arrayRuters)) == 0) {
                 $Objetopeso->index();
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
-                    "numero" => $_POST['numero'],
-                    "cantidad" => $_POST['cantidad'],
                     "peso" => $_POST['peso'],
                     "id_informe" => $_POST['id_informe'],
-                    "id_color" => $_POST['id_color'],
-                    "id_tipo_material" => $_POST['id_tipo_material'],
-                    "id_tipo_peso" => $_POST['id_tipo_peso'],
                     "id_personal" => $_POST['id_personal'],
                     "id_estado_peso" => $_POST['id_estado_peso']
                 );
@@ -118,30 +117,7 @@ if (count(array_filter($arrayRuters)) == 0) {
 
                 return;
             }
-        } else if (array_filter($arrayRuters)[1] == "tipo_peso") {
-            /*=====================================================
-            Cuando se hace peticiones nova-apiproduccion.com/tipo_peso
-            =======================================================*/
-            $Objetotipopeso = new ControladorTipoPeso();
-            if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                $Objetotipopeso->index();
-            } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
-                $datos = array(
-                    "nombre" => $_POST['nombre']
-                );
-                $Objetotipopeso->create($datos);
-            } else {
-                $json = array(
-                    "status" => 404,
-                    "detalle" => "No encontrado metodo http tipo de peso"
-
-                );
-
-                echo json_encode($json, true);
-
-                return;
-            }
-        } else if (array_filter($arrayRuters)[1] == "color") {
+        }else if (array_filter($arrayRuters)[1] == "color") {
             /*=====================================================
             Cuando se hace peticiones nova-apiproduccion.com/color
             =======================================================*/
@@ -198,7 +174,8 @@ if (count(array_filter($arrayRuters)) == 0) {
                 $Objetomaterial->index();
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
-                    "nombre" => $_POST['nombre']
+                    "nombre" => $_POST['nombre'],
+                    "id_linea" => $_POST['id_linea']
                 );
                 $Objetomaterial->create($datos);
             } else {
@@ -236,31 +213,7 @@ if (count(array_filter($arrayRuters)) == 0) {
 
                 return;
             }
-        } else if (array_filter($arrayRuters)[1] == "observacion") {
-            /*=====================================================
-            Cuando se hace peticiones nova-apiproduccion.com/observacion
-            =======================================================*/
-            $Objetoobservacion = new ControladorObservacion();
-            if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                $Objetoobservacion->index();
-            } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
-                $datos = array(
-                    "detalle" => $_POST['detalle'],
-                    "id_informe" => $_POST['id_informe']
-                );
-                $Objetoobservacion->create($datos);
-            } else {
-                $json = array(
-                    "status" => 404,
-                    "detalle" => "No encontrado metodo http informe"
-
-                );
-
-                echo json_encode($json, true);
-
-                return;
-            }
-        } else if (array_filter($arrayRuters)[1] == "registro") {
+        }else if (array_filter($arrayRuters)[1] == "registro") {
             /*=====================================================
             Cuando se hace peticiones nova-apiproduccion.com/registro
             =======================================================*/
@@ -269,8 +222,6 @@ if (count(array_filter($arrayRuters)) == 0) {
                 $Objetoregistro->index();
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
-                    "linea" => $_POST['linea'],
-                    "proceso" => $_POST['proceso'],
                     "id_personal" => $_POST['id_personal'],
                     "orden_codigo" => $_POST['orden_codigo']
                 );
