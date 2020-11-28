@@ -1,3 +1,4 @@
+drop database produccion;
 create database if not exists produccion;
 use produccion;
 
@@ -18,7 +19,9 @@ foreign key (id_linea) references linea(id_linea)
 create table if not exists material(
 id_material int not null auto_increment,
 nombre varchar(500) not null,
-primary key (id_material)
+id_linea int not null,
+primary key (id_material),
+foreign key (id_linea) references linea(id_linea)
 );
 
 create table if not exists tipo_material(
@@ -67,9 +70,15 @@ primary key (id_estado_orden)
 
 create table if not exists orden(
 orden_codigo varchar(500) not null,
+hora_peso double not null,
+peso_producir double not null,
+id_tipo_material int not null,
+id_color int not null,
 id_proceso int not null,
 id_estado_orden int not null,
 primary key (orden_codigo),
+foreign key (id_tipo_material) references tipo_material(id_tipo_material),
+foreign key (id_color) references color(id_color),
 foreign key (id_proceso) references proceso(id_proceso),
 foreign key (id_estado_orden) references estado_orden(id_estado_orden)
 );
@@ -84,8 +93,6 @@ create table if not exists registro(
 id_registro int not null auto_increment,
 fecha_hora_inicio datetime default now(),
 fecha_hora_fin datetime default now(),
-linea varchar(500) not null,
-proceso varchar(500) not null,
 id_personal int not null,
 orden_codigo varchar(500) not null,
 id_estado_registro int not null,
@@ -104,21 +111,7 @@ primary key (id_informe),
 foreign key (orden_codigo) references orden(orden_codigo)
 );
 
-create table if not exists observaciones(
-id_observacion int not null auto_increment,
-detalle varchar(500) not null,
-id_informe int not null,
-primary key (id_observacion),
-foreign key (id_informe) references informe(id_informe)
-);
-
-create table if not exists tipo_peso(
-id_tipo_peso int not null auto_increment,
-nombre varchar(500) not null,
-primary key (id_tipo_peso)
-);
-
-create table if not exists estado_peso (
+create table if not exists estado_peso(
 id_estado_peso int not null auto_increment,
 nombre varchar(500) not null,
 primary key (id_estado_peso)
@@ -126,21 +119,12 @@ primary key (id_estado_peso)
 
 create table if not exists peso(
 id_peso int not null auto_increment,
-codigo varchar(500),
-numero int,
-cantidad int,
-peso double,
+peso double not null,
 id_informe int not null,
-id_color int not null,
-id_tipo_material int not null,
-id_tipo_peso int not null,
 id_personal int not null,
 id_estado_peso int not null,
 primary key (id_peso),
 foreign key (id_informe) references informe(id_informe),
-foreign key (id_color) references color(id_color),
-foreign key (id_tipo_material) references tipo_material(id_tipo_material),
-foreign key (id_tipo_peso) references tipo_peso(id_tipo_peso),
 foreign key (id_personal) references personal(id_personal),
 foreign key (id_estado_peso) references estado_peso(id_estado_peso)
 );
@@ -171,9 +155,28 @@ insert into proceso values (null,'LAVADO',1);
 insert into proceso values (null,'PELLETIZADO',1);
 insert into proceso values (null,'AGLOMERADO',1);
 insert into proceso values (null,'CLASIFICACION',1);
+insert into proceso values (null,'COMPACTADO',2);
 
-insert into estado_registro values (null,'activo');
-insert into estado_registro values (null,'inactivo');
+insert into estado_registro values (null,'ACTIVO');
+insert into estado_registro values (null,'FINALIZADO');
+
+insert into estado_orden values (null,'ACTIVO');
+insert into estado_orden values (null,'FINALIZADO');
+
+insert into estado_peso values (null,'APROBADO');
+insert into estado_peso values (null,'POR REVISAR');
+
+insert into color values (null,'AZUL');
+insert into color values (null,'ROJO');
+
+insert into material values (null,'FILM',1);
+insert into material values (null,'SOPLADO',1);
+insert into material values (null,'HOGAR',1);
+
+insert into tipo_material values (null,'ALTA',1);
+insert into tipo_material values (null,'HOGAR',3);
+insert into tipo_material values (null,'SOPLADO',2);
+
 
 alter user 'root'@'localhost' identified with mysql_native_password by 'SYSsys1223+';
 

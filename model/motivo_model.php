@@ -13,9 +13,9 @@ class ModeloMotivo
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(detalle) VALUES (:detalle)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(nombre) VALUES (:nombre)");
 
-		$stmt -> bindParam(":detalle", $datos["detalle"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 

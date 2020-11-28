@@ -32,7 +32,7 @@ class ControladorParada
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error codigo personal"
             );
 
             echo json_encode($json, true);
@@ -65,7 +65,7 @@ class ControladorParada
                         "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                         "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                     ) {
-                        $create = ModeloPersonal::create("parada", $datosenv);
+                        $create = ModeloParada::create("parada", $datosenv);
 
                         if ($create == 'ok') {
                             $json = array(

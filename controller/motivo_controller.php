@@ -25,7 +25,7 @@ class ControladorMotivo
     public function create($datos)
     {
 
-        if (isset($datos['detalle']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["detalle"])) {
+        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
             $json = array(
 
                 "status" => 404,
@@ -37,8 +37,8 @@ class ControladorMotivo
             return;
         }
 
-        $datos = array(
-            "detalle" => $datos['detalle']
+        $datosenv = array(
+            "nombre" => $datos['nombre']
         );
 
 
@@ -49,13 +49,13 @@ class ControladorMotivo
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $create = ModeloMotivo::create("motivo", $datos);
+                    $create = ModeloMotivo::create("motivo", $datosenv);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de tipo personal"
+                            "detalle" => "Registro exitoso de motivo"
                         );
 
                         echo json_encode($json, true);

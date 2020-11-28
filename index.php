@@ -43,8 +43,8 @@ require_once "model/peso_model.php";
 require_once "model/registro_model.php";
 require_once "model/tipoMaterial_model.php";
 require_once "model/tipoPersonal_model.php";
-require_once "model/tipoPeso_model.php";
 require_once "model/estadopeso_model.php";
+require_once "model/parada_model.php";
 
 
 $rutas = new ControllerRuter();

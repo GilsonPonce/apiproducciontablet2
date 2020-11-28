@@ -346,8 +346,7 @@ if (count(array_filter($arrayRuters)) == 0) {
                 $Objetomotivo->index();
             } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos = array(
-                    "id_motivo" => $_POST['id_motivo'],
-                    "id_personal" => $_POST['id_personal']
+                    "nombre" => $_POST['nombre']
                 );
                 $Objetomotivo->create($datos);
             } else {
