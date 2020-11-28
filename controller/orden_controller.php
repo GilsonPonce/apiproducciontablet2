@@ -27,7 +27,7 @@ class ControladorOrden
     public function create($datos)
     {
 
-        if ((isset($datos['orden_codigo']) && isset($datos['id_proceso']) && isset($datos['id_estado_orden'])) && (!is_numeric($datos['orden_codigo']) || !is_numeric($datos['id_proceso']) || !is_numeric($datos['id_estado_orden']) )) {
+        if ((isset($datos['orden_codigo']) && isset($datos['hora_peso']) && isset($datos['peso_producir']) && isset($datos['id_tipo_material']) && isset($datos['id_color']) && isset($datos['id_proceso']) && isset($datos['id_estado_orden'])) && (!is_numeric($datos['orden_codigo']) || !is_numeric($datos['hora_peso']) || !is_numeric($datos['peso_producir']) || !is_numeric($datos['id_tipo_material']) || !is_numeric($datos['id_color']) || !is_numeric($datos['id_proceso']) || !is_numeric($datos['id_estado_orden']) )) {
             $json = array(
 
                 "status" => 404,
@@ -56,6 +56,10 @@ class ControladorOrden
 
         $datos = array(
             "orden_codigo" => $datos['orden_codigo'],
+            "hora_peso" => $datos['hora_peso'],
+            "peso_producir" => $datos['peso_producir'],
+            "id_tipo_material" => $datos['id_tipo_material'],
+            "id_color" => $datos['id_color'],
             "id_proceso" => $datos['id_proceso'],
             "id_estado_orden" => $datos['id_estado_orden']
         );

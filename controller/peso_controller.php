@@ -27,42 +27,6 @@ class ControladorPeso
     public function create($datos)
     {
 
-        if (isset($datos['numero']) && !is_numeric($datos['numero'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['codigo']) && !preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$/', $datos["codigo"])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['cantidad']) && !is_numeric($datos['cantidad'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
         if (isset($datos['peso']) && !is_numeric($datos['peso'])) {
             $json = array(
 
@@ -76,42 +40,6 @@ class ControladorPeso
         }
 
         if (isset($datos['id_informe']) && !is_numeric($datos['id_informe'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_color']) && !is_numeric($datos['id_color'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_tipo_material']) && !is_numeric($datos['id_tipo_material'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_tipo_peso']) && !is_numeric($datos['id_tipo_peso'])) {
             $json = array(
 
                 "status" => 404,
@@ -160,16 +88,12 @@ class ControladorPeso
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
             $datosenv = array(
-                "numero" => $datos['numero'],
-                "cantidad" => $datos['cantidad'],
                 "peso" => $datos['peso'],
                 "id_informe" => $datos['id_informe'],
-                "id_color" => $datos['id_color'],
-                "id_tipo_material" => $datos['id_tipo_material'],
-                "id_tipo_peso" => $datos['id_tipo_peso'],
                 "id_personal" => $datos['id_personal'],
                 "id_estado_peso" => $datos['id_estado_peso']
             );
+
             $usuario = ModeloUsuario::index("usuario");
             if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
                 foreach ($usuario as $key => $valueUsuario) {
@@ -193,7 +117,7 @@ class ControladorPeso
                             $json = array(
 
                                 "status" => 404,
-                                "detalle" => "Error"
+                                "detalle" => "Error de peso"
                             );
 
                             echo json_encode($json, true);
@@ -207,7 +131,7 @@ class ControladorPeso
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error de peso"
             );
 
             echo json_encode($json, true);

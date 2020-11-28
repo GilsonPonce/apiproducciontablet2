@@ -95,7 +95,7 @@ class ControladorPersonal
                 $json = array(
 
                     "status" => 404,
-                    "detalle" => "Error"
+                    "detalle" => "Error de personal"
                 );
     
                 echo json_encode($json, true);
@@ -135,7 +135,7 @@ class ControladorPersonal
                         $json = array(
 
                             "status" => 404,
-                            "detalle" => "Error"
+                            "detalle" => "Error de personal"
                         );
 
                         echo json_encode($json, true);

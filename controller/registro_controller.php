@@ -92,8 +92,6 @@ class ControladorRegistro
                         $datosac = array(
                             "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
                             "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
-                            "linea" => $valor2['linea'],
-                            "proceso" => $valor2['proceso'],
                             "id_personal" => $valor2['id_personal'],
                             "orden_codigo" => $valor2['orden_codigo'],
                             "id_estado_registro" => $inactivo,//lo que realmente se actualiza
@@ -112,8 +110,6 @@ class ControladorRegistro
                 $datos = array(
                     "fecha_hora_inicio" => date('Y-m-d h:i:s'),
                     "fecha_hora_fin" => date('Y-m-d h:i:s'),
-                    "linea" => $datos['linea'],
-                    "proceso" => $datos['proceso'],
                     "id_personal" => $datos['id_personal'],
                     "orden_codigo" => $datos['orden_codigo'],
                     "id_estado_registro" => $activo
