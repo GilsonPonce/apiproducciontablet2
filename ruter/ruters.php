@@ -1,7 +1,7 @@
 <?php
 
 $arrayRuters = explode("/", $_SERVER['REQUEST_URI']);
-//echo json_encode(array_filter($arrayRuters));
+// json_encode(array_filter($arrayRuters));
 
 if (count(array_filter($arrayRuters)) == 0) {
     /*=================================================

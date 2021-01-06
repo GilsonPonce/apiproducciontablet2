@@ -11,6 +11,14 @@ class ModeloRegistro
         return $stmt->fetchAll();
     }
 
+    static public function show($tabla,$id)
+    {
+        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_registro=:id_registro");
+        $stmt -> bindParam(":id_registro", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+    }
+
     static public function create($tabla, $datos)
     {
         $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(fecha_hora_inicio,fecha_hora_fin,linea,proceso,id_personal,orden_codigo,id_estado_registro) 
@@ -50,4 +58,25 @@ class ModeloRegistro
         }
         $stmt = null;
     }
+
+    static public function delete($tabla, $id){
+
+		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_registro = :id_registro");
+
+		$stmt -> bindParam(":id_registro", $id, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+			print_r(Conexion::conectarProduccion()->errorInfo());
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+
+	}
 }

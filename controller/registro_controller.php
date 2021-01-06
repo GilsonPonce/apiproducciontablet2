@@ -155,7 +155,7 @@ class ControladorRegistro
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error al registrar"
+                "detalle" => "Error usuario no encontrado"
             );
 
             echo json_encode($json, true);
