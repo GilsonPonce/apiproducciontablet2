@@ -99,7 +99,7 @@ class ControladorUsuario
         /*=============================================
 		Extraer tipo de usuario
 		=============================================*/
-        $id_area_trabajo = ModeloAreaTrabajo::select("area_trabajo",$datos["area_trabajo"]);
+        $id_area_trabajo = ModeloAreaTrabajoAthu::select("area_trabajo",$datos["area_trabajo"]);
 
         /*=============================================
 		Generar credenciales del cliente
