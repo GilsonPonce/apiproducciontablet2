@@ -6,14 +6,30 @@ class ModeloOrden
 {
     static public function index($tabla)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
+        $sql = "SELECT o.orden_codigo AS codigo,o.orden_codigo,inf.fecha_hora_inicio,inf.fecha_hora_fin,o.hora_peso AS horapeso, 
+        o.peso_producir AS peso,m.id_material,m.nombre AS material, tm.id_tipo_material, tm.nombre AS tipomaterial,
+        li.id_linea,li.nombre AS linea,pro.id_proceso,pro.nombre AS proceso,c.id_color, c.nombre AS color ,eo.id_estado_orden, 
+        eo.nombre AS estado
+        FROM informe inf, $tabla o, proceso pro, linea li, material m, tipo_material tm, color c, estado_orden eo
+        WHERE  o.orden_codigo = inf.orden_codigo AND o.id_estado_orden = eo.id_estado_orden AND c.id_color = o.id_color
+        AND pro.id_proceso = o.id_proceso AND li.id_linea = pro.id_linea AND li.id_linea = m.id_linea AND m.id_material = tm.id_material
+        AND tm.id_tipo_material = o.id_tipo_material"; 
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE orden_codigo=:orden_codigo");
+        $sql = "SELECT o.orden_codigo AS codigo,o.orden_codigo,inf.fecha_hora_inicio,inf.fecha_hora_fin,o.hora_peso AS horapeso, 
+        o.peso_producir AS peso,m.id_material,m.nombre AS material, tm.id_tipo_material, tm.nombre AS tipomaterial,
+        li.id_linea,li.nombre AS linea,pro.id_proceso,pro.nombre AS proceso,c.id_color, c.nombre AS color ,eo.id_estado_orden, 
+        eo.nombre AS estado
+        FROM informe inf, $tabla o, proceso pro, linea li, material m, tipo_material tm, color c, estado_orden eo
+        WHERE  o.orden_codigo = inf.orden_codigo AND o.id_estado_orden = eo.id_estado_orden AND c.id_color = o.id_color
+        AND pro.id_proceso = o.id_proceso AND li.id_linea = pro.id_linea AND li.id_linea = m.id_linea AND m.id_material = tm.id_material
+        AND tm.id_tipo_material = o.id_tipo_material AND o.orden_codigo = :orden_codigo"; 
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":orden_codigo", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);

@@ -68,11 +68,83 @@ class ControladorOrden
     public function create($datos)
     {
 
-        if ((isset($datos['orden_codigo']) && isset($datos['hora_peso']) && isset($datos['peso_producir']) && isset($datos['id_tipo_material']) && isset($datos['id_color']) && isset($datos['id_proceso']) && isset($datos['id_estado_orden'])) && (!is_numeric($datos['orden_codigo']) || !is_numeric($datos['hora_peso']) || !is_numeric($datos['peso_producir']) || !is_numeric($datos['id_tipo_material']) || !is_numeric($datos['id_color']) || !is_numeric($datos['id_proceso']) || !is_numeric($datos['id_estado_orden']) )) {
+        if ( isset($datos['orden_codigo'])  && !is_numeric($datos['orden_codigo']) ){ 
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error codigo"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if ( isset($datos['hora_peso']) && !is_numeric($datos['hora_peso']) ) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error hora peso"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['peso_producir']) && !is_numeric($datos['peso_producir']) ) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error peso"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if ( isset($datos['id_tipo_material']) && !is_numeric($datos['id_tipo_material']) ) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error tipo material"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['id_color']) && !is_numeric($datos['id_color']) ) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error color"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['id_proceso']) && !is_numeric($datos['id_proceso'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error proceso"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if ( isset($datos['id_estado_orden']) &&  !is_numeric($datos['id_estado_orden'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error estado orden"
             );
 
             echo json_encode($json, true);
@@ -178,7 +250,7 @@ class ControladorOrden
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de orden"
+                                "detalle" => "Actualizacion exitosa de orden"
                             );
     
                             echo json_encode($json, true);

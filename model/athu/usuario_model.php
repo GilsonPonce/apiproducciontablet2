@@ -50,7 +50,7 @@ class ModeloUsuario
 		$stmt -> bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
 		$stmt -> bindParam(":fecha_creacion", $datos["fecha_creacion"], PDO::PARAM_STR);
 		$stmt -> bindParam(":llave", $datos["llave"], PDO::PARAM_STR);
-		$stmt -> bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
+		$stmt -> bindParam(":codigo", $d+atos["codigo"], PDO::PARAM_STR);
         $stmt -> bindParam(":id_tipo_usuario", $datos["id_tipo_usuario"], PDO::PARAM_INT);
         $stmt -> bindParam(":id_area_trabajo", $datos["id_area_trabajo"], PDO::PARAM_INT);
         $stmt -> bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
