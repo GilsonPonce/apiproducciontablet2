@@ -68,11 +68,11 @@ class ControladorPeso
     public function create($datos)
     {
 
-        if (isset($datos['peso']) && !is_numeric($datos['peso'])) {
+        if (isset($datos['kilogramo']) && !is_numeric($datos['kilogramo'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en kilogramos"
             );
 
             echo json_encode($json, true);
@@ -80,11 +80,11 @@ class ControladorPeso
             return;
         }
 
-        if (isset($datos['id_informe']) && !is_numeric($datos['id_informe'])) {
+        if (isset($datos['codigo_orden']) && !is_numeric($datos['codigo_orden'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en codigo orden"
             );
 
             echo json_encode($json, true);
@@ -96,7 +96,7 @@ class ControladorPeso
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error del personal"
             );
 
             echo json_encode($json, true);
@@ -108,7 +108,7 @@ class ControladorPeso
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error estado peso"
             );
 
             echo json_encode($json, true);
@@ -129,8 +129,8 @@ class ControladorPeso
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
             $datosenv = array(
-                "peso" => $datos['peso'],
-                "id_informe" => $datos['id_informe'],
+                "kilogramo" => $datos['kilogramo'],
+                "codigo_orden" => $datos['codigo_orden'],
                 "id_personal" => $datos['id_personal'],
                 "id_estado_peso" => $datos['id_estado_peso']
             );
@@ -172,7 +172,7 @@ class ControladorPeso
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error de peso"
+                "detalle" => "Error personal"
             );
 
             echo json_encode($json, true);

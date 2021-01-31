@@ -20,6 +20,9 @@ require_once "controller/registro_controller.php";
 require_once "controller/tipoMaterial_controller.php";
 require_once "controller/tipoPersonal_controller.php";
 require_once "controller/estadopeso_controller.php";
+require_once "controller/propiedad_controller.php";
+require_once "controller/configuracion_controller.php";
+require_once "controller/turno_controller.php";
 
 /* modelos */
 require_once "model/lineas_model.php";
@@ -42,6 +45,9 @@ require_once "model/tipoMaterial_model.php";
 require_once "model/tipoPersonal_model.php";
 require_once "model/estadopeso_model.php";
 require_once "model/parada_model.php";
+require_once "model/propiedad_model.php";
+require_once "model/configuracion_model.php";
+require_once "model/turno_model.php";
 
 
 $rutas = new ControllerRuter();

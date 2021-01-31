@@ -11,23 +11,23 @@ class ModeloPeso
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
-    static public function show($tabla,$id)
+    static public function show($tabla, $id)
     {
         $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_peso=:id_peso");
-        $stmt -> bindParam(":id_peso", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id_peso", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(peso,id_informe,id_personal,id_estado_peso) 
-        VALUES (:peso,:id_informe,:id_personal,:id_estado_peso)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(kilogramo,orden_codigo,id_personal,id_estado_peso) 
+        VALUES (:kilogramo,:orden_codigo,:id_personal,:id_estado_peso)");
 
-        $stmt->bindParam(":peso", $datos["peso"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT); 
-        $stmt->bindParam(":id_estado_peso", $datos["id_estado_peso"], PDO::PARAM_INT); 
+        $stmt->bindParam(":kilogramo", $datos["kilogramo"], PDO::PARAM_INT);
+        $stmt->bindParam(":orden_codigo", $datos["orden_codigo"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_estado_peso", $datos["id_estado_peso"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -41,13 +41,12 @@ class ModeloPeso
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET peso=:peso,id_informe=:id_informe,id_personal=:id_personal,id_estado_peso=:id_estado_peso WHERE id_peso=:id_peso");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET kilogramo=:kilogramo,orden_codigo=:orden_codigo,id_personal=:id_personal,id_estado_peso=:id_estado_peso WHERE id_peso=:id_peso");
 
-        $stmt->bindParam(":peso", $datos["peso"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT); 
-        $stmt->bindParam(":id_estado_peso", $datos["id_estado_peso"], PDO::PARAM_INT); 
-        $stmt->bindParam(":id_peso", $datos["id_peso"], PDO::PARAM_INT);
+        $stmt->bindParam(":kilogramo", $datos["kilogramo"], PDO::PARAM_INT);
+        $stmt->bindParam(":orden_codigo", $datos["orden_codigo"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_estado_peso", $datos["id_estado_peso"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -59,24 +58,23 @@ class ModeloPeso
         $stmt = null;
     }
 
-    static public function delete($tabla, $id){
+    static public function delete($tabla, $id)
+    {
 
-		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_peso = :id_peso");
+        $stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_peso = :id_peso");
 
-		$stmt -> bindParam(":id_peso", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id_peso", $id, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+        if ($stmt->execute()) {
 
-			return "ok";
+            return "ok";
+        } else {
 
-		}else{
+            print_r(Conexion::conectarProduccion()->errorInfo());
+        }
 
-			print_r(Conexion::conectarProduccion()->errorInfo());
-		}
+        $stmt->close();
 
-		$stmt-> close();
-
-		$stmt = null;
-
-	}
+        $stmt = null;
+    }
 }

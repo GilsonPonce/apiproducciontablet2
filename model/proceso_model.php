@@ -36,7 +36,7 @@ class ModeloProceso{
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre, id_linea=:nombre WHERE id_proceso=:id_proceso");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre, id_linea=:id_linea WHERE id_proceso=:id_proceso");
         
         $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt -> bindParam(":id_linea", $datos["id_linea"], PDO::PARAM_INT);

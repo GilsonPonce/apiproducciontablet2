@@ -1,5 +1,5 @@
 <?php
-class ControladorTipoMaterial
+class ControladorPropiedad
 {
 
 
@@ -12,7 +12,7 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $orden = ModeloTipoMaterial::index("tipo_material");
+                    $orden = ModeloPropiedad::index("propiedad");
                     $json = array(
                         "status" => 200,
                         "total_registro" => count($orden),
@@ -33,11 +33,11 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $tipoMaterial = ModeloTipoMaterial::show("tipo_material",$id);
+                    $material = ModeloPropiedad::show("propiedad",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($tipoMaterial),
-                        "detalle" => $tipoMaterial
+                        "total_registro" => count($material),
+                        "detalle" => $material
                     );
                     echo json_encode($json, true);
                 }else{
@@ -72,7 +72,7 @@ class ControladorTipoMaterial
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en el nombre"
             );
 
             echo json_encode($json, true);
@@ -81,7 +81,7 @@ class ControladorTipoMaterial
         }
 
         $datos = array(
-            "nombre" => $datos['nombre'],
+            "nombre" => $datos['nombre']
         );
 
 
@@ -92,13 +92,13 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $create = ModeloTipoMaterial::create("tipo_material", $datos);
+                    $create = ModeloPropiedad::create("propiedad", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de tipo material"
+                            "detalle" => "Registro exitoso de propiedad"
                         );
 
                         echo json_encode($json, true);
@@ -147,18 +147,18 @@ class ControladorTipoMaterial
 					=============================================*/
 
                     
-                    $color = ModeloTipoMaterial::show("tipo_material", $id);
+                    $propiedad = ModeloPropiedad::show("propiedad", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($propiedad)) {
 
-                        $update = ModeloTipoMaterial::update("tipo_material",$datos);
+                        $update = ModeloPropiedad::update("propiedad",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de tipo de material"
+                                "detalle" => "Actualizacion exitoso de material"
                             );
     
                             echo json_encode($json, true);
@@ -222,16 +222,16 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $area = ModeloTipoMaterial::show('tipo_material', $id);
+                    $area = ModeloPropiedad::show('propiedad',$id);
 
                     if (!empty($area)) {
 
-                        $delete = ModeloTipoMaterial::delete("tipo_material", $id);
+                        $delete = ModeloPropiedad::delete("propiedad",$id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de tipo de material"
+                                "detalle" => "Eliminacion exitosa de propiedad"
                             );
 
                             echo json_encode($json, true);

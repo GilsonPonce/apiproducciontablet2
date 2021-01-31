@@ -1,5 +1,5 @@
 <?php
-class ControladorTipoMaterial
+class ControladorTurno
 {
 
 
@@ -12,11 +12,11 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $orden = ModeloTipoMaterial::index("tipo_material");
+                    $turnos = ModeloTurno::index("turno");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($turnos),
+                        "detalle" => $turnos
                     );
                     echo json_encode($json, true);
                 }
@@ -33,11 +33,11 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $tipoMaterial = ModeloTipoMaterial::show("tipo_material",$id);
+                    $turno = ModeloTurno::show("turno",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($tipoMaterial),
-                        "detalle" => $tipoMaterial
+                        "total_registro" => count($turno),
+                        "detalle" => $turno
                     );
                     echo json_encode($json, true);
                 }else{
@@ -81,7 +81,7 @@ class ControladorTipoMaterial
         }
 
         $datos = array(
-            "nombre" => $datos['nombre'],
+            "nombre" => $datos['nombre']
         );
 
 
@@ -92,13 +92,13 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $create = ModeloTipoMaterial::create("tipo_material", $datos);
+                    $create = ModeloTurno::create("turno", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de tipo material"
+                            "detalle" => "Registro exitoso de turno"
                         );
 
                         echo json_encode($json, true);
@@ -147,18 +147,18 @@ class ControladorTipoMaterial
 					=============================================*/
 
                     
-                    $color = ModeloTipoMaterial::show("tipo_material", $id);
+                    $turno = ModeloTurno::show("turno", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($turno)) {
 
-                        $update = ModeloTipoMaterial::update("tipo_material",$datos);
+                        $update = ModeloTurno::update("turno",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de tipo de material"
+                                "detalle" => "Actualizacion exitoso de turno"
                             );
     
                             echo json_encode($json, true);
@@ -222,16 +222,16 @@ class ControladorTipoMaterial
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $area = ModeloTipoMaterial::show('tipo_material', $id);
+                    $turno = ModeloTurno::show('turno', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($turno)) {
 
-                        $delete = ModeloTipoMaterial::delete("tipo_material", $id);
+                        $delete = ModeloTurno::delete("turno", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de tipo de material"
+                                "detalle" => "Eliminacion exitosa de turno"
                             );
 
                             echo json_encode($json, true);

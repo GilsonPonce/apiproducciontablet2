@@ -79,19 +79,7 @@ class ControladorOrden
 
             return;
         }
-
-        if ( isset($datos['hora_peso']) && !is_numeric($datos['hora_peso']) ) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error hora peso"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
+ 
         if (isset($datos['peso_producir']) && !is_numeric($datos['peso_producir']) ) {
             $json = array(
 
@@ -104,11 +92,11 @@ class ControladorOrden
             return;
         }
 
-        if ( isset($datos['id_tipo_material']) && !is_numeric($datos['id_tipo_material']) ) {
+        if ( isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion']) ) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error tipo material"
+                "detalle" => "Error en configuracion"
             );
 
             echo json_encode($json, true);
@@ -128,11 +116,11 @@ class ControladorOrden
             return;
         }
 
-        if (isset($datos['id_proceso']) && !is_numeric($datos['id_proceso'])) {
+        if (isset($datos['id_turno']) && !is_numeric($datos['id_turno'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error proceso"
+                "detalle" => "Error turno"
             );
 
             echo json_encode($json, true);
@@ -158,7 +146,7 @@ class ControladorOrden
                 $json = array(
 
                     "status" => 404,
-                    "detalle" => "Error"
+                    "detalle" => "Error orden duplicada"
                 );
     
                 echo json_encode($json, true);
@@ -169,11 +157,10 @@ class ControladorOrden
 
         $datos = array(
             "orden_codigo" => $datos['orden_codigo'],
-            "hora_peso" => $datos['hora_peso'],
             "peso_producir" => $datos['peso_producir'],
-            "id_tipo_material" => $datos['id_tipo_material'],
+            "id_configuracion" => $datos['id_configuracion'],
             "id_color" => $datos['id_color'],
-            "id_proceso" => $datos['id_proceso'],
+            "id_turno" => $datos['id_turno'],
             "id_estado_orden" => $datos['id_estado_orden']
         );
 

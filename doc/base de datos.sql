@@ -266,35 +266,22 @@ SET SQL_SAFE_UPDATES = 0;
 alter user 'root'@'localhost' identified with mysql_native_password by 'SYSsys1223+';
 update orden set id_estado_orden = 2 where orden_codigo = 99999999999999999;
 
-delimiter |
-create trigger informe after insert on orden
-for each row begin
-	insert into informe values(null,now(),now(),new.orden_codigo);
-end
-|
 
-drop trigger DeleteInforme;
+drop trigger DeletePesos;
 delimiter |
-create trigger DeleteInforme before delete on orden
+create trigger DeletePesos before delete on orden
 for each row begin
-	declare id int;
-    set id = (select id_informe from informe where orden_codigo = OLD.orden_codigo);
-	delete from peso where id_informe = id;
-	delete from informe where orden_codigo = OLD.orden_codigo;    
+	delete from peso where orden_codigo = OLD.orden_codigo;    
 end
 |
 
 delimiter |
-create trigger UpdateInforme after update on orden
+create trigger UpdateOrden after update on orden
 for each row begin
-	declare idinforme int;
-    declare estado varchar(500);
-	set idinforme = (select id_informe from informe where orden_codigo=new.orden_codigo);
-    set estado = (select nombre from estado_orden where id_estado_orden = new.id_estado_orden);
-    if estado = "FINALIZADO" then
-		update informe set fecha_hora_fin = now() where id_infome = idinforme;
+    if new.id_estado_orden = 2 then
+		update orden set fecha_hora_fin = now() where orden_codigo = new.orden_codigo;
 	else
-		update informe set fecha_hora_inicio = now() where id_infome = idinforme;
+		update orden set fecha_hora_inicio = now() where orden_codigo = new.orden_codigo;
     end if;
 end
 |

@@ -81,8 +81,7 @@ class ControladorMaterial
         }
 
         $datos = array(
-            "nombre" => $datos['nombre'],
-            "id_linea" => $datos['id_linea']
+            "nombre" => $datos['nombre']
         );
 
 
