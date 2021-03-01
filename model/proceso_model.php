@@ -2,14 +2,18 @@
 class ModeloProceso{
 
     static public function index($tabla){
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
+        $sql = "Select pro.id_proceso, pro.nombre, pro.id_linea, li.nombre as linea 
+        from $tabla pro, linea li where li.id_linea=pro.id_linea";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_proceso=:id_proceso");
+        $sql = "Select pro.id_proceso, pro.nombre, pro.id_linea, li.nombre as linea 
+        from $tabla pro, linea li where li.id_linea=pro.id_linea and pro.id_proceso = :id_proceso";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_proceso", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);

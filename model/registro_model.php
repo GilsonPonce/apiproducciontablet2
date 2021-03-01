@@ -6,14 +6,20 @@ class ModeloRegistro
 {
     static public function index($tabla)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
+        $sql="Select re.id_registro, re.fecha_hora_inicio, re.fecha_hora_fin, re.id_personal, re.orden_codigo, re.id_estado_registro,
+        estre.nombre as estado, concat(per.nombre,' ',per.apellido) as personal from $tabla re, estado_registro estre, personal per
+        where estre.id_estado_registro = re.id_estado_registro and per.id_personal = re.id_personal";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_registro=:id_registro");
+        $sql="Select re.id_registro, re.fecha_hora_inicio, re.fecha_hora_fin, re.id_personal, re.orden_codigo, re.id_estado_registro,
+        estre.nombre as estado, concat(per.nombre,' ',per.apellido) as personal from $tabla re, estado_registro estre, personal per
+        where estre.id_estado_registro = re.id_estado_registro and per.id_personal = re.id_personal and re.id_registro = :id_registro";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_registro", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
@@ -21,7 +27,7 @@ class ModeloRegistro
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(fecha_hora_inicio,fecha_hora_fin,linea,proceso,id_personal,orden_codigo,id_estado_registro) 
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(fecha_hora_inicio,fecha_hora_fin,id_personal,orden_codigo,id_estado_registro) 
         VALUES (:fecha_hora_inicio,:fecha_hora_fin,:id_personal,:orden_codigo,:id_estado_registro)");
 
         $stmt->bindParam(":fecha_hora_inicio", $datos["fecha_hora_inicio"], PDO::PARAM_STR);

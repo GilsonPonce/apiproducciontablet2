@@ -165,10 +165,12 @@ primary key (id_motivo)
 
 create table if not exists parada(
 id_parada int not null auto_increment,
+orden_codigo varchar(100) null,
 fecha_hora_inicio datetime not null default now(),
 fecha_hora_fin datetime,
 id_motivo int not null,
 id_personal int not null,
+estado bit not null,
 primary key (id_parada),
 foreign key (id_motivo) references motivo(id_motivo),
 foreign key (id_personal) references personal(id_personal)
@@ -282,6 +284,15 @@ for each row begin
 		update orden set fecha_hora_fin = now() where orden_codigo = new.orden_codigo;
 	else
 		update orden set fecha_hora_inicio = now() where orden_codigo = new.orden_codigo;
+    end if;
+end
+|
+
+delimiter |
+create trigger UpdateRegistro after update on registro
+for each row begin
+    if new.id_estado_registro = 2 then
+		update registro set fecha_hora_fin = now() where id_registro = new.id_registro;
     end if;
 end
 |

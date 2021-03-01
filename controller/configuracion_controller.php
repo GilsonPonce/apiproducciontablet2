@@ -172,7 +172,7 @@ class ControladorConfiguracion
             $validacion3 = $valueOrden['tarifa_kilogramos_producidos'] == $datos['tarifa_kilogramos_producidos'];
             $validacion4 = $valueOrden['estado'] == $datos['estado'];
             $validacion5 = $valueOrden['id_proceso'] == $datos['id_proceso'];
-            $validacion6 = $valueOrden['id_materia'] == $datos['id_materia'];
+            $validacion6 = $valueOrden['id_material'] == $datos['id_material'];
             $validacion7 = $valueOrden['id_tipo_material'] == $datos['id_tipo_material'];
             $validacion8 = $valueOrden['id_propiedad'] == $datos['id_propiedad'];
 

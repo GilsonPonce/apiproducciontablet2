@@ -80,6 +80,7 @@ class ControladorColor
             return;
         }
 
+
         $datos = array(
             "nombre" => $datos['nombre']
         );

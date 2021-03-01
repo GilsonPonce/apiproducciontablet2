@@ -74,7 +74,19 @@ class ControladorPersonal
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en cedula"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['id_personal']) && !is_numeric($datos['id_personal'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en personal"
             );
 
             echo json_encode($json, true);
@@ -86,7 +98,7 @@ class ControladorPersonal
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en tipo personal"
             );
 
             echo json_encode($json, true);
@@ -98,7 +110,7 @@ class ControladorPersonal
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error area trabajo"
             );
 
             echo json_encode($json, true);
@@ -106,11 +118,11 @@ class ControladorPersonal
             return;
         }
 
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["nombre"])) {
+        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ[:space:]]+$/', $datos["nombre"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en nombre"
             );
 
             echo json_encode($json, true);
@@ -118,11 +130,11 @@ class ControladorPersonal
             return;
         }
 
-        if (isset($datos['apellido']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["apellido"])) {
+        if (isset($datos['apellido']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ[:space:]]+$/', $datos["apellido"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en apellido"
             );
 
             echo json_encode($json, true);
@@ -147,6 +159,7 @@ class ControladorPersonal
         }
 
         $datos = array(
+            "id_personal" => $datos['id_personal'],
             "nombre" => $datos['nombre'],
             "apellido" => $datos['apellido'],
             "cedula" => $datos['cedula'],

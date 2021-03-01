@@ -21,7 +21,7 @@ class ModeloTipoMaterial
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_tipo_material,nombre) VALUES (nulls,:nombre)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_tipo_material,nombre) VALUES (null,:nombre)");
         $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         //$stmt -> bindParam(":id_material", $datos["id_material"], PDO::PARAM_INT);
 

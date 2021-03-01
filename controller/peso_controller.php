@@ -130,7 +130,7 @@ class ControladorPeso
         if ($validacion) {
             $datosenv = array(
                 "kilogramo" => $datos['kilogramo'],
-                "codigo_orden" => $datos['codigo_orden'],
+                "orden_codigo" => $datos['orden_codigo'],
                 "id_personal" => $datos['id_personal'],
                 "id_estado_peso" => $datos['id_estado_peso']
             );

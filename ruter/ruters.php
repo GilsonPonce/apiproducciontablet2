@@ -73,6 +73,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $ObjetoOrden->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "orden_codigo" => $_POST["orden_codigo"],
                         "peso_producir" => $_POST["peso_producir"],
                         "id_configuracion" => $_POST["id_configuracion"],
                         "id_color" => $_POST["id_color"],
@@ -220,7 +221,8 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id_personal" => $_POST['id_personal'],
-                        "orden_codigo" => $_POST['orden_codigo']
+                        "orden_codigo" => $_POST['orden_codigo'],
+                        "id_estado_registro" => $_POST['id_estado_registro']
                     );
                     $Objetoregistro->create($datos);
                 } else {
@@ -243,6 +245,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetopersonal->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_personal" => $_POST['id_personal'],
                         "nombre" => $_POST['nombre'],
                         "apellido" => $_POST['apellido'],
                         "cedula" => $_POST['cedula'],
@@ -271,7 +274,9 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id_motivo" => $_POST['id_motivo'],
-                        "id_personal" => $_POST['id_personal']
+                        "id_personal" => $_POST['id_personal'],
+                        "orden_codigo" => $_POST['orden_codigo'],
+                        "estado" => $_POST['estado']
                     );
                     $Objetoparada->create($datos);
                 } else {

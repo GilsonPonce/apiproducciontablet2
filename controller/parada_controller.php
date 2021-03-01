@@ -12,7 +12,7 @@ class ControladorParada
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
                 ) {
-                    $orden = ModeloPersonal::index("parada");
+                    $orden = ModeloParada::index("parada");
                     $json = array(
                         "status" => 200,
                         "total_registro" => count($orden),
@@ -81,6 +81,33 @@ class ControladorParada
             return;
         }
 
+        if(!empty($datos['orden_codigo'])){
+            if (isset($datos['orden_codigo']) && !is_numeric($datos['orden_codigo'])) {
+                $json = array(
+    
+                    "status" => 404,
+                    "detalle" => "Error orden codigo"
+                );
+    
+                echo json_encode($json, true);
+    
+                return;
+            }
+        }
+
+        if (isset($datos['id_motivo']) && !is_numeric($datos['id_motivo'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en motivo"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+
         //valida que el usuario exista
         $validacion = false;
         $personal = ModeloPersonal::index("personal");
@@ -92,11 +119,49 @@ class ControladorParada
 
         if ($validacion) {
             
+            $registro = ModeloRegistro::index("registro");
+            if(!empty($registro)){
+                foreach($registro as $item => $value){
+                    if($value["id_personal"] == $datos["id_personal"] && $value['id_estado_registro'] == 1){
+                        $datosac = array(
+                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
+                            "fecha_hora_inicio" => $value['fecha_hora_inicio'],
+                            "id_personal" => $value['id_personal'],
+                            "orden_codigo" => $value['orden_codigo'],
+                            "id_estado_registro" => 2,//lo que realmente se actualiza
+                            "id_registro" => $value['id_registro']
+                        );
+                        ModeloRegistro::update("registro",$datosac);
+                    }
+                }
+            }
+
+            $parada = ModeloParada::index("parada");
+            if(!empty($parada)){
+                foreach($parada as $item => $value1){
+                    if($value["id_personal"] == $datos["id_personal"] && $value1['estado'] == 1){
+                        $datosac = array(
+                            "id_parada" => $value1['id_parada'],
+                            "orden_codigo" => $value1['orden_codigo'],
+                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
+                            "fecha_hora_inicio" => $value1['fecha_hora_inicio'],
+                            "id_personal" => $value1['id_personal'],
+                            "id_motivo" => $value1['id_motivo'],
+                            "estado" => 0//lo que realmente se actualiza
+                        );
+                        ModeloParada::update("parada",$datosac);
+                    }
+                }
+            }
+
+
             $datosenv = array(
                 "fecha_hora_inicio" => date('Y-m-d h:i:s'),
                 "fecha_hora_fin" => date('Y-m-d h:i:s'),
                 "id_motivo" => $datos['id_motivo'],
-                "id_personal" => $datos['id_personal']
+                "id_personal" => $datos['id_personal'],
+                "orden_codigo" => $datos['orden_codigo'],
+                "estado" => $datos['estado']
             );
 
             $usuario = ModeloUsuario::index("usuario");
@@ -175,6 +240,14 @@ class ControladorParada
 							return;
 						}
 
+                    }
+
+                    if(isset($datos["estado"])&& $datos["estado"] == 0){
+                        $datos["fecha_hora_fin"] =  date('Y-m-d h:i:s');
+                    }
+
+                    if(isset($datos["estado"])&& $datos["estado"] > 0){
+                        $datos["fecha_hora_inicio"] =  date('Y-m-d h:i:s');
                     }
 
                     /*=============================================

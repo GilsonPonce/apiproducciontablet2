@@ -1,5 +1,7 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+
 /* controladores */
 require_once "controller/rutas_controller.php";
 require_once "controller/lineas_controller.php";

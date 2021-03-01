@@ -125,6 +125,8 @@ class ControladorRegistro
                 }
             }
             
+            //para cerrar tareas anteriores
+            //cerrar registros
             $registros = ModeloRegistro::index("registro");
             //print_r($registros);
             if(!empty($registros)){
@@ -146,6 +148,30 @@ class ControladorRegistro
             }else{
                 $actualizar = "ok";
             }
+
+            $parada = ModeloParada::index("parada");
+            if(!empty($parada)){
+                foreach ($parada as $clave => $valor2) {
+                    if ($valor2['id_personal'] == $datos['id_personal'] && $valor2['estado'] > 0) {
+                        $datosac = array(
+                            "id_parada" => $valor2['id_parada'],
+                            "orden_codigo" => $valor2['orden_codigo'],
+                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
+                            "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
+                            "id_personal" => $valor2['id_personal'],
+                            "id_motivo" => $valor2['id_motivo'],
+                            "estado" => 0//lo que realmente se actualiza
+                        );
+                        $actualizar = ModeloParada::update("parada", $datosac);
+                    }else{
+                        $actualizar = "ok";
+                    }
+                }
+            }else{
+                $actualizar = "ok";
+            }
+
+
             //print_r($actualizar);
             if (isset($actualizar) && $actualizar == "ok") {
                 $datos = array(
@@ -153,7 +179,7 @@ class ControladorRegistro
                     "fecha_hora_fin" => date('Y-m-d h:i:s'),
                     "id_personal" => $datos['id_personal'],
                     "orden_codigo" => $datos['orden_codigo'],
-                    "id_estado_registro" => $activo
+                    "id_estado_registro" => $datos['id_estado_registro']
                 );
                 //print_r($datos);
                 $usuario = ModeloUsuario::index("usuario");
@@ -240,11 +266,20 @@ class ControladorRegistro
                     /*=============================================
 					Validar id creador
 					=============================================*/
+                    if(isset($datos["id_estado_registro"]) && $datos["id_estado_registro"] == 2){
+                        $datos["fecha_hora_fin"] = date('Y-m-d h:i:s');
+                    }
+
+                    if(isset($datos["id_estado_registro"]) && $datos["id_estado_registro"] == 1){
+                        $datos["fecha_hora_inicio"] = date('Y-m-d h:i:s');
+                        $datos["fecha_hora_fin"] = date('Y-m-d h:i:s');
+                    }
+
 
                     
-                    $color = ModeloRegistro::show("registro", $id);
+                    $registro1 = ModeloRegistro::show("registro", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($registro1)) {
 
                         $update = ModeloRegistro::update("registro",$datos);
 
