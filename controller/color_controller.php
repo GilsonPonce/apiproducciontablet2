@@ -10,15 +10,25 @@ class ControladorColor
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloColor::index("color");
+                    $colores = ModeloColor::index("color");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($colores),
+                        "detalle" => $colores
                     );
                     echo json_encode($json, true);
+                }else{
+                    $json = array(
+
+                        "status" => 500,
+                        "detalle" => "No Autorizado"
+                    );
+
+                    echo json_encode($json, true);
+
+                    return;
                 }
             }
         }
@@ -31,13 +41,13 @@ class ControladorColor
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloColor::show("color",$id);
+                    $color = ModeloColor::show("color",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($color),
+                        "detalle" => $color
                     );
                     echo json_encode($json, true);
                 }else{
@@ -91,8 +101,9 @@ class ControladorColor
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
+                    
                     $create = ModeloColor::create("color", $datos);
 
                     if ($create == 'ok') {
@@ -106,6 +117,16 @@ class ControladorColor
 
                         return;
                     }
+                }else{
+                    $json = array(
+
+                        "status" => 500,
+                        "detalle" => "No Autorizado"
+                    );
+
+                    echo json_encode($json, true);
+
+                    return;
                 }
             }
         }
@@ -118,7 +139,7 @@ class ControladorColor
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -221,7 +242,7 @@ class ControladorColor
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloColor::show('color', $id);
 

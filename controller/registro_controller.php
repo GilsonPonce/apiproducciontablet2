@@ -10,14 +10,14 @@ class ControladorRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloRegistro::index("registro");
-                    if(!empty($orden)){
+                    $registros = ModeloRegistro::index("registro");
+                    if(!empty($registros)){
                         $json = array(
                             "status" => 200,
-                            "total_registro" => count($orden),
-                            "detalle" => $orden
+                            "total_registro" => count($registros),
+                            "detalle" => $registros
                         );
                         echo json_encode($json, true);
                     }else{
@@ -40,7 +40,7 @@ class ControladorRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $registro = ModeloRegistro::show("registro",$id);
                     $json = array(
@@ -99,121 +99,64 @@ class ControladorRegistro
                 $validacion = true;
             }
         }
+
+        $registros = ModeloRegistro::index("registro");
+        foreach($registros as $id => $valor){
+            if($valor['id_personal'] == $datos['id_personal'] && $valor['activo'] > 0){
+                $datos = array(
+                    "id_registro" => $valor['id_registro'],
+                    "id_personal" => $valor['id_personal'],
+                    "fecha_hora_inicio" => $valor['fecha_hora_inicio'],
+                    "fecha_hora_fin" => date("Y-m-d H:i:s"),
+                    "id_informe" => $valor['id_informe'],
+                    "activo" => 0
+                );
+                ModeloRegistro::update("registro",$datos);
+            }
+        }
+
         //print_r($validacion);
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
-            $activo = '';
-            $inactivo = '';
-            $estadosregistro = ModeloEstadoRegistro::index("estado_registro");
-            foreach ($estadosregistro as $i => $a) {
-                //print_r($a->nombre);
-                if ($a->nombre == 'ACTIVO') {
-                    $activo = $a->id_estado_registro;
-                    //print_r($activo);
-                } else if ($a->nombre == 'FINALIZADO') {
-                    $inactivo = $a->id_estado_registro;
-                }else{
-                    $json = array(
+            $datos = array(
+                "id_personal" => $datos['id_personal'],
+                "fecha_hora_inicio" => $datos['fecha_hora_inicio'],
+                "fecha_hora_fin" => $datos['fecha_hora_fin'],
+                "id_informe" => $datos['id_informe'],
+                "activo" => 1
+            );
+            //print_r($datos);
+            $usuario = ModeloUsuario::index("usuario");
+            //print_r($usuario);
+            if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                foreach ($usuario as $key => $valueUsuario) {
+                    if (
+                        "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
+                        "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
+                    ) {
+                        $create = ModeloRegistro::create("registro", $datos);
+                        //print_r($create);
+                        
+                        if ($create == 'ok') {
+                            $json = array(
 
-                        "status" => 404,
-                        "detalle" => "Error en registro estado"
-                    );
-        
-                    echo json_encode($json, true);
-        
-                    return;
-                }
-            }
-            
-            //para cerrar tareas anteriores
-            //cerrar registros
-            $registros = ModeloRegistro::index("registro");
-            //print_r($registros);
-            if(!empty($registros)){
-                foreach ($registros as $clave => $valor2) {
-                    if ($valor2['id_personal'] == $datos['id_personal'] && $valor2['id_estado_registro'] == $activo) {
-                        $datosac = array(
-                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
-                            "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
-                            "id_personal" => $valor2['id_personal'],
-                            "orden_codigo" => $valor2['orden_codigo'],
-                            "id_estado_registro" => $inactivo,//lo que realmente se actualiza
-                            "id_registro" => $valor2['id_registro']
-                        );
-                        $actualizar = ModeloRegistro::update("registro", $datosac);
-                    }else{
-                        $actualizar = "ok";
-                    }
-                }
-            }else{
-                $actualizar = "ok";
-            }
+                                "status" => 200,
+                                "detalle" => "Registro exitoso de registro"
+                            );
 
-            $parada = ModeloParada::index("parada");
-            if(!empty($parada)){
-                foreach ($parada as $clave => $valor2) {
-                    if ($valor2['id_personal'] == $datos['id_personal'] && $valor2['estado'] > 0) {
-                        $datosac = array(
-                            "id_parada" => $valor2['id_parada'],
-                            "orden_codigo" => $valor2['orden_codigo'],
-                            "fecha_hora_fin" => date('Y-m-d h:i:s'),//lo que realmente se actualiza
-                            "fecha_hora_inicio" => $valor2['fecha_hora_inicio'],
-                            "id_personal" => $valor2['id_personal'],
-                            "id_motivo" => $valor2['id_motivo'],
-                            "estado" => 0//lo que realmente se actualiza
-                        );
-                        $actualizar = ModeloParada::update("parada", $datosac);
-                    }else{
-                        $actualizar = "ok";
-                    }
-                }
-            }else{
-                $actualizar = "ok";
-            }
+                            echo json_encode($json, true);
 
+                            return;
+                        }else{
+                            $json = array(
 
-            //print_r($actualizar);
-            if (isset($actualizar) && $actualizar == "ok") {
-                $datos = array(
-                    "fecha_hora_inicio" => date('Y-m-d h:i:s'),
-                    "fecha_hora_fin" => date('Y-m-d h:i:s'),
-                    "id_personal" => $datos['id_personal'],
-                    "orden_codigo" => $datos['orden_codigo'],
-                    "id_estado_registro" => $datos['id_estado_registro']
-                );
-                //print_r($datos);
-                $usuario = ModeloUsuario::index("usuario");
-                //print_r($usuario);
-                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-                    foreach ($usuario as $key => $valueUsuario) {
-                        if (
-                            "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                            "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
-                        ) {
-                            $create = ModeloRegistro::create("registro", $datos);
-                            //print_r($create);
-                            
-                            if ($create == 'ok') {
-                                $json = array(
-
-                                    "status" => 200,
-                                    "detalle" => "Registro exitoso de registro"
-                                );
-
-                                echo json_encode($json, true);
-
-                                return;
-                            }else{
-                                $json = array(
-
-                                    "status" => 404,
-                                    "detalle" => "Error en registro"
-                                );
-                    
-                                echo json_encode($json, true);
-                    
-                                return;
-                            }
+                                "status" => 404,
+                                "detalle" => "Error en registro"
+                            );
+                
+                            echo json_encode($json, true);
+                
+                            return;
                         }
                     }
                 }
@@ -238,7 +181,7 @@ class ControladorRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -263,19 +206,6 @@ class ControladorRegistro
 
                     }
 
-                    /*=============================================
-					Validar id creador
-					=============================================*/
-                    if(isset($datos["id_estado_registro"]) && $datos["id_estado_registro"] == 2){
-                        $datos["fecha_hora_fin"] = date('Y-m-d h:i:s');
-                    }
-
-                    if(isset($datos["id_estado_registro"]) && $datos["id_estado_registro"] == 1){
-                        $datos["fecha_hora_inicio"] = date('Y-m-d h:i:s');
-                        $datos["fecha_hora_fin"] = date('Y-m-d h:i:s');
-                    }
-
-
                     
                     $registro1 = ModeloRegistro::show("registro", $id);
 
@@ -288,7 +218,7 @@ class ControladorRegistro
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso del resgistro"
+                                "detalle" => "Actualizacion exitoso del registro"
                             );
     
                             echo json_encode($json, true);
@@ -350,7 +280,7 @@ class ControladorRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloRegistro::show('registro', $id);
 

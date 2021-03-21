@@ -10,13 +10,13 @@ class ControladorPersonal
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloPersonal::index("personal");
+                    $personales = ModeloPersonal::index("personal");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($personales),
+                        "detalle" => $personales
                     );
                     echo json_encode($json, true);
                 }
@@ -32,7 +32,7 @@ class ControladorPersonal
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $personal = ModeloPersonal::show("personal",$id);
                     $json = array(
@@ -94,29 +94,6 @@ class ControladorPersonal
             return;
         }
 
-        if (isset($datos['id_tipo_personal']) && !is_numeric($datos['id_tipo_personal'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error en tipo personal"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_area_trabajo']) && !is_numeric($datos['id_area_trabajo'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error area trabajo"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
 
         if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ[:space:]]+$/', $datos["nombre"])) {
             $json = array(
@@ -162,9 +139,7 @@ class ControladorPersonal
             "id_personal" => $datos['id_personal'],
             "nombre" => $datos['nombre'],
             "apellido" => $datos['apellido'],
-            "cedula" => $datos['cedula'],
-            "id_tipo_personal" => $datos['id_tipo_personal'],
-            "id_area_trabajo" => $datos['id_area_trabajo']
+            "cedula" => $datos['cedula']
         );
 
         $usuario = ModeloUsuario::index("usuario");
@@ -172,7 +147,7 @@ class ControladorPersonal
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $create = ModeloPersonal::create("personal", $datos);
 
@@ -209,7 +184,7 @@ class ControladorPersonal
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -312,7 +287,7 @@ class ControladorPersonal
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloPersonal::show('personal', $id);
 

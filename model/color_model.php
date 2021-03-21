@@ -21,7 +21,7 @@ class ModeloColor
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(nombre) VALUES (:nombre)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_color,nombre) VALUES (null,:nombre)");
 
 		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 

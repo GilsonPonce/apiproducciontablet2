@@ -2,7 +2,7 @@
 
 require_once "conexion.php";
 
-class ModeloEstadoPeso
+class ModeloTipoDesperdicio
 {
     static public function index($tabla)
     {
@@ -13,8 +13,8 @@ class ModeloEstadoPeso
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_estado_peso=:id_estado_peso");
-        $stmt -> bindParam(":id_estado_peso", $id, PDO::PARAM_INT);
+        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_tipo_desperdicio=:id_tipo_desperdicio");
+        $stmt -> bindParam(":id_tipo_desperdicio", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
@@ -23,7 +23,7 @@ class ModeloEstadoPeso
     {
         $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(nombre) VALUES (:nombre)");
 
-		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -39,10 +39,11 @@ class ModeloEstadoPeso
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_estado_peso=:id_estado_peso");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_tipo_desperdicio=:id_tipo_desperdicio");
 
-        $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt -> bindParam(":id_estado_peso", $datos["id_estado_peso"], PDO::PARAM_INT);
+        $stmt -> bindParam(":id_tipo_desperdicio", $datos["id_tipo_desperdicio"], PDO::PARAM_INT);
+        $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_INT);
+
 
 		if($stmt -> execute()){
 
@@ -58,9 +59,9 @@ class ModeloEstadoPeso
 
     static public function delete($tabla, $id){
 
-		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_estado_peso = :id_estado_peso");
+		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_tipo_desperdicio = :id_tipo_desperdicio");
 
-		$stmt -> bindParam(":id_estado_peso", $id, PDO::PARAM_INT);
+		$stmt -> bindParam(":id_tipo_desperdicio", $id, PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 

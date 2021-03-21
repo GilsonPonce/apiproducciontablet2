@@ -1,7 +1,7 @@
 <?php
-class ControladorEstadoPeso
-{
 
+class ControladorUsuario
+{
 
     public function index()
     {
@@ -10,13 +10,13 @@ class ControladorEstadoPeso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloEstadoPeso::index("estado_peso");
+                    $usuario = ModeloUsuario::index("usuario");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($usuario),
+                        "detalle" => $usuario
                     );
                     echo json_encode($json, true);
                 }
@@ -31,13 +31,13 @@ class ControladorEstadoPeso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $estadoPeso = ModeloEstadoPeso::show("estado_peso",$id);
+                    $usuario = ModeloUsuario::show("usuario",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($estadoPeso),
-                        "detalle" => $estadoPeso
+                        "total_registro" => count($usuario),
+                        "detalle" => $usuario
                     );
                     echo json_encode($json, true);
                 }else{
@@ -67,12 +67,14 @@ class ControladorEstadoPeso
 
     public function create($datos)
     {
-
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
+        /*=============================================
+		Validar nombre
+		=============================================*/
+        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]+$/', $datos["nombre"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error nombres"
+                "detalle" => "Error nombre"
             );
 
             echo json_encode($json, true);
@@ -80,34 +82,147 @@ class ControladorEstadoPeso
             return;
         }
 
-        $datos = array(
-            "nombre" => $datos['nombre']
-        );
+        /*=============================================
+		            Validar apellido
+		=============================================*/
+        if (isset($datos['apellido']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["apellido"])) {
+            $json = array(
 
+                "status" => 404,
+                "detalle" => "Error apellido"
+            );
 
-        $usuario = ModeloUsuario::index("usuario");
-        if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-            foreach ($usuario as $key => $valueUsuario) {
-                if (
-                    "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
-                ) {
-                    $create = ModeloEstadoPeso::create("estado_peso", $datos);
+            echo json_encode($json, true);
 
-                    if ($create == 'ok') {
-                        $json = array(
+            return;
+        }
 
-                            "status" => 200,
-                            "detalle" => "Registro exitoso de estado peso"
-                        );
+        /*=============================================
+		            Validar cedula
+		=============================================*/
+        if (isset($datos['cedula']) && !is_numeric($datos['cedula'])) {
+            $json = array(
 
-                        echo json_encode($json, true);
+                "status" => 404,
+                "detalle" => "Error cedula"
+            );
 
-                        return;
-                    }
-                }
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        /*=============================================
+		            Validar password
+		=============================================*/
+        if (isset($datos['pass']) && !preg_match('/^[a-z0-9A-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["pass"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error contrasena"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        /*=============================================
+		Validar correo
+		=============================================*/
+
+        if (isset($datos["correo"]) && !preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $datos["correo"])) {
+
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error correo"
+
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        /*=============================================
+		Validar que el email no esté repetido
+		=============================================*/
+
+        $usuario  = ModeloUsuario::index("usuario");
+
+        foreach ($usuario as $key => $value) {
+
+            if ($value["correo"] == $datos["correo"]) {
+
+                $json = array(
+
+                    "status" => 404,
+                    "detalle" => "Error cuenta ya registrada"
+
+                );
+
+                echo json_encode($json, true);
+
+                return;
             }
         }
+
+
+        /*=============================================
+		Generar credenciales del cliente
+		=============================================*/
+
+        $padlock = str_replace("$", "a", crypt($datos["pass"] . $datos["correo"], '$2a$07$afartwetsdAD52356FEDGsfhsd$'));
+        $paylock = substr($padlock,0,500);
+
+        $keylock = str_replace("$", "o", crypt($datos["correo"] . $datos["pass"], '$2a$07$afartwetsdAD52356FEDGsfhsd$'));
+        $keylock = substr($keylock,0,500);
+
+        /*CIFRADO DE CONTRASENA */
+        $opciones = [
+            'cost' => 10,
+        ];
+
+        /*SE LA DECIFRA CON LAS FUNCION password_verify('rasmuslerdorf', $hash) */
+
+        /*=============================================
+		Llevar datos al modelo
+		=============================================*/
+
+        $datos = array(
+            "nombre" => $datos["nombre"],
+            "apellido" => $datos["apellido"],
+            "cedula" => $datos["cedula"],
+            "correo" => $datos["correo"],
+            "fecha_creacion" => date('Y-m-d h:i:s'),
+            "pass" => password_hash($datos["pass"],PASSWORD_BCRYPT,$opciones),
+            "padlock" => $padlock,
+            "keylock" => $keylock
+        );
+
+        $create = ModeloUsuario::create("usuario", $datos);
+
+        /*=============================================
+		Respuesta del modelo
+		=============================================*/
+
+		if($create == "ok"){
+
+			$json = array(
+
+					"status"=>200,
+					"detalle"=>"Registro exitoso, tome sus credenciales y guárdelas",
+					"credenciales"=>array("candado"=>$paylock, "llave"=>$keylock)
+
+				);
+
+			echo json_encode($json, true);
+
+			return;
+
+		}
+
     }
 
     public function update($id,$datos){
@@ -117,7 +232,7 @@ class ControladorEstadoPeso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -147,18 +262,18 @@ class ControladorEstadoPeso
 					=============================================*/
 
                     
-                    $color = ModeloEstadoPeso::show("estado_peso", $id);
+                    $color = ModeloUsuario::show("usuario", $id);
 
                     if (!empty($color)) {
 
-                        $update = ModeloEstadoPeso::update("estado_peso",$datos);
+                        $update = ModeloUsuario::update("usuario",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de estado de peso"
+                                "detalle" => "Actualizacion exitoso de usuario"
                             );
     
                             echo json_encode($json, true);
@@ -220,18 +335,18 @@ class ControladorEstadoPeso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloEstadoPeso::show('estado_peso', $id);
+                    $area = ModeloUsuario::show('usuario', $id);
 
                     if (!empty($area)) {
 
-                        $delete = ModeloEstadoPeso::delete("estado_peso", $id);
+                        $delete = ModeloUsuario::delete("usuario", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de estado de peso"
+                                "detalle" => "Eliminacion exitosa de usuario"
                             );
 
                             echo json_encode($json, true);

@@ -1,6 +1,6 @@
 <?php
 
-class ControladorLineas
+class ControladorLinea
 {
     /*================
      * crear una linea
@@ -30,10 +30,10 @@ class ControladorLineas
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
-                    $create = ModelosLineas::create("linea", $datos);
+                    $create = ModeloLinea::create("linea", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
@@ -58,7 +58,7 @@ class ControladorLineas
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -88,11 +88,11 @@ class ControladorLineas
 					=============================================*/
 
                     
-                    $color = ModelosLineas::show("linea", $id);
+                    $color = ModeloLinea::show("linea", $id);
 
                     if (!empty($color)) {
 
-                        $update = ModelosLineas::update("linea",$datos);
+                        $update = ModeloLinea::update("linea",$datos);
 
                         if($update == 'ok'){
                             
@@ -161,13 +161,13 @@ class ControladorLineas
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModelosLineas::show('linea', $id);
+                    $area = ModeloLinea::show('linea', $id);
 
                     if (!empty($area)) {
 
-                        $delete = ModelosLineas::delete("linea", $id);
+                        $delete = ModeloLinea::delete("linea", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
@@ -225,9 +225,9 @@ class ControladorLineas
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $lineas = ModelosLineas::index("linea");
+                    $lineas = ModeloLinea::index("linea");
                     $json = array(
                         "status" => 200,
                         "total_registro" => count($lineas),
@@ -246,9 +246,9 @@ class ControladorLineas
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $linea = ModelosLineas::show("linea",$id);
+                    $linea = ModeloLinea::show("linea",$id);
                     $json = array(
                         "status" => 200,
                         "total_registro" => count($linea),

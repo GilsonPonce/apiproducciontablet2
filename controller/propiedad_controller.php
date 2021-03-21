@@ -10,13 +10,13 @@ class ControladorPropiedad
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloPropiedad::index("propiedad");
+                    $propiedades = ModeloPropiedad::index("propiedad");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($propiedades),
+                        "detalle" => $propiedades
                     );
                     echo json_encode($json, true);
                 }
@@ -31,13 +31,13 @@ class ControladorPropiedad
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $material = ModeloPropiedad::show("propiedad",$id);
+                    $propiedad = ModeloPropiedad::show("propiedad",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($material),
-                        "detalle" => $material
+                        "total_registro" => count($propiedad),
+                        "detalle" => $propiedad
                     );
                     echo json_encode($json, true);
                 }else{
@@ -90,7 +90,7 @@ class ControladorPropiedad
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $create = ModeloPropiedad::create("propiedad", $datos);
 
@@ -117,7 +117,7 @@ class ControladorPropiedad
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -220,7 +220,7 @@ class ControladorPropiedad
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloPropiedad::show('propiedad',$id);
 

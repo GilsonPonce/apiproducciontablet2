@@ -10,13 +10,13 @@ class ControladorMaterial
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloMaterial::index("material");
+                    $material = ModeloMaterial::index("material");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($material),
+                        "detalle" => $material
                     );
                     echo json_encode($json, true);
                 }
@@ -31,7 +31,7 @@ class ControladorMaterial
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $material = ModeloMaterial::show("material",$id);
                     $json = array(
@@ -90,7 +90,7 @@ class ControladorMaterial
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $create = ModeloMaterial::create("material", $datos);
 
@@ -117,7 +117,7 @@ class ControladorMaterial
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -147,9 +147,9 @@ class ControladorMaterial
 					=============================================*/
 
                     
-                    $color = ModeloMaterial::show("material", $id);
+                    $material = ModeloMaterial::show("material", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($material)) {
 
                         $update = ModeloMaterial::update("material",$datos);
 
@@ -220,11 +220,11 @@ class ControladorMaterial
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloMaterial::show('material', $id);
+                    $material = ModeloMaterial::show('material', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($material)) {
 
                         $delete = ModeloMaterial::delete("material", $id);
 

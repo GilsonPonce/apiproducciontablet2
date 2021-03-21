@@ -1,5 +1,5 @@
 <?php
-class ControladorOrden
+class ControladorMateriaPrima
 {
 
 
@@ -10,13 +10,13 @@ class ControladorOrden
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloOrden::index("orden");
+                    $materiaprima = ModeloMateriaPrima::index("materiaprima");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($materiaprima),
+                        "detalle" => $materiaprima
                     );
                     echo json_encode($json, true);
                 }
@@ -31,16 +31,16 @@ class ControladorOrden
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $Orden = ModeloOrden::show("orden",$id);
+                    $materiaprima = ModeloMateriaPrima::show("materiaprima", $id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($Orden),
-                        "detalle" => $Orden
+                        "total_registro" => count($materiaprima),
+                        "detalle" => $materiaprima
                     );
                     echo json_encode($json, true);
-                }else{
+                } else {
                     $json = array(
 
                         "status" => 404,
@@ -52,7 +52,7 @@ class ControladorOrden
                     return;
                 }
             }
-        }else{
+        } else {
             $json = array(
 
                 "status" => 404,
@@ -68,23 +68,12 @@ class ControladorOrden
     public function create($datos)
     {
 
-        if ( isset($datos['orden_codigo'])  && !is_numeric($datos['orden_codigo']) ){ 
+
+        if (isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error codigo"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
- 
-        if (isset($datos['peso_producir']) && !is_numeric($datos['peso_producir']) ) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error peso"
+                "detalle" => "Error configuracion"
             );
 
             echo json_encode($json, true);
@@ -92,19 +81,7 @@ class ControladorOrden
             return;
         }
 
-        if ( isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion']) ) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error en configuracion"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['id_color']) && !is_numeric($datos['id_color']) ) {
+        if (isset($datos['id_color']) && !is_numeric($datos['id_color'])) {
             $json = array(
 
                 "status" => 404,
@@ -116,11 +93,11 @@ class ControladorOrden
             return;
         }
 
-        if (isset($datos['id_turno']) && !is_numeric($datos['id_turno'])) {
+        if (isset($datos['id_informe']) &&  !is_numeric($datos['id_informe'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error turno"
+                "detalle" => "Error informe"
             );
 
             echo json_encode($json, true);
@@ -128,11 +105,11 @@ class ControladorOrden
             return;
         }
 
-        if ( isset($datos['id_estado_orden']) &&  !is_numeric($datos['id_estado_orden'])) {
+        if (isset($datos['peso']) &&  !is_numeric($datos['peso'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error estado orden"
+                "detalle" => "Error peso"
             );
 
             echo json_encode($json, true);
@@ -140,28 +117,12 @@ class ControladorOrden
             return;
         }
 
-        $buscarOrden = ModeloOrden::index("orden");
-        foreach($buscarOrden as $key => $valueOrden){
-            if($valueOrden['orden_codigo'] == $datos['orden_codigo']){
-                $json = array(
-
-                    "status" => 404,
-                    "detalle" => "Error orden duplicada"
-                );
-    
-                echo json_encode($json, true);
-    
-                return;
-            }
-        }
 
         $datos = array(
-            "orden_codigo" => $datos['orden_codigo'],
-            "peso_producir" => $datos['peso_producir'],
             "id_configuracion" => $datos['id_configuracion'],
             "id_color" => $datos['id_color'],
-            "id_turno" => $datos['id_turno'],
-            "id_estado_orden" => $datos['id_estado_orden']
+            "id_informe" => $datos['id_informe'],
+            "peso" => $datos['peso']
         );
 
         $usuario = ModeloUsuario::index("usuario");
@@ -169,15 +130,15 @@ class ControladorOrden
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloOrden::create("orden", $datos);
+                    $create = ModeloMateriaPrima::create("materiaprima", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de orden"
+                            "detalle" => "Registro exitoso de materia prima"
                         );
 
                         echo json_encode($json, true);
@@ -189,72 +150,72 @@ class ControladorOrden
         }
     }
 
-    public function update($id,$datos){
+    public function update($id, $datos)
+    {
 
         $usuario = ModeloUsuario::index("usuario");
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
 					Validar datos
 					=============================================*/
 
-					foreach ($datos as $key => $valueDatos) {
+                    foreach ($datos as $key => $valueDatos) {
 
-						if(isset($valueDatos) && !preg_match('/^[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)){
+                        if (isset($valueDatos) && !preg_match('/^[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)) {
 
-							$json = array(
+                            $json = array(
 
-								"status"=>404,
-								"detalle"=>"Error en el campo ".$key
+                                "status" => 404,
+                                "detalle" => "Error en el campo " . $key
 
-							);
+                            );
 
-							echo json_encode($json, true);
+                            echo json_encode($json, true);
 
-							return;
-						}
-
+                            return;
+                        }
                     }
 
                     /*=============================================
 					Validar id creador
 					=============================================*/
 
-                    
-                    $color = ModeloOrden::show("orden", $id);
 
-                    if (!empty($color)) {
+                    $configuracion = ModeloMateriaPrima::show("materiaprima", $id);
 
-                        $update = ModeloOrden::update("orden",$datos);
+                    if (!empty($configuracion)) {
 
-                        if($update == 'ok'){
-                            
+                        $update = ModeloMateriaPrima::update("materiaprima", $datos);
+
+                        if ($update == 'ok') {
+
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitosa de orden"
+                                "detalle" => "Actualizacion exitosa materia prima"
                             );
-    
+
                             echo json_encode($json, true);
-    
+
                             return;
-                        }else{
+                        } else {
                             $json = array(
 
                                 "status" => 404,
                                 "detalle" => "No se pudo actualizar"
                             );
-    
+
                             echo json_encode($json, true);
-    
+
                             return;
                         }
-                    }else{
+                    } else {
                         $json = array(
 
                             "status" => 404,
@@ -265,19 +226,19 @@ class ControladorOrden
 
                         return;
                     }
-                }else{
+                } else {
                     $json = array(
 
                         "status" => 404,
                         "detalle" => "No Autorizado"
                     );
-        
+
                     echo json_encode($json, true);
-        
-                    return; 
+
+                    return;
                 }
             }
-        }else{
+        } else {
             $json = array(
 
                 "status" => 404,
@@ -299,18 +260,18 @@ class ControladorOrden
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloOrden::show('orden', $id);
+                    $configuracion = ModeloMateriaPrima::show('materiaprima', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($configuracion)) {
 
-                        $delete = ModeloOrden::delete("orden", $id);
+                        $delete = ModeloMateriaPrima::delete("materiaprima", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de orden"
+                                "detalle" => "Eliminacion exitosa de materia primas"
                             );
 
                             echo json_encode($json, true);

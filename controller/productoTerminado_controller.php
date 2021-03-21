@@ -1,5 +1,5 @@
 <?php
-class ControladorEstadoRegistro
+class ControladorProductoTerminado
 {
 
 
@@ -10,13 +10,13 @@ class ControladorEstadoRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloEstadoRegistro::index("estado_registro");
+                    $productoterminado = ModeloProductoTerminado::index("productoterminado");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($productoterminado),
+                        "detalle" => $productoterminado
                     );
                     echo json_encode($json, true);
                 }
@@ -31,13 +31,13 @@ class ControladorEstadoRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $estadoRegistro = ModeloEstadoRegistro::show("estado_registro",$id);
+                    $productoterminado = ModeloProductoTerminado::show("productoterminado",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($estadoRegistro),
-                        "detalle" => $estadoRegistro
+                        "total_registro" => count($productoterminado),
+                        "detalle" => $productoterminado
                     );
                     echo json_encode($json, true);
                 }else{
@@ -68,11 +68,11 @@ class ControladorEstadoRegistro
     public function create($datos)
     {
 
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
+        if (isset($datos['id_informe']) &&!is_numeric($datos['id_informe'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en informe"
             );
 
             echo json_encode($json, true);
@@ -80,8 +80,48 @@ class ControladorEstadoRegistro
             return;
         }
 
+        if (isset($datos['id_color']) &&!is_numeric($datos['id_color'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en informe"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+        
+        if (isset($datos['peso']) && !is_numeric($datos['peso'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en peso"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['tipo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["tipo"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en tipo"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+
         $datos = array(
-            "nombre" => $datos['nombre']
+            "id_informe" => $datos['id_informe'],
+            "id_color" => $datos['id_color'],
+            "peso" => $datos['peso'],
+            "tipo" => $datos['tipo']
         );
 
 
@@ -90,15 +130,15 @@ class ControladorEstadoRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloEstadoRegistro::create("estado_registro", $datos);
+                    $create = ModeloProductoTerminado::create("productoterminado", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de tipo personal"
+                            "detalle" => "Registro exitoso de producto terminado"
                         );
 
                         echo json_encode($json, true);
@@ -117,7 +157,7 @@ class ControladorEstadoRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -147,18 +187,18 @@ class ControladorEstadoRegistro
 					=============================================*/
 
                     
-                    $color = ModeloEstadoRegistro::show("estado_registro", $id);
+                    $tipodesperdicio = ModeloProductoTerminado::show("productoterminado", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $update = ModeloEstadoRegistro::update("estado_registro",$datos);
+                        $update = ModeloProductoTerminado::update("productoterminado",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de estado de resgistro"
+                                "detalle" => "Registro exitoso de producto terminado"
                             );
     
                             echo json_encode($json, true);
@@ -220,19 +260,18 @@ class ControladorEstadoRegistro
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloEstadoRegistro::show('estado_registro', $id);
+                    $tipodesperdicio = ModeloProductoTerminado::show('productoterminado', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $delete = ModeloEstadoRegistro::delete("estado_registro", $id);
+                        $delete = ModeloProductoTerminado::delete("productoterminado", $id);
 
                         if ($delete == 'ok') {
-
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de estado de registro"
+                                "detalle" => "Eliminacion exitosa de producto terminado"
                             );
 
                             echo json_encode($json, true);

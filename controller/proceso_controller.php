@@ -10,13 +10,13 @@ class ControladorProceso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $proceso = ModeloProceso::index("proceso");
+                    $procesos = ModeloProceso::index("proceso");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($proceso),
-                        "detalle" => $proceso
+                        "total_registro" => count($procesos),
+                        "detalle" => $procesos
                     );
                     echo json_encode($json, true);
                 }
@@ -31,7 +31,7 @@ class ControladorProceso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $proceso = ModeloProceso::show("proceso",$id);
                     $json = array(
@@ -102,7 +102,7 @@ class ControladorProceso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $create = ModeloProceso::create("proceso", $datos);
 
@@ -129,7 +129,7 @@ class ControladorProceso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -159,9 +159,9 @@ class ControladorProceso
 					=============================================*/
 
                     
-                    $color = ModeloProceso::show("proceso", $id);
+                    $proceso = ModeloProceso::show("proceso", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($proceso)) {
 
                         $update = ModeloProceso::update("proceso",$datos);
 
@@ -170,7 +170,7 @@ class ControladorProceso
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de personal"
+                                "detalle" => "Actualizacion exitoso de proceso"
                             );
     
                             echo json_encode($json, true);
@@ -232,7 +232,7 @@ class ControladorProceso
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloProceso::show('proceso', $id);
 

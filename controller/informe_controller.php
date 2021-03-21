@@ -10,13 +10,13 @@ class ControladorInforme
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloInforme::index("informe");
+                    $informenes = ModeloInforme::index("informe");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($informenes),
+                        "detalle" => $informenes
                     );
                     echo json_encode($json, true);
                 }
@@ -31,14 +31,14 @@ class ControladorInforme
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $estadoOrden = ModeloInforme::show("informe",$id);
+                    $informe = ModeloInforme::show("informe",$id);
 
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($estadoOrden),
-                        "detalle" => $estadoOrden
+                        "total_registro" => count($informe),
+                        "detalle" => $informe
                     );
                     echo json_encode($json, true);
                 }else{
@@ -70,23 +70,30 @@ class ControladorInforme
     {
 
         //valido el unico campo que ingresa el usuario
-        if (isset($datos['orden_codigo']) && !is_numeric($datos['orden_codigo'])) {
+        if (isset($datos['saldo_anterior']) && !is_numeric($datos['saldo_anterior'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error saldo anterior"
             );
 
             echo json_encode($json, true);
 
             return;
         }
+        
 
 
         $datosenv = array(
-            "fecha_hora_inicio" => date('Y-m-d h:i:s'),
-            "fecha_hora_fin" => date('Y-m-d h:i:s'),
-            "orden_codigo" => $datos['orden_codigo']
+            "id" => $datos['id'],
+            "fecha" => $datos['fecha'],
+            "turno" => $datos['turno'],
+            "saldo_anterior" => $datos['saldo_anterior'],
+            "observacion" => $datos['observacion'],
+            "completado" => $datos['completado'],
+            "id_proceso" => $datos['id_proceso'],
+            "id_material" => $datos['id_material'],
+            "id_tipo_material" => $datos['id_tipo_material']
         );
 
         $usuario = ModeloUsuario::index("usuario");
@@ -94,7 +101,7 @@ class ControladorInforme
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $create = ModeloInforme::create("informe", $datosenv);
 
@@ -131,7 +138,7 @@ class ControladorInforme
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -161,9 +168,9 @@ class ControladorInforme
 					=============================================*/
 
                     
-                    $color = ModeloInforme::show("informe", $id);
+                    $informe = ModeloInforme::show("informe", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($informe)) {
 
                         $update = ModeloInforme::update("informe",$datos);
 
@@ -234,7 +241,7 @@ class ControladorInforme
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
                     $area = ModeloInforme::show('informe', $id);
 

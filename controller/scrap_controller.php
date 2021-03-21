@@ -1,6 +1,8 @@
 <?php
-class ControladorMotivo
+class ControladorScrap
 {
+
+
     public function index()
     {
         $usuario = ModeloUsuario::index("usuario");
@@ -8,13 +10,13 @@ class ControladorMotivo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloMotivo::index("motivo");
+                    $scrap = ModeloScrap::index("scrap");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($scrap),
+                        "detalle" => $scrap
                     );
                     echo json_encode($json, true);
                 }
@@ -29,13 +31,13 @@ class ControladorMotivo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $motivo = ModeloMotivo::show("motivo",$id);
+                    $scrap = ModeloScrap::show("scrap",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($motivo),
-                        "detalle" => $motivo
+                        "total_registro" => count($scrap),
+                        "detalle" => $scrap
                     );
                     echo json_encode($json, true);
                 }else{
@@ -66,11 +68,11 @@ class ControladorMotivo
     public function create($datos)
     {
 
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
+        if (isset($datos['peso']) &&!is_numeric($datos['peso'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en peso"
             );
 
             echo json_encode($json, true);
@@ -78,8 +80,48 @@ class ControladorMotivo
             return;
         }
 
-        $datosenv = array(
-            "nombre" => $datos['nombre']
+        if (isset($datos['id_informe']) &&!is_numeric($datos['id_informe'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en informe"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+        
+        if (isset($datos['motivo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["motivo"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en motivo"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['sacos']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["sacos"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en sacos"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+
+        $datos = array(
+            "motivo" => $datos['motivo'],
+            "sacos" => $datos['sacos'],
+            "peso" => $datos['peso'],
+            "id_informe" => $datos['id_informe']
         );
 
 
@@ -88,15 +130,15 @@ class ControladorMotivo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloMotivo::create("motivo", $datosenv);
+                    $create = ModeloScrap::create("scrap", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de motivo"
+                            "detalle" => "Registro exitoso de scrap"
                         );
 
                         echo json_encode($json, true);
@@ -115,7 +157,7 @@ class ControladorMotivo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
                     /*=============================================
@@ -145,18 +187,18 @@ class ControladorMotivo
 					=============================================*/
 
                     
-                    $color = ModeloMotivo::show("motivo", $id);
+                    $tipodesperdicio = ModeloScrap::show("scrap", $id);
 
-                    if (!empty($color)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $update = ModeloMotivo::update("motivo",$datos);
+                        $update = ModeloScrap::update("scrap",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso del motivo"
+                                "detalle" => "Registro exitoso de scrap"
                             );
     
                             echo json_encode($json, true);
@@ -218,18 +260,18 @@ class ControladorMotivo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloMotivo::show('motivo', $id);
+                    $tipodesperdicio = ModeloScrap::show('scrap', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $delete = ModeloMotivo::delete("motivo", $id);
+                        $delete = ModeloScrap::delete("scrap", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de motivo"
+                                "detalle" => "Eliminacion exitosa de scrap"
                             );
 
                             echo json_encode($json, true);

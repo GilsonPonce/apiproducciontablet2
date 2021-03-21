@@ -1,5 +1,5 @@
 <?php
-class ControladorAreaTrabajo
+class ControladorTipoDesperdicio
 {
 
 
@@ -10,37 +10,17 @@ class ControladorAreaTrabajo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $orden = ModeloAreaTrabajo::index("area_trabajo");
+                    $tipodesperdicio = ModeloTipoDesperdicio::index("tipodesperdicio");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($orden),
-                        "detalle" => $orden
+                        "total_registro" => count($tipodesperdicio),
+                        "detalle" => $tipodesperdicio
                     );
                     echo json_encode($json, true);
-                } else {
-                    $json = array(
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
-        } else {
-            $json = array(
-                "status" => 404,
-                "detalle" => "No Autorizado"
-
-            );
-
-            echo json_encode($json, true);
-
-            return;
         }
     }
 
@@ -51,32 +31,20 @@ class ControladorAreaTrabajo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $show = ModeloAreaTrabajo::show("area_trabajo", $id);
-
-                    if (!empty($show)) {
-                        $json = array(
-                            "status" => 200,
-                            "total_registro" => count($show),
-                            "detalle" => $show
-                        );
-                        echo json_encode($json, true);
-                    } else {
-                        $json = array(
-                            "status" => 404,
-                            "detalle" => "No hay registros"
-                        );
-
-                        echo json_encode($json, true);
-
-                        return;
-                    }
-                } else {
+                    $tipodesperdicio = ModeloTipoDesperdicio::show("tipodesperdicio",$id);
                     $json = array(
+                        "status" => 200,
+                        "total_registro" => count($tipodesperdicio),
+                        "detalle" => $tipodesperdicio
+                    );
+                    echo json_encode($json, true);
+                }else{
+                    $json = array(
+
                         "status" => 404,
                         "detalle" => "No Autorizado"
-
                     );
 
                     echo json_encode($json, true);
@@ -84,11 +52,11 @@ class ControladorAreaTrabajo
                     return;
                 }
             }
-        } else {
+        }else{
             $json = array(
+
                 "status" => 404,
                 "detalle" => "No Autorizado"
-
             );
 
             echo json_encode($json, true);
@@ -104,13 +72,14 @@ class ControladorAreaTrabajo
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error nombre"
+                "detalle" => "Error en nombre"
             );
 
             echo json_encode($json, true);
 
             return;
         }
+
 
         $datos = array(
             "nombre" => $datos['nombre']
@@ -122,136 +91,119 @@ class ControladorAreaTrabajo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloAreaTrabajo::create("area_trabajo", $datos);
+                    $create = ModeloTipoDesperdicio::create("tipodesperdicio", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de area trabajo"
-                        );
-
-                        echo json_encode($json, true);
-
-                        return;
-                    } else {
-                        $json = array(
-                            "status" => 404,
-                            "detalle" => "No se pudo registrar"
-
+                            "detalle" => "Registro exitoso de tipo desperdicio"
                         );
 
                         echo json_encode($json, true);
 
                         return;
                     }
-                } else {
-                    $json = array(
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
-        } else {
-            $json = array(
-                "status" => 404,
-                "detalle" => "No Autorizado"
-
-            );
-
-            echo json_encode($json, true);
-
-            return;
         }
     }
 
-
-
-    public function update($id, $datos)
-    {
+    public function update($id,$datos){
 
         $usuario = ModeloUsuario::index("usuario");
-
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
 
-                    foreach ($datos as $key => $valueDatos) {
-                        if (isset($valueDatos) && !preg_match('/^[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)) {
+                    /*=============================================
+					Validar datos
+					=============================================*/
 
-                            $json = array(
+					foreach ($datos as $key => $valueDatos) {
 
-                                "status" => 404,
-                                "detalle" => "Error en el campo " . $key
+						if(isset($valueDatos) && !preg_match('/^[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)){
 
-                            );
+							$json = array(
 
-                            echo json_encode($json, true);
+								"status"=>404,
+								"detalle"=>"Error en el campo ".$key
 
-                            return;
-                        }
+							);
+
+							echo json_encode($json, true);
+
+							return;
+						}
+
                     }
 
-                    $area = ModeloAreaTrabajo::show('area_trabajo', $id);
+                    /*=============================================
+					Validar id creador
+					=============================================*/
 
-                    if (!empty($area)) {
-                        
-                        $datos = array(
-                            "nombre" => $datos['nombre'],
-                            "id_area_trabajo" => $datos['id_area_trabajo']
-                        );
+                    
+                    $tipodesperdicio = ModeloTipoDesperdicio::show("tipodesperdicio", $id);
 
-                        $update = ModeloAreaTrabajo::update("area_trabajo", $datos);
+                    if (!empty($tipodesperdicio)) {
 
-                        if ($update == 'ok') {
+                        $update = ModeloTipoDesperdicio::update("tipodesperdicio",$datos);
+
+                        if($update == 'ok'){
+                            
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de area trabajo"
+                                "detalle" => "Registro exitoso de tipo desperdicio"
                             );
-
+    
                             echo json_encode($json, true);
-
+    
                             return;
-                        } else {
+                        }else{
                             $json = array(
+
                                 "status" => 404,
-                                "detalle" => "No se pudo Actualizar"
-
+                                "detalle" => "No se pudo actualizar"
                             );
-
+    
                             echo json_encode($json, true);
-
+    
                             return;
                         }
+                    }else{
+                        $json = array(
+
+                            "status" => 404,
+                            "detalle" => "No se pudo actualizar"
+                        );
+
+                        echo json_encode($json, true);
+
+                        return;
                     }
-                } else {
+                }else{
                     $json = array(
+
                         "status" => 404,
                         "detalle" => "No Autorizado"
-
                     );
-
+        
                     echo json_encode($json, true);
-
-                    return;
+        
+                    return; 
                 }
             }
-        } else {
+        }else{
             $json = array(
+
                 "status" => 404,
                 "detalle" => "No Autorizado"
-
             );
 
             echo json_encode($json, true);
@@ -269,17 +221,18 @@ class ControladorAreaTrabajo
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
-                    "Basic " . base64_encode($valueUsuario["llave"] . ":" . $valueUsuario["codigo"])
+                    "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloAreaTrabajo::show('area_trabajo', $id);
+                    $tipodesperdicio = ModeloTipoDesperdicio::show('tipodesperdicio', $id);
 
-                    if (!empty($area)) {
-                        $delete = ModeloAreaTrabajo::delete("area_trabajo", $id);
+                    if (!empty($tipodesperdicio)) {
+
+                        $delete = ModeloTipoDesperdicio::delete("tipodesperdicio", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de area trabajo"
+                                "detalle" => "Eliminacion exitosa de tipo desperdicio"
                             );
 
                             echo json_encode($json, true);
