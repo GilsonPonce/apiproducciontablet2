@@ -1,13 +1,17 @@
 drop database produccion;
 create database if not exists produccion;
+create database if not exists produccion2;
 use produccion;
+use produccion2;
 
+#produccion2
 create table if not exists linea(
 id_linea int not null auto_increment,
 nombre varchar(500) not null,
 primary key (id_linea)
 );
 
+#produccion2
 create table if not exists proceso(
 id_proceso int not null auto_increment,
 nombre varchar(500) not null,
@@ -16,17 +20,20 @@ primary key (id_proceso),
 foreign key (id_linea) references linea(id_linea)
 );
 
+#produccion2
 create table if not exists material(
 id_material int not null auto_increment,
 nombre varchar(500) not null,
 primary key (id_material)
 );
 
+#produccion2
 create table if not exists tipo_material(
 id_tipo_material int not null auto_increment,
 nombre varchar(500) not null,
 primary key (id_tipo_material)
 );
+
 
 create table if not exists propiedad(
 id_propiedad int not null auto_increment,
@@ -34,29 +41,128 @@ nombre varchar(500) not null,
 primary key (id_propiedad)
 );
 
+#produccion2
 create table if not exists configuracion(
 id_configuracion int not null auto_increment,
-kilogramo_diario decimal(9,2) not null,
-kilogramo_hora decimal(9,2) not null,
-tarifa_kilogramos_producidos decimal(23,20) not null,
+kilogramo_diario double not null,
+kilogramo_hora double not null,
+tarifa_kilogramo_producidos double not null,
 estado bit not null,
 id_proceso int not null,
 id_material int not null,
 id_tipo_material int not null,
-id_propiedad int not null,
 primary key (id_configuracion),
 foreign key (id_proceso) references proceso(id_proceso),
 foreign key (id_material) references material(id_material),
-foreign key (id_tipo_material) references tipo_material(id_tipo_material),
-foreign key (id_propiedad) references propiedad(id_propiedad)
+foreign key (id_tipo_material) references tipo_material(id_tipo_material)
 );
 
+#produccion2
 create table if not exists color (
 id_color int not null auto_increment,
 nombre varchar(500) not null,
 primary key (id_color)
 );
 
+#produccion2
+create table if not exists usuario(
+id_usuario int not null auto_increment,
+nombre varchar(500) not null,
+apellido varchar(500) not null,
+cedula varchar(500) not null,
+correo varchar(500) not null,
+fecha_creacion datetime default now() not null,
+pass varchar(100) not null,
+padlock varchar(500) not null,
+keylock varchar(500) not null,
+primary key(id_usuario)
+);
+
+#produccion2
+create table if not exists informe(
+id_informe int not null auto_increment,
+id int not null,
+fecha date not null,
+turno varchar(50) not null,
+saldo_anterior double,
+observacion varchar(500),
+completado bit not null,
+id_proceso int not null,
+id_material int not null,
+id_tipo_material int not null,
+primary key (id_informe),
+foreign key (id_proceso) references proceso(id_proceso),
+foreign key (id_material) references material(id_material),
+foreign key (id_tipo_material) references tipo_material(id_tipo_material)
+);
+
+#produccion2
+create table if not exists personal(
+id_personal int not null auto_increment,
+nombre varchar(500) not null,
+apellido varchar(500) not null,
+cedula varchar(15) not null,
+primary key (id_personal)
+);
+
+#produccion2
+create table if not exists registro(
+id_registro int not null auto_increment,
+fecha_hora_inicio datetime,
+fecha_hora_fin datetime,
+activo bit,
+id_personal int not null,
+id_informe int not null,
+primary key(id_registro),
+foreign key (id_personal) references personal(id_personal),
+foreign key (id_informe) references informe(id_informe)
+);
+
+#produccion2
+create table if not exists productoterminado(
+id_producto_terminado int auto_increment not null,
+peso double not null,
+tipo varchar(500) not null,
+id_informe int not null,
+id_color int not null,
+primary key(id_producto_terminado),
+foreign key (id_informe) references informe(id_informe),
+foreign key (id_color) references color(id_color)
+);
+
+#produccion2
+create table if not exists materiaprima(
+id_materia_prima int auto_increment not null,
+id_configuracion int not null,
+id_color int not null,
+id_informe int not null,
+peso double not null,
+primary key (id_materia_prima),
+foreign key (id_configuracion) references configuracion(id_configuracion),
+foreign key (id_color) references color(id_color),
+foreign key (id_informe) references informe(id_informe)
+);
+
+#produccion2
+create table if not exists scrap(
+id_scrap int auto_increment not null,
+motivo varchar(500),
+sacos varchar(500),
+peso double,
+id_informe int not null,
+primary key(id_scrap),
+foreign key (id_informe) references informe(id_informe)
+);
+
+#produccion2
+create table if not exists tipodesperdicio(
+id_tipo_desperdicio int auto_increment not null,
+nombre varchar(500) not null,
+primary key(id_tipo_desperdicio)
+);
+
+
+/*
 create table if not exists tipo_personal(
 id_tipo_personal int not null auto_increment,
 nombre varchar(500) not null,
@@ -137,7 +243,7 @@ orden_codigo varchar(500) not null,
 primary key (id_informe),
 foreign key (orden_codigo) references orden(orden_codigo)
 );
-*/
+
 
 create table if not exists estado_peso(
 id_estado_peso int not null auto_increment,
@@ -175,6 +281,7 @@ primary key (id_parada),
 foreign key (id_motivo) references motivo(id_motivo),
 foreign key (id_personal) references personal(id_personal)
 );
+*/
 
 # CONFIGURACION DE LINEAS DE PRODUCCION
 insert into linea values (1,'PLASTICO');
@@ -263,7 +370,7 @@ AND pro.id_proceso = o.id_proceso AND li.id_linea = pro.id_linea AND li.id_linea
 AND tm.id_tipo_material = o.id_tipo_material;
 
 delete from orden where orden_codigo = 99999999999999999; 
-select * from orden;
+select * from parada;
 SET SQL_SAFE_UPDATES = 0;
 alter user 'root'@'localhost' identified with mysql_native_password by 'SYSsys1223+';
 update orden set id_estado_orden = 2 where orden_codigo = 99999999999999999;
@@ -288,14 +395,7 @@ for each row begin
 end
 |
 
-delimiter |
-create trigger UpdateRegistro after update on registro
-for each row begin
-    if new.id_estado_registro = 2 then
-		update registro set fecha_hora_fin = now() where id_registro = new.id_registro;
-    end if;
-end
-|
+
 
 
 delimiter ||
