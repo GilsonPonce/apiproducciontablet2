@@ -288,60 +288,46 @@ insert into linea values (1,'PLASTICO');
 insert into linea values (2,'METAL');
 
 # CONFIGURACION DE PROCESOS
-insert into proceso values (1,'LAVADO',1);
-insert into proceso values (2,'PELLETIZADO',1);
+insert into proceso values (1,'PELLETIZADO',1);
+insert into proceso values (2,'LAVADO',1);
 insert into proceso values (3,'AGLOMERADO',1);
 insert into proceso values (4,'CLASIFICACION',1);
 insert into proceso values (5,'COMPACTADO',2);
 
-# CONFIGURACION DE ESTADO DE REGISTRO
-insert into estado_registro values (null,'ACTIVO');
-insert into estado_registro values (null,'FINALIZADO');
-
-# CONFIGURACION DE ESTADO DE ORDEN
-insert into estado_orden values (null,'ACTIVO');
-insert into estado_orden values (null,'FINALIZADO');
-
-# CONFIGURACION DE ESTADO DE PESO
-insert into estado_peso values (null,'APROBADO');
-insert into estado_peso values (null,'POR REVISAR');
-
-# CONFIGURACION DE TURNOS
-insert into turno values (null,'DIURNO');
-insert into turno values (null,'NOCTURNO');
-
 # CONFIGURACION DE COLORES
-insert into color values (null,'AZUL');
-insert into color values (null,'ROJO');
-insert into color values (null,'VERDE');
-insert into color values (null,'AMARILLO');
-insert into color values (null,'NATURAL');
-insert into color values (null,'BLANCO');
+insert into color values (1,'AZUL');
+insert into color values (2,'ROJO');
+insert into color values (3,'VERDE');
+insert into color values (4,'AMARILLO');
+insert into color values (5,'NATURAL');
+insert into color values (6,'BLANCO');
 
 # CONFIGURACION DE MATERIAL
-insert into material values (null,'FILM');
-insert into material values (null,'SOPLADO');
-insert into material values (null,'HOGAR');
-insert into material values (null,'PACAS');
-insert into material values (null,'SEPARADORES');
-insert into material values (null,'PP TERMOFORMADO');
-insert into material values (null,'PP SOPLADO');
+insert into material values (1,'FILM');
+insert into material values (2,'HOGAR');
+insert into material values (3,'PP TERMOFORMADO');
+insert into material values (4,'PP SOPLADO');
+insert into material values (5,'SOPLADO');
+insert into material values (6,'PACAS');
+insert into material values (7,'SEPARADORES');
 
 # CONFIGURACION DE TIPO MATERIAL
-insert into tipo_material values (null,'ALTA');
-insert into tipo_material values (null,'BAJA');
-insert into tipo_material values (null,'CHICLE');
+insert into tipo_material values (1,'ALTA');
+insert into tipo_material values (2,'BAJA');
+insert into tipo_material values (3,'CHICLE');
+insert into tipo_material values (4,'PEAD');
+insert into tipo_material values (5,'PP');
+insert into tipo_material values (6,'PP TERMOFORMADO');
+insert into tipo_material values (7,'PP SOPLADO');
 insert into tipo_material values (null,'FILM');
 insert into tipo_material values (null,'SOPLADO');
-insert into tipo_material values (null,'PP');
-insert into tipo_material values (null,'PEAD');
 insert into tipo_material values (null,'SILLA');
 insert into tipo_material values (null,'PACAS');
 insert into tipo_material values (null,'SEPARADORES');
 insert into tipo_material values (null,'PLANCHAS');
 insert into tipo_material values (null,'SUNCHOS');
 insert into tipo_material values (null,'CANECA');
-insert into tipo_material values (null,'PP SOPLADO');
+
 
 # CONFIGURACION DE PROPIEDAD
 insert into propiedad values (null,'SECO');
@@ -358,6 +344,16 @@ insert into propiedad values (null,'PP TERMOFORMADO');
 insert into propiedad values (null,'PP SOPLADO');
 insert into propiedad values (null,'SUNCHOS');
 insert into propiedad values (null,'SOPLADO');
+
+# INSERT EN CONFIGURACIONES
+insert into configuracion values (null,3500,350,0.00219114285714286,1,1,4,7);
+insert into configuracion values (null,4000,400,0.00191725,1,1,1,2);
+insert into configuracion values (null,4000,400,0.00191725,1,1,1,1);
+insert into configuracion values (null,4000,400,0.00191725,1,1,1,3);
+insert into configuracion values (null,7000,700,0.00109557142857143,1,1,2,5);
+insert into configuracion values (null,4000,400,0.00191725,1,1,3,6);
+insert into configuracion values (null,4000,400,0.00191725,1,1,4,7);
+
 
 
 SELECT o.orden_codigo AS codigo,inf.fecha_hora_inicio,inf.fecha_hora_inicio,o.hora_peso AS horapeso, 

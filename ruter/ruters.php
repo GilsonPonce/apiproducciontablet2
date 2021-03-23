@@ -1,4 +1,5 @@
 <?php
+header("Content-type: application/json; charset=utf-8");
 
 $arrayRuters = explode("/", $_SERVER['REQUEST_URI']);
 // json_encode(array_filter($arrayRuters));
@@ -145,7 +146,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id" => $_POST['id'],
-                        "fecha" => $_POST['fecha'],
                         "turno" => $_POST['turno'],
                         "saldo_anterior" => $_POST['saldo_anterior'],
                         "observacion" => $_POST['observacion'],

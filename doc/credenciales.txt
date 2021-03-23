@@ -1,2 +1,7 @@
 "candado": "a2aa07aafartwetsdAD52356FEDGeF8zMI9XAKFAcKToRXPTqTcHIS5UoEde",
 "llave": "o2ao07oafartwetsdAD52356FEDGeq9Fx61EGrfZ9.roILUfsm2aZF8FCtpO"
+
+Novared servidor
+
+ "candado": "a2aa07aafartwetsdAD52356FEDGeF8zMI9XAKFAcKToRXPTqTcHIS5UoEde",
+        "llave": "o2ao07oafartwetsdAD52356FEDGeq9Fx61EGrfZ9.roILUfsm2aZF8FCtpO"

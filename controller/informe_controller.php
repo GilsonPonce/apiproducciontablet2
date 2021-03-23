@@ -86,7 +86,7 @@ class ControladorInforme
 
         $datosenv = array(
             "id" => $datos['id'],
-            "fecha" => $datos['fecha'],
+            "fecha" => date("Y-m-d H:i:s"),
             "turno" => $datos['turno'],
             "saldo_anterior" => $datos['saldo_anterior'],
             "observacion" => $datos['observacion'],
