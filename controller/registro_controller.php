@@ -24,7 +24,7 @@ class ControladorRegistro
                         $json = array(
                             "status" => 200,
                             "total_registro" => 0,
-                            "detalle" => 'No hay registros'
+                            "detalle" => []
                         );
                         echo json_encode($json, true);
                     }
@@ -100,6 +100,7 @@ class ControladorRegistro
             }
         }
 
+        //cierra en la tarea anterior
         $registros = ModeloRegistro::index("registro");
         foreach($registros as $id => $valor){
             if($valor['id_personal'] == $datos['id_personal'] && $valor['activo'] > 0){
@@ -119,6 +120,7 @@ class ControladorRegistro
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
             $datos = array(
+                "id_registro" => $datos['id_registro'],
                 "id_personal" => $datos['id_personal'],
                 "fecha_hora_inicio" => $datos['fecha_hora_inicio'],
                 "fecha_hora_fin" => $datos['fecha_hora_fin'],

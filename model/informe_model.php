@@ -21,9 +21,10 @@ class ModeloInforme
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id,fecha,turno,saldo_anterior,observacion,completado,id_proceso,id_material,id_tipo_material) 
-        VALUES (:id,:fecha,:turno,:saldo_anterior,:observacion,:completado,:id_proceso,:id_material,:id_tipo_material)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_informe,id,fecha,turno,saldo_anterior,observacion,completado,id_proceso,id_material,id_tipo_material) 
+        VALUES (:id_informe,:id,:fecha,:turno,:saldo_anterior,:observacion,:completado,:id_proceso,:id_material,:id_tipo_material)");
 
+        $stmt->bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
         $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":turno", $datos["turno"], PDO::PARAM_STR);

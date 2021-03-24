@@ -85,6 +85,7 @@ class ControladorInforme
 
 
         $datosenv = array(
+            "id_informe" => $datos['id_informe'],
             "id" => $datos['id'],
             "fecha" => date("Y-m-d H:i:s"),
             "turno" => $datos['turno'],

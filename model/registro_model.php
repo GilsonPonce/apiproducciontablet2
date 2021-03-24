@@ -25,9 +25,10 @@ class ModeloRegistro
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(fecha_hora_inicio, fecha_hora_fin,activo, id_personal, id_informe) 
-        VALUES (:fecha_hora_inicio, :fecha_hora_fin,:activo, :id_personal, :id_informe)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_registro,fecha_hora_inicio, fecha_hora_fin,activo, id_personal, id_informe) 
+        VALUES (:id_registro,:fecha_hora_inicio, :fecha_hora_fin,:activo, :id_personal, :id_informe)");
 
+        $stmt -> bindParam(":id_registro", $datos["id_registro"], PDO::PARAM_INT);
         $stmt->bindParam(":fecha_hora_fin", $datos["fecha_hora_fin"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_hora_inicio", $datos["fecha_hora_inicio"], PDO::PARAM_STR);  
         $stmt->bindParam(":id_personal", $datos["id_personal"], PDO::PARAM_INT);

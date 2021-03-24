@@ -145,6 +145,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetoinforme->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_informe" => $_POST['id_informe'],
                         "id" => $_POST['id'],
                         "turno" => $_POST['turno'],
                         "saldo_anterior" => $_POST['saldo_anterior'],
@@ -175,6 +176,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetoregistro->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_registro" => $_POST['id_registro'],
                         "fecha_hora_inicio" => date("Y-m-d H:i:s"),
                         "fecha_hora_fin" => date("Y-m-d H:i:s"),
                         "id_personal" => $_POST['id_personal'],
@@ -250,6 +252,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetoscrap->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_scrap" => $_POST['id_scrap'],
                         "motivo" => $_POST['motivo'],
                         "sacos" => $_POST['sacos'],
                         "peso" => $_POST['peso'],
@@ -305,6 +308,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetomateriaprima->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_materia_prima"=>$_POST['id_materia_prima'],
                         "id_configuracion" => $_POST['id_configuracion'],
                         "id_color" => $_POST['id_color'],
                         "id_informe" => $_POST['id_informe'],
@@ -331,6 +335,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetoproductoterminado->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
+                        "id_producto_terminado"=>$_POST['id_producto_terminado'],
                         "id_informe" => $_POST['id_informe'],
                         "id_color" => $_POST['id_color'],
                         "tipo" => $_POST['tipo'],
