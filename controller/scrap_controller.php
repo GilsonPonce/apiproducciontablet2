@@ -104,7 +104,7 @@ class ControladorScrap
             return;
         }
         
-        if (isset($datos['motivo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["motivo"])) {
+        if (isset($datos['motivo']) && $datos['motivo'] != "" &&!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["motivo"])) {
             $json = array(
 
                 "status" => 404,
@@ -116,7 +116,7 @@ class ControladorScrap
             return;
         }
 
-        if (isset($datos['sacos']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["sacos"])) {
+        if (isset($datos['sacos']) && $datos['sacos'] != "" && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["sacos"])) {
             $json = array(
 
                 "status" => 404,

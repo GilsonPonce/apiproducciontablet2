@@ -300,9 +300,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[1] == "materia_prima") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/tipo_personal
-                =======================================================*/
                 $Objetomateriaprima = new ControladorMateriaPrima();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetomateriaprima->index();

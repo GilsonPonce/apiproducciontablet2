@@ -6,14 +6,28 @@ class ModeloMateriaPrima
 {
     static public function index($tabla)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
+        $sql = "SELECT mp.id_materia_prima, mp.id_configuracion, mp.id_color, mp.id_informe, mp.peso,
+        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, tm.id_tipo_material,
+        tm.nombre as tipo_material,m.id_material,m.nombre as material, c.id_color, c.nombre as color 
+        FROM color c, $tabla mp, configuracion cof, linea li, proceso pro, tipo_material tm, material m
+        WHERE c.id_color = mp.id_color and cof.id_configuracion = mp.id_configuracion and li.id_linea = pro.id_linea
+        and pro.id_proceso = cof.id_proceso and tm.id_tipo_material = cof.id_tipo_material and m.id_material = cof.id_material";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_materia_prima=:id_materia_prima");
+        $sql = "SELECT mp.id_materia_prima, mp.id_configuracion, mp.id_color, mp.id_informe, mp.peso,
+        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, tm.id_tipo_material,
+        tm.nombre as tipo_material,m.id_material,m.nombre as material, c.id_color, c.nombre as color 
+        FROM color c, $tabla mp, configuracion cof, linea li, proceso pro, tipo_material tm, material m
+        WHERE c.id_color = mp.id_color and cof.id_configuracion = mp.id_configuracion and li.id_linea = pro.id_linea
+        and pro.id_proceso = cof.id_proceso and tm.id_tipo_material = cof.id_tipo_material and m.id_material = cof.id_material
+        and mp.id_materia_prima = :id_materia_prima";
+    
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_materia_prima", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
