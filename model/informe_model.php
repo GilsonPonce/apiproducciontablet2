@@ -49,7 +49,7 @@ class ModeloInforme
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET id=:id ,fecha=:fecha, turno=:turno, saldo_anterior=:saldo_anterior, observacion=:observacion, completado=:completado, id_proceso=:id_proceso, id_material=:id_material, id_tipo_material = id_tipo_material WHERE id_informe=:id_informe");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET id=:id ,fecha=:fecha, turno=:turno, saldo_anterior=:saldo_anterior, observacion=:observacion, completado=:completado, id_proceso=:id_proceso, id_material=:id_material, id_tipo_material = :id_tipo_material WHERE id_informe=:id_informe");
 
         $stmt->bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);

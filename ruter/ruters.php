@@ -2,13 +2,13 @@
 header("Content-type: application/json; charset=utf-8");
 
 $arrayRuters = explode("/", $_SERVER['REQUEST_URI']);
-// json_encode(array_filter($arrayRuters));
+json_encode(array_filter($arrayRuters));
 
 if(isset($_GET["page"]) && is_numeric($_GET["page"])){
 
 
 }else{
-    if (count(array_filter($arrayRuters)) == 0) {
+    if (count(array_filter($arrayRuters)) == 1) {
         /*=================================================
             Cuando no se hace ninguna peticion a la API
         ===================================================*/
@@ -17,8 +17,8 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
         );
         echo json_encode($json, true);
     } else {
-        if (count(array_filter($arrayRuters)) == 1) {
-            if (array_filter($arrayRuters)[1] == "linea") {
+        if (count(array_filter($arrayRuters)) == 2) {
+            if (array_filter($arrayRuters)[2] == "linea") {
                 /*=====================================================
             Cuando se hace peticiones dominio/lineas
             =======================================================*/
@@ -41,7 +41,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "proceso") {
+            } else if (array_filter($arrayRuters)[2] == "proceso") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/proceso
                 =======================================================*/
@@ -65,7 +65,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "color") {
+            }else if (array_filter($arrayRuters)[2] == "color") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/color
                 =======================================================*/
@@ -88,7 +88,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "tipo_material") {
+            } else if (array_filter($arrayRuters)[2] == "tipo_material") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/tipo_material
                 =======================================================*/
@@ -112,7 +112,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "material") {
+            } else if (array_filter($arrayRuters)[2] == "material") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/material
                 =======================================================*/
@@ -136,7 +136,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "informe") {
+            } else if (array_filter($arrayRuters)[2] == "informe") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/informe
                 =======================================================*/
@@ -167,7 +167,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "registro") {
+            }else if (array_filter($arrayRuters)[2] == "registro") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/registro
                 =======================================================*/
@@ -194,7 +194,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "personal") {
+            } else if (array_filter($arrayRuters)[2] == "personal") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/personal
                 =======================================================*/
@@ -220,7 +220,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "tipo_desperdicio") {
+            } else if (array_filter($arrayRuters)[2] == "tipo_desperdicio") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/motivo
                 =======================================================*/
@@ -243,7 +243,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "scrap") {
+            }else if (array_filter($arrayRuters)[2] == "scrap") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/motivo
                 =======================================================*/
@@ -270,7 +270,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "configuracion") {
+            }else if (array_filter($arrayRuters)[2] == "configuracion") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/motivo
                 =======================================================*/
@@ -299,7 +299,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "materia_prima") {
+            } else if (array_filter($arrayRuters)[2] == "materia_prima") {
                 $Objetomateriaprima = new ControladorMateriaPrima();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetomateriaprima->index();
@@ -323,7 +323,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "producto_terminado") {
+            } else if (array_filter($arrayRuters)[2] == "producto_terminado") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/area_trabajo
                 =======================================================*/
@@ -350,7 +350,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[1] == "usuario") {
+            } else if (array_filter($arrayRuters)[2] == "usuario") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/usuario
                 =======================================================*/
@@ -388,20 +388,20 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                 return;
             }
-        } else if (count(array_filter($arrayRuters)) == 2) {
+        } else if (count(array_filter($arrayRuters)) == 3) {
             //array_filter($arrayRutas)[2] es la id
-            if (array_filter($arrayRuters)[1] == "linea" && is_numeric(array_filter($arrayRuters)[2])) {
+            if (array_filter($arrayRuters)[2] == "linea" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
                     $editarlinea = new ControladorLinea();
-                    $editarlinea -> update(array_filter($arrayRuters)[2],$datos);
+                    $editarlinea -> update(array_filter($arrayRuters)[3],$datos);
                 }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $linea = new ControladorLinea();
-                    $linea -> show(array_filter($arrayRuters)[2]);
+                    $linea -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarlinea = new ControladorLinea();
-                    $borrarlinea -> delete(array_filter($arrayRuters)[2]);
+                    $borrarlinea -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
@@ -413,7 +413,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "proceso" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "proceso" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -436,7 +436,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "configuracion" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "configuracion" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -459,7 +459,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "color" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "color" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -482,7 +482,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "tipo_material" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "tipo_material" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -505,7 +505,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "material" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "material" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -528,7 +528,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "informe" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "informe" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -551,7 +551,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "registro" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "registro" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -574,7 +574,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "personal" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "personal" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -597,7 +597,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "tipo_desperdicio" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "tipo_desperdicio" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
@@ -620,18 +620,18 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "scrap" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "scrap" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
                     $editarscrap = new ControladorScrap();
-                    $editarscrap -> update(array_filter($arrayRuters)[2],$datos);
+                    $editarscrap -> update(array_filter($arrayRuters)[3],$datos);
                 }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $scrap = new ControladorScrap();
-                    $scrap -> show(array_filter($arrayRuters)[2]);
+                    $scrap -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarscrap = new ControladorScrap();
-                    $borrarscrap -> delete(array_filter($arrayRuters)[2]);
+                    $borrarscrap -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
@@ -666,18 +666,18 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "producto_terminado" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "producto_terminado" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
                     $editarproductoterminado = new ControladorProductoTerminado();
-                    $editarproductoterminado -> update(array_filter($arrayRuters)[2],$datos);
+                    $editarproductoterminado -> update(array_filter($arrayRuters)[3],$datos);
                 }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $productoterminado = new ControladorProductoTerminado();
-                    $productoterminado -> show(array_filter($arrayRuters)[2]);
+                    $productoterminado -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarproductoterminado = new ControladorProductoTerminado();
-                    $borrarproductoterminado -> delete(array_filter($arrayRuters)[2]);
+                    $borrarproductoterminado -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
@@ -689,18 +689,18 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[1] == "usuario" && is_numeric(array_filter($arrayRuters)[2])){
+            }else if (array_filter($arrayRuters)[2] == "usuario" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
                     $editarusuario = new ControladorUsuario();
-                    $editarusuario -> update(array_filter($arrayRuters)[2],$datos);
+                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
                 }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorUsuario();
-                    $usuario -> show(array_filter($arrayRuters)[2]);
+                    $usuario -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorUsuario();
-                    $borrarusuario -> delete(array_filter($arrayRuters)[2]);
+                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
