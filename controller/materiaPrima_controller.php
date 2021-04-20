@@ -117,20 +117,8 @@ class ControladorMateriaPrima
             return;
         }
 
-        if (isset($datos['id_materia_prima']) &&  !is_numeric($datos['id_materia_prima'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error en id materia prima"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
 
         $datos = array(
-            "id_materia_prima" => $datos['id_materia_prima'],
             "id_configuracion" => $datos['id_configuracion'],
             "id_color" => $datos['id_color'],
             "id_informe" => $datos['id_informe'],

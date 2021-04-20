@@ -67,17 +67,6 @@ class ControladorProductoTerminado
 
     public function create($datos)
     {
-        if (isset($datos['id_producto_terminado']) &&!is_numeric($datos['id_producto_terminado'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error en producto terminado"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
 
         if (isset($datos['id_informe']) &&!is_numeric($datos['id_informe'])) {
             $json = array(
@@ -129,7 +118,6 @@ class ControladorProductoTerminado
 
 
         $datos = array(
-            "id_producto_terminado" => $datos['id_producto_terminado'],
             "id_informe" => $datos['id_informe'],
             "id_color" => $datos['id_color'],
             "peso" => $datos['peso'],

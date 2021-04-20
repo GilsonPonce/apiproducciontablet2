@@ -31,9 +31,9 @@ class ModeloProductoTerminado
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_producto_terminado,id_informe,id_color,peso,tipo) VALUES (:id_producto_terminado,:id_informe,:id_color,:peso,:tipo)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_informe,id_color,peso,tipo) VALUES (:id_informe,:id_color,:peso,:tipo)");
 
-        $stmt -> bindParam(":id_producto_terminado", $datos["id_producto_terminado"], PDO::PARAM_INT);
+       
 		$stmt -> bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
         $stmt -> bindParam(":id_color", $datos["id_color"], PDO::PARAM_INT);
         $stmt -> bindParam(":peso", $datos["peso"], PDO::PARAM_STR);

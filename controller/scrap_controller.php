@@ -68,17 +68,7 @@ class ControladorScrap
     public function create($datos)
     {
 
-        if (isset($datos['id_scrap']) &&!is_numeric($datos['id_scrap'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error en scrap"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
+       
 
         if (isset($datos['peso']) &&!is_numeric($datos['peso'])) {
             $json = array(
@@ -116,7 +106,7 @@ class ControladorScrap
             return;
         }
 
-        if (isset($datos['sacos']) && $datos['sacos'] != "" && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["sacos"])) {
+        if (isset($datos['sacos']) && $datos['sacos'] != "" && !preg_match('/^[a-z0-9A-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["sacos"])) {
             $json = array(
 
                 "status" => 404,
@@ -130,7 +120,6 @@ class ControladorScrap
 
 
         $datos = array(
-            "id_scrap" => $datos['id_scrap'],
             "motivo" => $datos['motivo'],
             "sacos" => $datos['sacos'],
             "peso" => $datos['peso'],

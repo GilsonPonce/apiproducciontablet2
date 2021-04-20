@@ -283,6 +283,15 @@ foreign key (id_personal) references personal(id_personal)
 );
 */
 
+SET SQL_SAFE_UPDATES = 0;
+delete from informe;
+select * from registro;
+select * from personal;
+select * from materiaprima;
+select * from informe;
+update registro set id_informe = 81 where activo = 1;
+
+
 # CONFIGURACION DE LINEAS DE PRODUCCION
 insert into linea values (1,'PLASTICO');
 insert into linea values (2,'METAL');
@@ -354,7 +363,15 @@ insert into configuracion values (null,7000,700,0.00109557142857143,1,1,2,5);
 insert into configuracion values (null,4000,400,0.00191725,1,1,3,6);
 insert into configuracion values (null,4000,400,0.00191725,1,1,4,7);
 
+# INSERT EN PERSONAL
+insert into personal values (1223,"GUSTAVO","QUIJIJE","0956325667");
+insert into personal values (1224,"JOSE","MENDEZ","0956325655");
+insert into personal values (1225,"PEDRO","CHAVEZ","0956325587");
+insert into personal values (1226,"LUIS","ZAMBRANO","0956345879");
+insert into personal values (1227,"PABLO","MATA","0998745369");
 
+# INFORME
+select fecha_hora_inicio, fecha_hora_fin,timediff(fecha_hora_fin,fecha_hora_inicio) as total_horas, id_personal from registro; 
 
 SELECT o.orden_codigo AS codigo,inf.fecha_hora_inicio,inf.fecha_hora_inicio,o.hora_peso AS horapeso, 
 o.peso_producir AS peso,m.id_material,m.nombre AS material, tm.id_tipo_material, tm.nombre AS tipomaterial,

@@ -103,8 +103,8 @@ class ControladorRegistro
         //cierra en la tarea anterior
         $registros = ModeloRegistro::index("registro");
         foreach($registros as $id => $valor){
-            if($valor['id_personal'] == $datos['id_personal'] && $valor['activo'] > 0){
-                $datos = array(
+            if($valor['id_personal'] == $datos['id_personal'] && $valor['activo'] == 1){
+                $datosupdate = array(
                     "id_registro" => $valor['id_registro'],
                     "id_personal" => $valor['id_personal'],
                     "fecha_hora_inicio" => $valor['fecha_hora_inicio'],
@@ -112,7 +112,7 @@ class ControladorRegistro
                     "id_informe" => $valor['id_informe'],
                     "activo" => 0
                 );
-                ModeloRegistro::update("registro",$datos);
+                ModeloRegistro::update("registro",$datosupdate);
             }
         }
 
@@ -120,10 +120,9 @@ class ControladorRegistro
         //validar otras tareas en ejecucion del personal para finalizarla
         if ($validacion) {
             $datos = array(
-                "id_registro" => $datos['id_registro'],
                 "id_personal" => $datos['id_personal'],
-                "fecha_hora_inicio" => $datos['fecha_hora_inicio'],
-                "fecha_hora_fin" => $datos['fecha_hora_fin'],
+                "fecha_hora_inicio" => date("Y-m-d H:i:s"),
+                "fecha_hora_fin" => date("Y-m-d H:i:s"),
                 "id_informe" => $datos['id_informe'],
                 "activo" => 1
             );

@@ -21,9 +21,9 @@ class ModeloScrap
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_scrap,motivo,sacos,peso,id_informe) VALUES (:id_scrap,:motivo,:sacos,:peso,:id_informe)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(motivo,sacos,peso,id_informe) VALUES (:motivo,:sacos,:peso,:id_informe)");
 
-        $stmt -> bindParam(":id_scrap", $datos["id_scrap"], PDO::PARAM_INT);
+        
 		$stmt -> bindParam(":motivo", $datos["motivo"], PDO::PARAM_STR);
         $stmt -> bindParam(":sacos", $datos["sacos"], PDO::PARAM_STR);
         $stmt -> bindParam(":peso", $datos["peso"], PDO::PARAM_STR);
