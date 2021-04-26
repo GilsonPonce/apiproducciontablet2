@@ -21,6 +21,8 @@ require_once "controller/productoTerminado_controller.php";
 require_once "controller/scrap_controller.php";
 require_once "controller/tipoDesperdicio_controller.php";
 require_once "controller/usuario_controller.php";
+require_once "controller/login_controller.php";
+
 
 /* modelos */
 require_once "model/linea_model.php";

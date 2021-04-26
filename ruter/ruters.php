@@ -372,6 +372,29 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
+            }else if (array_filter($arrayRuters)[2] == "login") {
+                /*=====================================================
+                Cuando se hace peticiones nova-apiproduccion.com/usuario
+                =======================================================*/
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                    $datos = array(
+                        "correo" => $_POST["correo"],
+                        "pass" => $_POST["pass"]
+                    );
+                    $registro = new ControladorLogin();
+                    $registro->create($datos);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
             }else {
                 $json = array(
                     "status" => 404,
