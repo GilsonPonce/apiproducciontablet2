@@ -349,7 +349,8 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                 Cuando se hace peticiones nova-apiproduccion.com/usuario
                 =======================================================*/
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-
+                    $usuario = new ControladorUsuario();
+                    $usuario->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "nombre" => $_POST["nombre"],
