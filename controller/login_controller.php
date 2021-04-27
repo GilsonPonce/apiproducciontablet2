@@ -57,7 +57,7 @@ class ControladorLogin
                 );
 
                 $json = array( 
-                    "status" => 404,
+                    "status" => 200,
                     "detalle" => $envio
                 );
 
