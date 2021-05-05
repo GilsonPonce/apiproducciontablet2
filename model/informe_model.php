@@ -6,14 +6,24 @@ class ModeloInforme
 {
     static public function index($tabla)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
+        $sql = "SELECT inf.id_informe, inf.id, inf.fecha, inf.turno, inf.saldo_anterior, inf.observacion, inf.completado,
+        li.id_linea, li.nombre AS linea, inf.id_proceso, pro.nombre AS proceso, inf.id_material, ma.nombre AS material, 
+        inf.id_tipo_material, tpma.nombre AS tipo_material FROM $tabla inf, linea li, proceso pro, material ma, tipo_material tpma
+        WHERE li.id_linea = pro.id_linea AND pro.id_proceso = inf.id_proceso AND ma.id_material = inf.id_material
+        AND tpma.id_tipo_material = inf.id_tipo_material";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_informe=:id_informe");
+        $sql = "SELECT inf.id_informe, inf.id, inf.fecha, inf.turno, inf.saldo_anterior, inf.observacion, inf.completado,
+        li.id_linea, li.nombre AS linea, inf.id_proceso, pro.nombre AS proceso, inf.id_material, ma.nombre AS material, 
+        inf.id_tipo_material, tpma.nombre AS tipo_material FROM $tabla inf, linea li, proceso pro, material ma, tipo_material tpma
+        WHERE li.id_linea = pro.id_linea AND pro.id_proceso = inf.id_proceso AND ma.id_material = inf.id_material
+        AND tpma.id_tipo_material = inf.id_tipo_material AND inf.id_informe = :id_informe";
+        $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_informe", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
