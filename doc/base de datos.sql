@@ -285,9 +285,12 @@ foreign key (id_personal) references personal(id_personal)
 
 SET SQL_SAFE_UPDATES = 0;
 delete from informe;
+delete from registro;
+select * from usuario;
 select * from registro;
 select * from personal;
 select * from materiaprima;
+select * from scrap where id_informe = 82;
 select * from informe;
 update registro set id_informe = 81 where activo = 1;
 
@@ -388,6 +391,16 @@ SET SQL_SAFE_UPDATES = 0;
 alter user 'root'@'localhost' identified with mysql_native_password by 'SYSsys1223+';
 update orden set id_estado_orden = 2 where orden_codigo = 99999999999999999;
 
+drop trigger DeleteInforme;
+delimiter |
+create trigger DeleteInforme before delete on informe
+for each row begin
+	delete from scrap where id_informe = OLD.id_informe;
+    delete from productoterminado where id_informe = OLD.id_informe; 
+    delete from materiaprima where id_informe = OLD.id_informe; 
+    delete from registro where id_informe = OLD.id_informe; 
+end
+|
 
 drop trigger DeletePesos;
 delimiter |
