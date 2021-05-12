@@ -46,7 +46,7 @@ class ModeloScrap
         $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET motivo=:motivo,sacos=:sacos,peso=:peso,id_informe=:id_informe WHERE id_scrap=:id_scrap");
 
         $stmt -> bindParam(":id_scrap", $datos["id_scrap"], PDO::PARAM_INT);
-        $stmt -> bindParam(":motivo", $datos["motivo"], PDO::PARAM_INT);
+        $stmt -> bindParam(":motivo", $datos["motivo"], PDO::PARAM_STR);
         $stmt -> bindParam(":sacos", $datos["sacos"], PDO::PARAM_STR);
         $stmt -> bindParam(":peso", $datos["peso"], PDO::PARAM_INT);
         $stmt -> bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);

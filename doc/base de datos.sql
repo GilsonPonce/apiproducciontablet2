@@ -373,8 +373,16 @@ insert into personal values (1225,"PEDRO","CHAVEZ","0956325587");
 insert into personal values (1226,"LUIS","ZAMBRANO","0956345879");
 insert into personal values (1227,"PABLO","MATA","0998745369");
 
-# INFORME
-select fecha_hora_inicio, fecha_hora_fin,timediff(fecha_hora_fin,fecha_hora_inicio) as total_horas, id_personal from registro; 
+# REPORTE
+select sum(mt.peso) as total_materia_prima, info.saldo_anterior, sum(pt.peso) as total_producto_terminado, sum(sp.peso) as total_scrap 
+from informe info INNER JOIN materiaprima mt ON info.id_informe = mt.id_informe 
+INNER JOIN color co ON mt.id_color = co.id_color INNER JOIN productoterminado pt ON co.id_color = pt.id_color
+INNER JOIN scrap sp ON pt.id_informe = sp.id_informe group by info.id_informe; 
+select fecha_hora_inicio, fecha_hora_fin,timediff(fecha_hora_fin,fecha_hora_inicio) as total_horas, id_personal, id_informe from registro; 
+select info.id_informe, info.fecha, info.turno, li.nombre as linea, pro.nombre as proceso, ma.nombre as material, 
+tp.nombre as tipo_material, concat(per.nombre+" "+per.apellido) as personal 
+FROM informe info, li linea, proceso pro, material ma, tipo_material tp, personal per,
+
 
 SELECT o.orden_codigo AS codigo,inf.fecha_hora_inicio,inf.fecha_hora_inicio,o.hora_peso AS horapeso, 
 o.peso_producir AS peso,m.id_material,m.nombre AS material, tm.id_tipo_material, tm.nombre AS tipomaterial,
