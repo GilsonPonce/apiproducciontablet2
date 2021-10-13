@@ -372,6 +372,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
+            }else if(array_filter($arrayRuters)[2] == "reporte"){
+                    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                        $datos = array();
+                        parse_str(file_get_contents('php://input'),$datos);
+                        $reporte = new ControladorReporte();
+                        $reporte -> index($datos);
+                    } 
+
             }else if (array_filter($arrayRuters)[2] == "login") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/usuario
@@ -720,6 +728,22 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $borrarusuario = new ControladorUsuario();
                     $borrarusuario -> delete(array_filter($arrayRuters)[3]);
                 } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "metodo no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "reporte" && is_numeric(array_filter($arrayRuters)[3])){
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $reporte = new ControladorReporte();
+                    $reporte -> show(array_filter($arrayRuters)[3]);
+                }else {
+                    
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"

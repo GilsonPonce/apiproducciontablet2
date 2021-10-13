@@ -93,11 +93,11 @@ class ControladorConfiguracion
             return;
         }
 
-        if (isset($datos['id_material']) &&  !is_numeric($datos['id_material'])) {
+        if (isset($datos['material']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["material"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error material"
+                "detalle" => "Error"
             );
 
             echo json_encode($json, true);
@@ -105,11 +105,11 @@ class ControladorConfiguracion
             return;
         }
 
-        if (isset($datos['id_tipo_material']) &&  !is_numeric($datos['id_tipo_material'])) {
+        if (isset($datos['tipo_material']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["tipo_material"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error tipo material"
+                "detalle" => "Error"
             );
 
             echo json_encode($json, true);
@@ -158,8 +158,8 @@ class ControladorConfiguracion
 
             $validacion4 = $valueOrden['estado'] == $datos['estado'];
             $validacion5 = $valueOrden['id_proceso'] == $datos['id_proceso'];
-            $validacion6 = $valueOrden['id_material'] == $datos['id_material'];
-            $validacion7 = $valueOrden['id_tipo_material'] == $datos['id_tipo_material'];
+            $validacion6 = $valueOrden['material'] == $datos['material'];
+            $validacion7 = $valueOrden['tipo_material'] == $datos['tipo_material'];
 
             if ($validacion4 && $validacion5 && $validacion6 && $validacion7) {
                 $json = array(
@@ -180,8 +180,8 @@ class ControladorConfiguracion
             "tarifa_kilogramo_producidos" => $datos['tarifa_kilogramo_producidos'],
             "estado" => $datos['estado'],
             "id_proceso" => $datos['id_proceso'],
-            "id_material" => $datos['id_material'],
-            "id_tipo_material" => $datos['id_tipo_material']
+            "id_material" => $datos['material'],
+            "id_tipo_material" => $datos['tipo_material']
         );
 
         $usuario = ModeloUsuario::index("usuario");

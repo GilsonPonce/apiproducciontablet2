@@ -6,11 +6,11 @@ class ModeloProductoTerminado
 {
     static public function index($tabla)
     {
-        $sql = "SELECT pt.id_producto_terminado, pt.id_informe, pt.id_color, c.nombre as color, pt.peso, pt.tipo,
-        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, tm.id_tipo_material, tm.nombre as tipo_material,
-        m.id_material, m.nombre as material FROM color c, $tabla pt, informe i, linea li, proceso pro, tipo_material tm, material m
-        WHERE c.id_color = pt.id_color and i.id_informe = pt.id_informe and li.id_linea = pro.id_linea and pro.id_proceso = i.id_proceso and
-        tm.id_tipo_material = i.id_tipo_material and m.id_material = i.id_material";
+        $sql = "SELECT pt.id_producto_terminado, pt.id_informe, pt.color, pt.peso, pt.tipo,
+        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, cof.tipo_material,
+        cof.material FROM $tabla pt, linea li, proceso pro, configuracion cof
+        WHERE li.id_linea = pro.id_linea and pro.id_proceso = cof.id_proceso and
+        cof.id_configuracion = pt.id_configuracion";
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
@@ -18,11 +18,11 @@ class ModeloProductoTerminado
 
     static public function show($tabla,$id)
     {
-        $sql = "SELECT pt.id_producto_terminado, pt.id_informe, pt.id_color, c.nombre as color, pt.peso, pt.tipo,
-        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, tm.id_tipo_material, tm.nombre as tipo_material,
-        m.id_material, m.nombre as material FROM color c, $tabla pt, informe i, linea li, proceso pro, tipo_material tm, material m
-        WHERE c.id_color = pt.id_color and i.id_informe = pt.id_informe and li.id_linea = pro.id_linea and pro.id_proceso = i.id_proceso and
-        tm.id_tipo_material = i.id_tipo_material and m.id_material = i.id_material and pt.id_producto_terminado = :id_producto_terminado";
+        $sql = "SELECT pt.id_producto_terminado, pt.id_informe, pt.color, pt.peso, pt.tipo,
+        li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, cof.tipo_material,
+        cof.material FROM $tabla pt, linea li, proceso pro, configuracion cof
+        WHERE li.id_linea = pro.id_linea and pro.id_proceso = cof.id_proceso and
+        cof.id_configuracion = pt.id_configuracion and pt.id_producto_terminado = :id_producto_terminado";
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_producto_terminado", $id, PDO::PARAM_INT);
         $stmt->execute();

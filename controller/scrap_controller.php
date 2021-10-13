@@ -94,7 +94,7 @@ class ControladorScrap
             return;
         }
         
-        if (isset($datos['motivo']) && $datos['motivo'] != "" &&!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["motivo"])) {
+        if (isset($datos['motivo']) && $datos['motivo'] != "" &&!preg_match('/^[a-z0-9A-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["motivo"])) {
             $json = array(
 
                 "status" => 404,

@@ -2,7 +2,7 @@
 
 require_once "conexion.php";
 
-class ModeloPropiedad
+class ModeloMotivoParada
 {
     static public function index($tabla)
     {
@@ -13,18 +13,17 @@ class ModeloPropiedad
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_propiedad=:id_propiedad");
-        $stmt -> bindParam(":id_propiedad", $id, PDO::PARAM_INT);
+        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_motivo_parada=:id_motivo_parada");
+        $stmt -> bindParam(":id_motivo_parada", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_propiedad,nombre) VALUES (null,:nombre)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(nombre) VALUES (:nombre)");
 
         $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        //$stmt -> bindParam(":id_linea", $datos["id_linea"], PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 
@@ -40,11 +39,11 @@ class ModeloPropiedad
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_propiedad=:id_propiedad");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_motivo_parada=:id_motivo_parada");
 
+        $stmt -> bindParam(":id_motivo_parada", $datos["id_motivo_parada"], PDO::PARAM_INT);
         $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        //$stmt -> bindParam(":id_linea", $datos["id_linea"], PDO::PARAM_INT);
-        $stmt -> bindParam(":id_propiedad", $datos["id_propiedad"], PDO::PARAM_INT);
+
 
 		if($stmt -> execute()){
 
@@ -60,9 +59,9 @@ class ModeloPropiedad
 
     static public function delete($tabla, $id){
 
-		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_propiedad = :id_propiedad");
+		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_motivo_parada = :id_motivo_parada");
 
-		$stmt -> bindParam(":id_propiedad", $id, PDO::PARAM_INT);
+		$stmt -> bindParam(":id_motivo_parada", $id, PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 

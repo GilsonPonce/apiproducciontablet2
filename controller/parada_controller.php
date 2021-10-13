@@ -1,5 +1,5 @@
 <?php
-class ControladorMateriaPrima
+class ControladorParada
 {
 
 
@@ -12,13 +12,22 @@ class ControladorMateriaPrima
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $materiaprima = ModeloMateriaPrima::index("materiaprima");
-                    $json = array(
-                        "status" => 200,
-                        "total_registro" => count($materiaprima),
-                        "detalle" => $materiaprima
-                    );
-                    echo json_encode($json, true);
+                    $indexall = ModeloParada::index("parada");
+                    if (!empty($indexall)) {
+                        $json = array(
+                            "status" => 200,
+                            "total_registro" => count($indexall),
+                            "detalle" => $indexall
+                        );
+                        echo json_encode($json, true);
+                    } else {
+                        $json = array(
+                            "status" => 200,
+                            "total_registro" => 0,
+                            "detalle" => []
+                        );
+                        echo json_encode($json, true);
+                    }
                 }
             }
         }
@@ -33,11 +42,11 @@ class ControladorMateriaPrima
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $materiaprima = ModeloMateriaPrima::show("materiaprima", $id);
+                    $showonli = ModeloParada::show("parada", $id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($materiaprima),
-                        "detalle" => $materiaprima
+                        "total_registro" => count($showonli),
+                        "detalle" => $showonli
                     );
                     echo json_encode($json, true);
                 } else {
@@ -68,12 +77,12 @@ class ControladorMateriaPrima
     public function create($datos)
     {
 
-
-        if (isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion'])) {
+        //valido el unico campo que ingresa el usuario
+        if (isset($datos['id_informe']) && !is_numeric($datos['id_informe'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error configuracion"
+                "detalle" => "Error registro informe"
             );
 
             echo json_encode($json, true);
@@ -81,64 +90,50 @@ class ControladorMateriaPrima
             return;
         }
 
-        if (isset($datos['color']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["color"])) {
+        if (isset($datos['motivo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["motivo"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error"
+                "detalle" => "Error en motivo"
             );
 
             echo json_encode($json, true);
 
             return;
         }
-
-        if (isset($datos['id_informe']) &&  !is_numeric($datos['id_informe'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error informe"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
-        if (isset($datos['peso']) &&  !is_numeric($datos['peso'])) {
-            $json = array(
-
-                "status" => 404,
-                "detalle" => "Error peso"
-            );
-
-            echo json_encode($json, true);
-
-            return;
-        }
-
 
         $datos = array(
-            "id_configuracion" => $datos['id_configuracion'],
-            "color" => $datos['color'],
+            "fecha_hora_inicio" => date("Y-m-d H:i:s"),
+            "fecha_hora_fin" => date("Y-m-d H:i:s"),
             "id_informe" => $datos['id_informe'],
-            "peso" => $datos['peso']
+            "motivo" => $datos['motivo']
         );
-
+    
         $usuario = ModeloUsuario::index("usuario");
+  
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
             foreach ($usuario as $key => $valueUsuario) {
                 if (
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloMateriaPrima::create("materiaprima", $datos);
+                    $create = ModeloParada::create("parada", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de materia prima"
+                            "detalle" => "Registro exitoso de parada"
+                        );
+
+                        echo json_encode($json, true);
+
+                        return;
+                    } else {
+                        $json = array(
+
+                            "status" => 404,
+                            "detalle" => "Error en registro"
                         );
 
                         echo json_encode($json, true);
@@ -182,23 +177,19 @@ class ControladorMateriaPrima
                         }
                     }
 
-                    /*=============================================
-					Validar id creador
-					=============================================*/
 
+                    $registro1 = ModeloParada::show("parada", $id);
 
-                    $configuracion = ModeloMateriaPrima::show("materiaprima", $id);
+                    if (!empty($registro1)) {
 
-                    if (!empty($configuracion)) {
-
-                        $update = ModeloMateriaPrima::update("materiaprima", $datos);
+                        $update = ModeloParada::update("parada", $datos);
 
                         if ($update == 'ok') {
 
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitosa materia prima"
+                                "detalle" => "Actualizacion exitoso parada"
                             );
 
                             echo json_encode($json, true);
@@ -262,16 +253,16 @@ class ControladorMateriaPrima
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $configuracion = ModeloMateriaPrima::show('materiaprima', $id);
+                    $area = ModeloParada::show('parada', $id);
 
-                    if (!empty($configuracion)) {
+                    if (!empty($area)) {
 
-                        $delete = ModeloMateriaPrima::delete("materiaprima", $id);
+                        $delete = ModeloParada::delete("parada", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de materia primas"
+                                "detalle" => "Eliminacion exitosa de parada"
                             );
 
                             echo json_encode($json, true);

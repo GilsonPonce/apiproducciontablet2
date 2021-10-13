@@ -1,5 +1,5 @@
 <?php
-class ControladorPropiedad
+class ControladorMotivoParada
 {
 
 
@@ -12,11 +12,11 @@ class ControladorPropiedad
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $propiedades = ModeloPropiedad::index("propiedad");
+                    $indexall = ModeloMotivoParada::index("motivoparada");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($propiedades),
-                        "detalle" => $propiedades
+                        "total_registro" => count($indexall),
+                        "detalle" => $indexall
                     );
                     echo json_encode($json, true);
                 }
@@ -33,11 +33,11 @@ class ControladorPropiedad
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $propiedad = ModeloPropiedad::show("propiedad",$id);
+                    $showonli = ModeloMotivoParada::show("motivoparada",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($propiedad),
-                        "detalle" => $propiedad
+                        "total_registro" => count($showonli),
+                        "detalle" => $showonli
                     );
                     echo json_encode($json, true);
                 }else{
@@ -72,13 +72,14 @@ class ControladorPropiedad
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error en el nombre"
+                "detalle" => "Error en nombre"
             );
 
             echo json_encode($json, true);
 
             return;
         }
+
 
         $datos = array(
             "nombre" => $datos['nombre']
@@ -92,13 +93,13 @@ class ControladorPropiedad
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloPropiedad::create("propiedad", $datos);
+                    $create = ModeloMotivoParada::create("motivoparada", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de propiedad"
+                            "detalle" => "Registro exitoso de motivo parada"
                         );
 
                         echo json_encode($json, true);
@@ -147,18 +148,18 @@ class ControladorPropiedad
 					=============================================*/
 
                     
-                    $propiedad = ModeloPropiedad::show("propiedad", $id);
+                    $tipodesperdicio = ModeloMotivoParada::show("motivoparada", $id);
 
-                    if (!empty($propiedad)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $update = ModeloPropiedad::update("propiedad",$datos);
+                        $update = ModeloMotivoParada::update("motivoparada",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Actualizacion exitoso de material"
+                                "detalle" => "Registro exitoso de motivo parada"
                             );
     
                             echo json_encode($json, true);
@@ -222,16 +223,16 @@ class ControladorPropiedad
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $area = ModeloPropiedad::show('propiedad',$id);
+                    $tipodesperdicio = ModeloMotivoParada::show('motivoparada', $id);
 
-                    if (!empty($area)) {
+                    if (!empty($tipodesperdicio)) {
 
-                        $delete = ModeloPropiedad::delete("propiedad",$id);
+                        $delete = ModeloMotivoParada::delete("motivoparada", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de propiedad"
+                                "detalle" => "Eliminacion exitosa de motivo parada"
                             );
 
                             echo json_encode($json, true);

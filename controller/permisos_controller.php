@@ -1,5 +1,5 @@
 <?php
-class ControladorTipoDesperdicio
+class ControladorPermisos
 {
 
 
@@ -12,11 +12,11 @@ class ControladorTipoDesperdicio
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $tipodesperdicio = ModeloTipoDesperdicio::index("tipodesperdicio");
+                    $permisos = ModeloPermisos::index("permisos");
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($tipodesperdicio),
-                        "detalle" => $tipodesperdicio
+                        "total_registro" => count($permisos),
+                        "detalle" => $permisos
                     );
                     echo json_encode($json, true);
                 }
@@ -33,11 +33,11 @@ class ControladorTipoDesperdicio
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $tipodesperdicio = ModeloTipoDesperdicio::show("tipodesperdicio",$id);
+                    $permisos = ModeloProceso::show("permisos",$id);
                     $json = array(
                         "status" => 200,
-                        "total_registro" => count($tipodesperdicio),
-                        "detalle" => $tipodesperdicio
+                        "total_registro" => count($permisos),
+                        "detalle" => $permisos
                     );
                     echo json_encode($json, true);
                 }else{
@@ -68,11 +68,11 @@ class ControladorTipoDesperdicio
     public function create($datos)
     {
 
-        if (isset($datos['nombre']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
+        if (isset($datos['nombre_pestaña']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["nombre_pestaña"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error en nombre"
+                "detalle" => "Error"
             );
 
             echo json_encode($json, true);
@@ -80,11 +80,22 @@ class ControladorTipoDesperdicio
             return;
         }
 
+        if (isset($datos['id_usuario']) && !is_numeric($datos['id_usuario'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
 
         $datos = array(
-            "nombre" => $datos['nombre']
+            "nombre_pestaña" => $datos['nombre_pestaña'],
+            "id_usuario" => $datos['id_usuario']//recibo el numero de id
         );
-
 
         $usuario = ModeloUsuario::index("usuario");
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
@@ -93,13 +104,13 @@ class ControladorTipoDesperdicio
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $create = ModeloTipoDesperdicio::create("tipodesperdicio", $datos);
+                    $create = ModeloPermisos::create("permisos", $datos);
 
                     if ($create == 'ok') {
                         $json = array(
 
                             "status" => 200,
-                            "detalle" => "Registro exitoso de tipo desperdicio"
+                            "detalle" => "Registro exitoso de permisos"
                         );
 
                         echo json_encode($json, true);
@@ -148,18 +159,18 @@ class ControladorTipoDesperdicio
 					=============================================*/
 
                     
-                    $tipodesperdicio = ModeloTipoDesperdicio::show("tipodesperdicio", $id);
+                    $proceso = ModeloPermisos::show("permisos", $id);
 
-                    if (!empty($tipodesperdicio)) {
+                    if (!empty($proceso)) {
 
-                        $update = ModeloTipoDesperdicio::update("tipodesperdicio",$datos);
+                        $update = ModeloPermisos::update("permisos",$datos);
 
                         if($update == 'ok'){
                             
                             $json = array(
 
                                 "status" => 200,
-                                "detalle" => "Registro exitoso de tipo desperdicio"
+                                "detalle" => "Actualizacion exitoso de permisos"
                             );
     
                             echo json_encode($json, true);
@@ -223,16 +234,16 @@ class ControladorTipoDesperdicio
                     "Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) ==
                     "Basic " . base64_encode($valueUsuario["padlock"] . ":" . $valueUsuario["keylock"])
                 ) {
-                    $tipodesperdicio = ModeloTipoDesperdicio::show('tipodesperdicio', $id);
+                    $area = ModeloPermisos::show('permisos', $id);
 
-                    if (!empty($tipodesperdicio)) {
+                    if (!empty($area)) {
 
-                        $delete = ModeloTipoDesperdicio::delete("tipodesperdicio", $id);
+                        $delete = ModeloPermisos::delete("permisos", $id);
 
                         if ($delete == 'ok') {
                             $json = array(
                                 "status" => 200,
-                                "detalle" => "Eliminacion exitosa de tipo desperdicio"
+                                "detalle" => "Eliminacion exitosa del permiso"
                             );
 
                             echo json_encode($json, true);

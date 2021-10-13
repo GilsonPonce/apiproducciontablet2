@@ -92,9 +92,7 @@ class ControladorInforme
             "saldo_anterior" => $datos['saldo_anterior'],
             "observacion" => $datos['observacion'],
             "completado" => $datos['completado'],
-            "id_proceso" => $datos['id_proceso'],
-            "id_material" => $datos['id_material'],
-            "id_tipo_material" => $datos['id_tipo_material']
+            "id_proceso" => $datos['id_proceso']
         );
 
         $usuario = ModeloUsuario::index("usuario");

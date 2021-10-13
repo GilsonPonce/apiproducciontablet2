@@ -90,6 +90,18 @@ class ControladorRegistro
             return;
         }
 
+        if (isset($datos['motivo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["motivo"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en motivo"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
         //valida que el usuario exista
         $validacion = false;
         //print_r($validacion);
@@ -108,9 +120,10 @@ class ControladorRegistro
                     "id_registro" => $valor['id_registro'],
                     "id_personal" => $valor['id_personal'],
                     "fecha_hora_inicio" => $valor['fecha_hora_inicio'],
-                    "fecha_hora_fin" => date("Y-m-d H:i:s"),
+                    "fecha_hora_fin" => date("Y-m-d H:i:s"),//solo se actualiza la fecha final
                     "id_informe" => $valor['id_informe'],
-                    "activo" => 0
+                    "motivo" => $valor['motivo'],
+                    "activo" => 0 //solo se actualiza el estado
                 );
                 ModeloRegistro::update("registro",$datosupdate);
             }
@@ -124,6 +137,7 @@ class ControladorRegistro
                 "fecha_hora_inicio" => date("Y-m-d H:i:s"),
                 "fecha_hora_fin" => date("Y-m-d H:i:s"),
                 "id_informe" => $datos['id_informe'],
+                "motivo" => $datos['motivo'],
                 "activo" => 1
             );
             //print_r($datos);

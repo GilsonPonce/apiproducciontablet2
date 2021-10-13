@@ -2,7 +2,7 @@
 
 require_once "conexion.php";
 
-class ModeloTipoDesperdicio
+class ModeloTipoScrap
 {
     static public function index($tabla)
     {
@@ -13,8 +13,8 @@ class ModeloTipoDesperdicio
 
     static public function show($tabla,$id)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_tipo_desperdicio=:id_tipo_desperdicio");
-        $stmt -> bindParam(":id_tipo_desperdicio", $id, PDO::PARAM_INT);
+        $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_tipo_scrap=:id_tipo_scrap");
+        $stmt -> bindParam(":id_tipo_scrap", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
@@ -39,10 +39,10 @@ class ModeloTipoDesperdicio
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_tipo_desperdicio=:id_tipo_desperdicio");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET nombre=:nombre WHERE id_tipo_scrap=:id_tipo_scrap");
 
-        $stmt -> bindParam(":id_tipo_desperdicio", $datos["id_tipo_desperdicio"], PDO::PARAM_INT);
-        $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_INT);
+        $stmt -> bindParam(":id_tipo_scrap", $datos["id_tipo_scrap"], PDO::PARAM_INT);
+        $stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 
 
 		if($stmt -> execute()){
@@ -59,9 +59,9 @@ class ModeloTipoDesperdicio
 
     static public function delete($tabla, $id){
 
-		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_tipo_desperdicio = :id_tipo_desperdicio");
+		$stmt = Conexion::conectarProduccion()->prepare("DELETE FROM $tabla WHERE id_tipo_scrap = :id_tipo_scrap");
 
-		$stmt -> bindParam(":id_tipo_desperdicio", $id, PDO::PARAM_INT);
+		$stmt -> bindParam(":id_tipo_scrap", $id, PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 

@@ -80,11 +80,11 @@ class ControladorProductoTerminado
             return;
         }
 
-        if (isset($datos['id_color']) &&!is_numeric($datos['id_color'])) {
+        if (isset($datos['color']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["color"])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error en informe"
+                "detalle" => "Error en color"
             );
 
             echo json_encode($json, true);
@@ -97,6 +97,18 @@ class ControladorProductoTerminado
 
                 "status" => 404,
                 "detalle" => "Error en peso"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion'])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error en configuracion"
             );
 
             echo json_encode($json, true);
@@ -119,8 +131,9 @@ class ControladorProductoTerminado
 
         $datos = array(
             "id_informe" => $datos['id_informe'],
-            "id_color" => $datos['id_color'],
+            "color" => $datos['color'],
             "peso" => $datos['peso'],
+            "id_configuracion" => $datos['id_configuracion'],
             "tipo" => $datos['tipo']
         );
 
