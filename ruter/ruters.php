@@ -42,9 +42,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "proceso") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/proceso
-                =======================================================*/
+            
                 $Objetoproceso = new ControladorProceso();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoproceso->index();
@@ -66,9 +64,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             }else if (array_filter($arrayRuters)[2] == "color") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/color
-                =======================================================*/
                 $Objetocolor = new ControladorColor();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetocolor->index();
@@ -89,9 +84,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "tipo_material") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/tipo_material
-                =======================================================*/
                 $Objetotipomaterial = new ControladorTipoMaterial();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetotipomaterial->index();
@@ -113,9 +105,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "material") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/material
-                =======================================================*/
                 $Objetomaterial = new ControladorMaterial();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetomaterial->index();
@@ -137,9 +126,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "informe") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/informe
-                =======================================================*/
                 $Objetoinforme = new ControladorInforme();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoinforme->index();
@@ -151,9 +137,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                         "saldo_anterior" => $_POST['saldo_anterior'],
                         "observacion" => $_POST['observacion'],
                         "completado" => $_POST['completado'],
-                        "id_proceso" => $_POST['id_proceso'],
-                        "id_material" => $_POST['id_material'],
-                        "id_tipo_material" => $_POST['id_tipo_material']
+                        "id_proceso" => $_POST['id_proceso']
                     );
                     $Objetoinforme->create($datos);
                 } else {
@@ -168,16 +152,15 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             }else if (array_filter($arrayRuters)[2] == "registro") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/registro
-                =======================================================*/
+               
                 $Objetoregistro = new ControladorRegistro();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoregistro->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id_personal" => $_POST['id_personal'],
-                        "id_informe" => $_POST['id_informe']
+                        "id_informe" => $_POST['id_informe'],
+                        "motivo" => $_POST['motivo'],   
                     );
                     $Objetoregistro->create($datos);
                 } else {
@@ -192,9 +175,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "personal") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/personal
-                =======================================================*/
+               
                 $Objetopersonal = new ControladorPersonal();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetopersonal->index();
@@ -217,18 +198,15 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            } else if (array_filter($arrayRuters)[2] == "tipo_desperdicio") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/motivo
-                =======================================================*/
-                $Objetotipodesperdicio = new ControladorTipoDesperdicio();
+            } else if (array_filter($arrayRuters)[2] == "tipo_scrap") {
+                $Objetotiposcrap = new ControladorTipoScrap();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                    $Objetotipodesperdicio->index();
+                    $Objetotiposcrap->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "nombre" => $_POST['nombre']
                     );
-                    $Objetotipodesperdicio->create($datos);
+                    $Objetotiposcrap->create($datos);
                 } else {
                     $json = array(
                         "status" => 404,
@@ -241,9 +219,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             }else if (array_filter($arrayRuters)[2] == "scrap") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/motivo
-                =======================================================*/
                 $Objetoscrap = new ControladorScrap();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoscrap->index();
@@ -267,9 +242,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             }else if (array_filter($arrayRuters)[2] == "configuracion") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/motivo
-                =======================================================*/
                 $Objetomotivo = new ControladorConfiguracion();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetomotivo->index();
@@ -280,8 +252,8 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                         "tarifa_kilogramo_producidos" => $_POST['tarifa_kilogramo_producidos'],
                         "estado" => $_POST['estado'],
                         "id_proceso" => $_POST['id_proceso'],
-                        "id_material" => $_POST['id_material'],
-                        "id_tipo_material" => $_POST['id_tipo_material']
+                        "material" => $_POST['material'],
+                        "tipo_material" => $_POST['tipo_material']
                     );
                     $Objetomotivo->create($datos);
                 } else {
@@ -302,7 +274,7 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id_configuracion" => $_POST['id_configuracion'],
-                        "id_color" => $_POST['id_color'],
+                        "color" => $_POST['color'],
                         "id_informe" => $_POST['id_informe'],
                         "peso" => $_POST['peso'],
                     );
@@ -319,16 +291,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "producto_terminado") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/area_trabajo
-                =======================================================*/
                 $Objetoproductoterminado = new ControladorProductoTerminado();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoproductoterminado->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "id_informe" => $_POST['id_informe'],
-                        "id_color" => $_POST['id_color'],
+                        "color" => $_POST['color'],
+                        "id_configuracion" => $_POST['id_configuracion'],
                         "tipo" => $_POST['tipo'],
                         "peso" => $_POST['peso']
                     );
@@ -345,9 +315,6 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "usuario") {
-                /*=====================================================
-                Cuando se hace peticiones nova-apiproduccion.com/usuario
-                =======================================================*/
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorUsuario();
                     $usuario->index();
@@ -360,6 +327,71 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                         "pass" => $_POST["pass"]
                     );
                     $registro = new ControladorUsuario();
+                    $registro->create($datos);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "parada") {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $parada = new ControladorParada();
+                    $parada->index();
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                    $datos = array(
+                        "id_informe" => $_POST["id_informe"],
+                        "motivo" => $_POST["motivo"]
+                    );
+                    $registro = new ControladorParada();
+                    $registro->create($datos);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "motivo_parada") {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $motivoParada = new ControladorMotivoParada();
+                    $motivoParada->index();
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                    $datos = array(
+                        "nombre" => $_POST["nombre"]
+                    );
+                    $registro = new ControladorMotivoParada();
+                    $registro->create($datos);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "permisos") {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $permisos = new ControladorPermisos();
+                    $permisos->index();
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                    $datos = array(
+                        "nombre_pestaña" => $_POST["nombre_pestaña"],
+                        "id_usuario" => $_POST["id_usuario"]
+                    );
+                    $registro = new ControladorPermisos();
                     $registro->create($datos);
                 } else {
                     $json = array(
@@ -623,17 +655,17 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
     
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "tipo_desperdicio" && is_numeric(array_filter($arrayRuters)[3])){
+            }else if (array_filter($arrayRuters)[2] == "tipo_scrap" && is_numeric(array_filter($arrayRuters)[3])){
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
                     parse_str(file_get_contents('php://input'),$datos);
-                    $editartipodesperdicio = new ControladorTipoDesperdicio();
+                    $editartipodesperdicio = new ControladorTipoScrap();
                     $editartipodesperdicio -> update(array_filter($arrayRuters)[3],$datos);
                 }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                    $tipodesperdicio = new ControladorTipoDesperdicio();
+                    $tipodesperdicio = new ControladorTipoScrap();
                     $tipodesperdicio -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
-                    $borrartipodesperdicio = new ControladorTipoDesperdicio();
+                    $borrartipodesperdicio = new ControladorTipoScrap();
                     $borrartipodesperdicio -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
@@ -726,6 +758,75 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $usuario -> show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorUsuario();
+                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "metodo no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "permisos" && is_numeric(array_filter($arrayRuters)[3])){
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                    $datos = array();
+                    parse_str(file_get_contents('php://input'),$datos);
+                    $editarusuario = new ControladorPermisos();
+                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
+                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $usuario = new ControladorPermisos();
+                    $usuario -> show(array_filter($arrayRuters)[3]);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
+                    $borrarusuario = new ControladorPermisos();
+                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "metodo no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "parada" && is_numeric(array_filter($arrayRuters)[3])){
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                    $datos = array();
+                    parse_str(file_get_contents('php://input'),$datos);
+                    $editarusuario = new ControladorParada();
+                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
+                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $usuario = new ControladorParada();
+                    $usuario -> show(array_filter($arrayRuters)[3]);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
+                    $borrarusuario = new ControladorParada();
+                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                } else {
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "metodo no encontrado"
+    
+                    );
+    
+                    echo json_encode($json, true);
+    
+                    return;
+                }
+            }else if (array_filter($arrayRuters)[2] == "motivo_parada" && is_numeric(array_filter($arrayRuters)[3])){
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                    $datos = array();
+                    parse_str(file_get_contents('php://input'),$datos);
+                    $editarusuario = new ControladorMotivoParada();
+                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
+                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $usuario = new ControladorMotivoParada();
+                    $usuario -> show(array_filter($arrayRuters)[3]);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
+                    $borrarusuario = new ControladorMotivoParada();
                     $borrarusuario -> delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
