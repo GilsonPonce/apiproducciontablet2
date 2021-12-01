@@ -19,16 +19,6 @@ class ControladorColor
                         "detalle" => $colores
                     );
                     echo json_encode($json, true);
-                }else{
-                    $json = array(
-
-                        "status" => 500,
-                        "detalle" => "No Autorizado"
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
         }
@@ -50,16 +40,6 @@ class ControladorColor
                         "detalle" => $color
                     );
                     echo json_encode($json, true);
-                }else{
-                    $json = array(
-
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
         }else{
@@ -117,16 +97,6 @@ class ControladorColor
 
                         return;
                     }
-                }else{
-                    $json = array(
-
-                        "status" => 500,
-                        "detalle" => "No Autorizado"
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
         }

@@ -8,7 +8,7 @@ class ModeloScrap
     {
         $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function show($tabla,$id)
@@ -16,7 +16,7 @@ class ModeloScrap
         $stmt = Conexion::conectarProduccion()->prepare("SELECT * FROM $tabla WHERE id_scrap=:id_scrap");
         $stmt -> bindParam(":id_scrap", $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function create($tabla, $datos)

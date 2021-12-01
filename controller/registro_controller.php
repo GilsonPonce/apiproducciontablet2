@@ -90,6 +90,7 @@ class ControladorRegistro
             return;
         }
 
+        /*
         if (isset($datos['motivo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["motivo"])) {
             $json = array(
 
@@ -100,7 +101,7 @@ class ControladorRegistro
             echo json_encode($json, true);
 
             return;
-        }
+        }*/
 
         //valida que el usuario exista
         $validacion = false;

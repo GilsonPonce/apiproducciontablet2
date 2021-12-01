@@ -2,12 +2,10 @@
 header("Content-type: application/json; charset=utf-8");
 
 $arrayRuters = explode("/", $_SERVER['REQUEST_URI']);
-//json_encode(array_filter($arrayRuters));
+json_encode(array_filter($arrayRuters));
 
-if(isset($_GET["page"]) && is_numeric($_GET["page"])){
-
-
-}else{
+if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
+} else {
     if (count(array_filter($arrayRuters)) == 1) {
         /*=================================================
             Cuando no se hace ninguna peticion a la API
@@ -34,15 +32,15 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http linea"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "proceso") {
-            
+
                 $Objetoproceso = new ControladorProceso();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoproceso->index();
@@ -56,18 +54,18 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http proceso"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "color") {
+            } else if (array_filter($arrayRuters)[2] == "color") {
                 $Objetocolor = new ControladorColor();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetocolor->index();
-                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") { 
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
                         "nombre" => $_POST['nombre']
                     );
@@ -76,11 +74,11 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http color"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "tipo_material") {
@@ -94,14 +92,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetotipomaterial->create($datos);
                 } else {
                     $json = array(
-    
+
                         "status" => 404,
                         "detalle" => "No encontrado metodo http tipo material"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "material") {
@@ -115,14 +113,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetomaterial->create($datos);
                 } else {
                     $json = array(
-    
+
                         "status" => 404,
                         "detalle" => "No encontrado metodo http material"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "informe") {
@@ -144,15 +142,15 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http informe"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "registro") {
-               
+            } else if (array_filter($arrayRuters)[2] == "registro") {
+
                 $Objetoregistro = new ControladorRegistro();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoregistro->index();
@@ -160,22 +158,22 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $datos = array(
                         "id_personal" => $_POST['id_personal'],
                         "id_informe" => $_POST['id_informe'],
-                        "motivo" => $_POST['motivo'],   
+                        "motivo" => $_POST['motivo'],
                     );
                     $Objetoregistro->create($datos);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http registro"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "personal") {
-               
+
                 $Objetopersonal = new ControladorPersonal();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetopersonal->index();
@@ -191,11 +189,11 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http personal"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "tipo_scrap") {
@@ -211,14 +209,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http tipo de desperdicio"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "scrap") {
+            } else if (array_filter($arrayRuters)[2] == "scrap") {
                 $Objetoscrap = new ControladorScrap();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetoscrap->index();
@@ -234,14 +232,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http scrap"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "configuracion") {
+            } else if (array_filter($arrayRuters)[2] == "configuracion") {
                 $Objetomotivo = new ControladorConfiguracion();
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $Objetomotivo->index();
@@ -260,11 +258,11 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http motivo"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "materia_prima") {
@@ -273,7 +271,9 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $Objetomateriaprima->index();
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
                     $datos = array(
-                        "id_configuracion" => $_POST['id_configuracion'],
+                        "id_proceso" => $_POST['id_proceso'],
+                        "material" => $_POST['material'],
+                        "tipo_material" => $_POST['tipo_material'],
                         "color" => $_POST['color'],
                         "id_informe" => $_POST['id_informe'],
                         "peso" => $_POST['peso'],
@@ -283,11 +283,11 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http materia prima"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "producto_terminado") {
@@ -298,7 +298,9 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $datos = array(
                         "id_informe" => $_POST['id_informe'],
                         "color" => $_POST['color'],
-                        "id_configuracion" => $_POST['id_configuracion'],
+                        "id_proceso" => $_POST['id_proceso'],
+                        "material" => $_POST['material'],
+                        "tipo_material" => $_POST['tipo_material'],
                         "tipo" => $_POST['tipo'],
                         "peso" => $_POST['peso']
                     );
@@ -307,11 +309,11 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "No encontrado metodo http producto terminado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
             } else if (array_filter($arrayRuters)[2] == "usuario") {
@@ -324,7 +326,8 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                         "apellido" => $_POST["apellido"],
                         "cedula" => $_POST["cedula"],
                         "correo" => $_POST["correo"],
-                        "pass" => $_POST["pass"]
+                        "pass" => $_POST["pass"],
+                        "activo" => $_POST["activo"]
                     );
                     $registro = new ControladorUsuario();
                     $registro->create($datos);
@@ -332,14 +335,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "parada") {
+            } else if (array_filter($arrayRuters)[2] == "parada") {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $parada = new ControladorParada();
                     $parada->index();
@@ -354,14 +357,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "motivo_parada") {
+            } else if (array_filter($arrayRuters)[2] == "motivo_parada") {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $motivoParada = new ControladorMotivoParada();
                     $motivoParada->index();
@@ -375,14 +378,14 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "permisos") {
+            } else if (array_filter($arrayRuters)[2] == "permisos") {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $permisos = new ControladorPermisos();
                     $permisos->index();
@@ -397,22 +400,21 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if(array_filter($arrayRuters)[2] == "reporte"){
-                    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
-                        $datos = array();
-                        parse_str(file_get_contents('php://input'),$datos);
-                        $reporte = new ControladorReporte();
-                        $reporte -> index($datos);
-                    } 
-
-            }else if (array_filter($arrayRuters)[2] == "login") {
+            } else if (array_filter($arrayRuters)[2] == "reporte") {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                    $datos = array();
+                    parse_str(file_get_contents('php://input'), $datos);
+                    $reporte = new ControladorReporte();
+                    $reporte->index($datos);
+                }
+            } else if (array_filter($arrayRuters)[2] == "login") {
                 /*=====================================================
                 Cuando se hace peticiones nova-apiproduccion.com/usuario
                 =======================================================*/
@@ -428,22 +430,22 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
                     $json = array(
                         "status" => 404,
                         "detalle" => "no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else {
+            } else {
                 $json = array(
                     "status" => 404,
                     "detalle" => "No encontrado metodo http"
-    
+
                 );
-    
+
                 echo json_encode($json, true);
-    
+
                 return;
             }
         } else if (count(array_filter($arrayRuters)) == 3) {
@@ -451,432 +453,457 @@ if(isset($_GET["page"]) && is_numeric($_GET["page"])){
             if (array_filter($arrayRuters)[2] == "linea" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarlinea = new ControladorLinea();
-                    $editarlinea -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarlinea->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $linea = new ControladorLinea();
-                    $linea -> show(array_filter($arrayRuters)[3]);
+                    $linea->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarlinea = new ControladorLinea();
-                    $borrarlinea -> delete(array_filter($arrayRuters)[3]);
+                    $borrarlinea->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "proceso" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "proceso" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarproceso = new ControladorProceso();
-                    $editarproceso -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarproceso->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $proceso = new ControladorProceso();
-                    $proceso -> show(array_filter($arrayRuters)[3]);
+                    $proceso->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarproceso = new ControladorProceso();
-                    $borrarproceso -> delete(array_filter($arrayRuters)[3]);
+                    $borrarproceso->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "configuracion" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "configuracion" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarconfiguracion = new ControladorConfiguracion();
-                    $editarconfiguracion -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarconfiguracion->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $configuracion = new ControladorConfiguracion();
-                    $configuracion -> show(array_filter($arrayRuters)[3]);
+                    $configuracion->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarconfiguracion = new ControladorConfiguracion();
-                    $borrarconfiguracion -> delete(array_filter($arrayRuters)[3]);
+                    $borrarconfiguracion->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "color" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "color" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarcolor = new ControladorColor();
-                    $editarcolor -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarcolor->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $color = new ControladorColor();
-                    $color -> show(array_filter($arrayRuters)[3]);
+                    $color->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarcolor = new ControladorColor();
-                    $borrarcolor -> delete(array_filter($arrayRuters)[3]);
+                    $borrarcolor->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "tipo_material" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "tipo_material" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editartipo_material = new ControladorTipoMaterial();
-                    $editartipo_material -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editartipo_material->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $tipo_material = new ControladorTipoMaterial();
-                    $tipo_material -> show(array_filter($arrayRuters)[3]);
+                    $tipo_material->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrartipo_material = new ControladorTipoMaterial();
-                    $borrartipo_material -> delete(array_filter($arrayRuters)[3]);
+                    $borrartipo_material->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "material" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "material" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarmaterial = new ControladorMaterial();
-                    $editarmaterial -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarmaterial->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $material = new ControladorMaterial();
-                    $material -> show(array_filter($arrayRuters)[3]);
+                    $material->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarmaterial = new ControladorMaterial();
-                    $borrarmaterial -> delete(array_filter($arrayRuters)[3]);
+                    $borrarmaterial->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "informe" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "informe" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarinforme = new ControladorInforme();
-                    $editarinforme -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarinforme->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $informe = new ControladorInforme();
-                    $informe -> show(array_filter($arrayRuters)[3]);
+                    $informe->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarinforme = new ControladorInforme();
-                    $borrarinforme -> delete(array_filter($arrayRuters)[3]);
+                    $borrarinforme->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "registro" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "registro" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarregistro = new ControladorRegistro();
-                    $editarregistro -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarregistro->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $registro = new ControladorRegistro();
-                    $registro -> show(array_filter($arrayRuters)[3]);
+                    $registro->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarregistro = new ControladorRegistro();
-                    $borrarregistro -> delete(array_filter($arrayRuters)[3]);
+                    $borrarregistro->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "personal" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "personal" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarpersonal = new ControladorPersonal();
-                    $editarpersonal -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarpersonal->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $personal = new ControladorPersonal();
-                    $personal -> show(array_filter($arrayRuters)[3]);
+                    $personal->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarpersonal = new ControladorPersonal();
-                    $borrarpersonal -> delete(array_filter($arrayRuters)[3]);
+                    $borrarpersonal->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "tipo_scrap" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "tipo_scrap" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editartipodesperdicio = new ControladorTipoScrap();
-                    $editartipodesperdicio -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editartipodesperdicio->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $tipodesperdicio = new ControladorTipoScrap();
-                    $tipodesperdicio -> show(array_filter($arrayRuters)[3]);
+                    $tipodesperdicio->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrartipodesperdicio = new ControladorTipoScrap();
-                    $borrartipodesperdicio -> delete(array_filter($arrayRuters)[3]);
+                    $borrartipodesperdicio->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "scrap" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "scrap" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarscrap = new ControladorScrap();
-                    $editarscrap -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarscrap->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $scrap = new ControladorScrap();
-                    $scrap -> show(array_filter($arrayRuters)[3]);
+                    $scrap->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarscrap = new ControladorScrap();
-                    $borrarscrap -> delete(array_filter($arrayRuters)[3]);
+                    $borrarscrap->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "materia_prima" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "materia_prima" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarmateria_prima = new ControladorMateriaPrima();
-                    $editarmateria_prima -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarmateria_prima->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $materia_prima = new ControladorMateriaPrima();
-                    $materia_prima -> show(array_filter($arrayRuters)[3]);
+                    $materia_prima->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarmateria_prima = new ControladorMateriaPrima();
-                    $borrarmateria_prima -> delete(array_filter($arrayRuters)[3]);
+                    $borrarmateria_prima->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "producto_terminado" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "producto_terminado" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarproductoterminado = new ControladorProductoTerminado();
-                    $editarproductoterminado -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarproductoterminado->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $productoterminado = new ControladorProductoTerminado();
-                    $productoterminado -> show(array_filter($arrayRuters)[3]);
+                    $productoterminado->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarproductoterminado = new ControladorProductoTerminado();
-                    $borrarproductoterminado -> delete(array_filter($arrayRuters)[3]);
+                    $borrarproductoterminado->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "usuario" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "usuario" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarusuario = new ControladorUsuario();
-                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarusuario->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorUsuario();
-                    $usuario -> show(array_filter($arrayRuters)[3]);
+                    $usuario->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorUsuario();
-                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                    $borrarusuario->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "permisos" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "permisos" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarusuario = new ControladorPermisos();
-                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarusuario->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorPermisos();
-                    $usuario -> show(array_filter($arrayRuters)[3]);
+                    $usuario->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorPermisos();
-                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                    $borrarusuario->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "parada" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "parada" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarusuario = new ControladorParada();
-                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarusuario->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorParada();
-                    $usuario -> show(array_filter($arrayRuters)[3]);
+                    $usuario->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorParada();
-                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                    $borrarusuario->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "motivo_parada" && is_numeric(array_filter($arrayRuters)[3])){
+            } else if (array_filter($arrayRuters)[2] == "motivo_parada" && is_numeric(array_filter($arrayRuters)[3])) {
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
                     $datos = array();
-                    parse_str(file_get_contents('php://input'),$datos);
+                    parse_str(file_get_contents('php://input'), $datos);
                     $editarusuario = new ControladorMotivoParada();
-                    $editarusuario -> update(array_filter($arrayRuters)[3],$datos);
-                }else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $editarusuario->update(array_filter($arrayRuters)[3], $datos);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
                     $usuario = new ControladorMotivoParada();
-                    $usuario -> show(array_filter($arrayRuters)[3]);
+                    $usuario->show(array_filter($arrayRuters)[3]);
                 } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
                     $borrarusuario = new ControladorMotivoParada();
-                    $borrarusuario -> delete(array_filter($arrayRuters)[3]);
+                    $borrarusuario->delete(array_filter($arrayRuters)[3]);
                 } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else if (array_filter($arrayRuters)[2] == "reporte" && is_numeric(array_filter($arrayRuters)[3])){
-                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
-                    $reporte = new ControladorReporte();
-                    $reporte -> show(array_filter($arrayRuters)[3]);
-                }else {
-                    
+            } else if (array_filter($arrayRuters)[2] == "imprimir" && is_numeric(array_filter($arrayRuters)[3])) {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    header('Content-type: application/pdf');
+                    header('Content-Disposition: attachment; filename="informe.pdf"');
+                    $pdf = new PDF();
+                    $data = $pdf->LoadInfoInforme(array_filter($arrayRuters)[3]);
+                    $pdf->AddPage();
+                    $pdf->Info($data);
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->personal($data[0]['id_informe']);
+                    $pdf->mp_pt($data[0]['id_informe']);
+                    $pdf->scrap($data);
+                    $pdf->Output('D',"imforme.pdf",true);
+                } else if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
+                } else {
                     $json = array(
                         "status" => 404,
                         "detalle" => "metodo no encontrado"
-    
+
                     );
-    
+
                     echo json_encode($json, true);
-    
+
                     return;
                 }
-            }else {
+            } else if (array_filter($arrayRuters)[2] == "reporte" && is_numeric(array_filter($arrayRuters)[3])) {
+                if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+                    $reporte = new ControladorReporte();
+                    $reporte->show(array_filter($arrayRuters)[3]);
+                } else {
+
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "metodo no encontrado"
+
+                    );
+
+                    echo json_encode($json, true);
+
+                    return;
+                }
+            } else {
                 $json = array(
                     "status" => 404,
                     "detalle" => "No encontrado metodo http"
-    
+
                 );
-    
+
                 echo json_encode($json, true);
-    
+
                 return;
             }
-        }else{
+        } else {
             $json = array(
                 "status" => 404,
                 "detalle" => "No encontrado"
-    
+
             );
-    
+
             echo json_encode($json, true);
-    
+
             return;
         }
     }
-    
 }

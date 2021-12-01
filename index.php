@@ -2,6 +2,7 @@
 
 header('Access-Control-Allow-Origin','*' );
 header('Access-Control-Allow-Credentials', true);
+//header('Content-Type: application/json; charset=utf-8');
 //header('Access-Control-Allow-Origin: *.novared.local');
 //header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 //header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -28,6 +29,7 @@ require_once "controller/usuario_controller.php";
 require_once "controller/permisos_controller.php";
 require_once "controller/motivoParada_controller.php";
 require_once "controller/parada_controller.php";
+require_once "controller/pdf_function.php";
 
 
 

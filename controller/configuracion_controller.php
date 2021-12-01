@@ -40,17 +40,7 @@ class ControladorConfiguracion
                         "detalle" => $configuracion
                     );
                     echo json_encode($json, true);
-                } else {
-                    $json = array(
-
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
-                }
+                } 
             }
         } else {
             $json = array(
@@ -180,9 +170,10 @@ class ControladorConfiguracion
             "tarifa_kilogramo_producidos" => $datos['tarifa_kilogramo_producidos'],
             "estado" => $datos['estado'],
             "id_proceso" => $datos['id_proceso'],
-            "id_material" => $datos['material'],
-            "id_tipo_material" => $datos['tipo_material']
+            "material" => $datos['material'],
+            "tipo_material" => $datos['tipo_material']
         );
+        
 
         $usuario = ModeloUsuario::index("usuario");
         if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {

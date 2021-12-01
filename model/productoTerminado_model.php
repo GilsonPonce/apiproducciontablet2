@@ -13,7 +13,7 @@ class ModeloProductoTerminado
         cof.id_configuracion = pt.id_configuracion";
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function show($tabla,$id)
@@ -26,16 +26,17 @@ class ModeloProductoTerminado
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_producto_terminado", $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function create($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_informe,id_color,peso,tipo) VALUES (:id_informe,:id_color,:peso,:tipo)");
+        $stmt = Conexion::conectarProduccion()->prepare("INSERT INTO $tabla(id_informe,id_configuracion,color,peso,tipo) VALUES (:id_informe,:id_configuracion,:color,:peso,:tipo)");
 
        
 		$stmt -> bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
-        $stmt -> bindParam(":id_color", $datos["id_color"], PDO::PARAM_INT);
+        $stmt -> bindParam(":id_configuracion", $datos["id_configuracion"], PDO::PARAM_INT);
+        $stmt -> bindParam(":color", $datos["color"], PDO::PARAM_STR);
         $stmt -> bindParam(":peso", $datos["peso"], PDO::PARAM_STR);
         $stmt -> bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);
 
@@ -53,13 +54,14 @@ class ModeloProductoTerminado
 
     static public function update($tabla, $datos)
     {
-        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET id_informe=:id_informe, id_color=:id_color, peso=:peso, tipo=:tipo WHERE id_producto_terminado=:id_producto_terminado");
+        $stmt = Conexion::conectarProduccion()->prepare("UPDATE $tabla SET id_informe=:id_informe,id_configuracion=:id_configuracion, color=:color, peso=:peso, tipo=:tipo WHERE id_producto_terminado=:id_producto_terminado");
 
         $stmt -> bindParam(":id_informe", $datos["id_informe"], PDO::PARAM_INT);
-        $stmt -> bindParam(":id_color", $datos["id_color"], PDO::PARAM_INT);
+        $stmt -> bindParam(":color", $datos["color"], PDO::PARAM_STR);
         $stmt -> bindParam(":peso", $datos["peso"], PDO::PARAM_STR);
         $stmt -> bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);
         $stmt -> bindParam(":id_producto_terminado", $datos["id_producto_terminado"], PDO::PARAM_INT);
+        $stmt -> bindParam(":id_configuracion", $datos["id_configuracion"], PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 

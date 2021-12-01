@@ -104,11 +104,11 @@ class ControladorProductoTerminado
             return;
         }
 
-        if (isset($datos['id_configuracion']) && !is_numeric($datos['id_configuracion'])) {
+        if (isset($datos['id_proceso']) && !is_numeric($datos['id_proceso'])) {
             $json = array(
 
                 "status" => 404,
-                "detalle" => "Error en configuracion"
+                "detalle" => "Error campo id proceso"
             );
 
             echo json_encode($json, true);
@@ -116,7 +116,31 @@ class ControladorProductoTerminado
             return;
         }
 
-        if (isset($datos['tipo']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["tipo"])) {
+        if (isset($datos['material']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["material"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error campo material"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['tipo_material']) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["tipo_material"])) {
+            $json = array(
+
+                "status" => 404,
+                "detalle" => "Error tipo material"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
+
+        if (isset($datos['tipo']) && !preg_match('/^[\sa-zA-ZáéíóúÁÉÍÓÚñÑ]+$/', $datos["tipo"])) {
             $json = array(
 
                 "status" => 404,
@@ -128,12 +152,34 @@ class ControladorProductoTerminado
             return;
         }
 
+        $id_configuracion = 0;
+        $configuracion = ModeloConfiguracion::index("configuracion");
+        foreach($configuracion as $key => $value){
+            $val = $value["id_proceso"] == $datos["id_proceso"];
+            $val1 = $value["material"] == $datos["material"];
+            $val2 =  $value["tipo_material"] == $datos["tipo_material"];
+            if($val && $val1 && $val2){
+              $id_configuracion = $value["id_configuracion"];
+              break;
+            }else{
+                $json = array(
+
+                    "status" => 404,
+                    "detalle" => "Error en hallar configuracion"
+                );
+    
+                echo json_encode($json, true);
+    
+                return;
+            }
+        }
+
 
         $datos = array(
             "id_informe" => $datos['id_informe'],
             "color" => $datos['color'],
-            "peso" => $datos['peso'],
-            "id_configuracion" => $datos['id_configuracion'],
+            "peso" => $datos['peso'], 
+            "id_configuracion" => $id_configuracion,
             "tipo" => $datos['tipo']
         );
 

@@ -41,16 +41,6 @@ class ControladorInforme
                         "detalle" => $informe
                     );
                     echo json_encode($json, true);
-                }else{
-                    $json = array(
-
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
                 }
             }
         }else{
@@ -114,17 +104,7 @@ class ControladorInforme
                         echo json_encode($json, true);
 
                         return;
-                    } else {
-                        $json = array(
-
-                            "status" => 404,
-                            "detalle" => "Error"
-                        );
-
-                        echo json_encode($json, true);
-
-                        return;
-                    }
+                    } 
                 }
             }
         }
@@ -206,16 +186,6 @@ class ControladorInforme
 
                         return;
                     }
-                }else{
-                    $json = array(
-
-                        "status" => 404,
-                        "detalle" => "No Autorizado"
-                    );
-        
-                    echo json_encode($json, true);
-        
-                    return; 
                 }
             }
         }else{

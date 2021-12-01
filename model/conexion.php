@@ -7,6 +7,7 @@ class Conexion
     {
         $link = new PDO("mysql:host=127.0.0.1;port=3306;dbname=produccion", "root", "SYSsys1223+",array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
         //$link = new PDO("mysql:host=192.168.35.21;port=3306;dbname=produccion", "novared", "N0vaR3d.",array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+        //$link = new PDO("mysql:host=127.0.0.1;port=3306;dbname=gjpobiav_produccion", "gjpobiav_a123derwm1nwe", "2ekw7XlrpyeZPwtOMdta",array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
         return $link;
     }
 }

@@ -7,7 +7,7 @@ class ModeloConfiguracion
     static public function index($tabla)
     {
         //$sql = "SELECT * FROM $tabla";
-        $sql = "select confi.id_configuracion,li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, confi.material,
+        $sql = "select distinct confi.id_configuracion,li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, confi.material,
         confi.tipo_material, confi.estado, confi.kilogramo_diario, confi.kilogramo_hora,
         confi.tarifa_kilogramo_producidos from linea li, proceso pro, tipo_material tma, material ma, $tabla confi
         where li.id_linea = pro.id_linea and pro.id_proceso = confi.id_proceso";
@@ -19,7 +19,7 @@ class ModeloConfiguracion
     static public function show($tabla,$id)
     {
         //$sql = "SELECT * FROM $tabla WHERE id_configuracion = :id_configuracion";
-        $sql = "select confi.id_configuracion,li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, confi.material,
+        $sql = "select distinct confi.id_configuracion,li.id_linea, li.nombre as linea, pro.id_proceso, pro.nombre as proceso, confi.material,
         confi.tipo_material, confi.estado, confi.kilogramo_diario, confi.kilogramo_hora,
         confi.tarifa_kilogramo_producidos from linea li, proceso pro, tipo_material tma, material ma, $tabla confi
         where li.id_linea = pro.id_linea and pro.id_proceso = confi.id_proceso 

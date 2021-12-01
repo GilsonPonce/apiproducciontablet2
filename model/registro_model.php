@@ -20,7 +20,7 @@ class ModeloRegistro
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_registro", $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function create($tabla, $datos)

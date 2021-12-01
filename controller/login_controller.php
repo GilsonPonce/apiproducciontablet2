@@ -3,6 +3,11 @@
 class ControladorLogin
 {
 
+    public function verificartoken($datos)
+    {
+        
+    }
+
     public function create($datos)
     {
         /*=============================================
@@ -53,7 +58,9 @@ class ControladorLogin
                     "cedula" => $value["cedula"],
                     "correo" => $value["correo"],
                     "padlock" => $value["padlock"],
-                    "keylock" => $value["keylock"]  
+                    "keylock" => $value["keylock"],  
+                    "activo" => $value["activo"],
+                    "id_usuario" => $value["id_usuario"]
                 );
 
                 $json = array( 

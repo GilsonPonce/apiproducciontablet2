@@ -250,7 +250,7 @@ FK  id_informe int
     <node id="n13">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="175.25" width="167.25" x="-4300.237499999975" y="-4292.248370895319"/>
+          <y:Geometry height="188.02707462686521" width="167.25" x="-4300.237499999975" y="-4292.248370895319"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="43.357421875" x="61.9462890625" xml:space="preserve" y="4.0">usuario</y:NodeLabel>
@@ -263,7 +263,7 @@ FK  id_informe int
       pass varchar(100)
       padlock varchar(500)
       keylock varchar(500)
-      
+      activo bit 
 <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>

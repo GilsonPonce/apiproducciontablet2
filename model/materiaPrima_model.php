@@ -14,7 +14,7 @@ class ModeloMateriaPrima
         and pro.id_proceso = cof.id_proceso";
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function show($tabla,$id)
@@ -29,7 +29,7 @@ class ModeloMateriaPrima
         $stmt = Conexion::conectarProduccion()->prepare($sql);
         $stmt -> bindParam(":id_materia_prima", $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
+        return $stmt->fetchAll();
     }
 
     static public function create($tabla, $datos)
